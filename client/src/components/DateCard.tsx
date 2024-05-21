@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { Typography, Box, Card } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import "./DateCard.scss";
 
 type DateCardProps = {
@@ -9,19 +9,13 @@ type DateCardProps = {
 export default function DateCard({ date }: DateCardProps) {
 
     return (
-        <Card className="DateCard">
-            <Box sx={{
-                backgroundColor: "white"
-            }}>
-
+        <Box className="DateCard">
                 <Typography className="month">
                     {date.toLocal().monthShort}
-
                 </Typography>
                 <Typography className="day">
                     {date.toLocal().day}
                 </Typography>
-            </Box>
-        </Card>
+        </Box>
     );
 }

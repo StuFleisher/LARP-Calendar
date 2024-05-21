@@ -1,9 +1,22 @@
 .DateCard{
-    height:25px;
-    width:25px;
-    padding: .5rem;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+
+    height:2rem;
+    aspect-ratio: 1;
+    border-radius: 0px;
 
     .month{
+        font-size: .5rem;
+        font-weight:500
+    }
 
+    .day {
+        line-height: .75;
+        font-size: 1rem;
+        font-weight:900;
     }
 }
