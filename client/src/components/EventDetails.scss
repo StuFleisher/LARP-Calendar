@@ -1,6 +1,6 @@
 @import "../styles/colors";
 
-.EventCard {
+.EventDetails {
     width:325px;
     padding: 1rem;
     // border: 1px $pale-blue solid;
@@ -8,7 +8,7 @@
 
     .image {
         width:100%;
-        height: 150px;
+        aspect-ratio: 7/3;
         border-radius: 5px 5px 75px 0px;
         position:relative;
 
@@ -17,5 +17,16 @@
             right:1rem;
             top:1rem;
         }
+    }
+}
+
+@media(min-width:600px){
+    .EventDetails {
+        width:550px;
+    }
+}
+@media(min-width:900px){
+    .EventDetails {
+        width:800px;
     }
 }

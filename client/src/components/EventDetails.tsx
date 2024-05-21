@@ -6,20 +6,20 @@ import { Card, Typography, Stack, Box } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faComment } from "@fortawesome/free-solid-svg-icons";
 
-import "./EventCard.scss";
+import "./EventDetails.scss";
 
 
 
-type EventCardProps = {
+type EventDetailsProps = {
     larp: Larp,
 };
 
-function EventCard({ larp }: EventCardProps) {
+function EventDetails({ larp }: EventDetailsProps) {
 
     return (
-        <Card className="EventCard">
+        <Card className="EventDetails">
             <Stack
-                className="EventCard-contents"
+                className="EventDetails-contents"
                 direction="column"
                 spacing={2}
                 alignContent="center"
@@ -27,7 +27,8 @@ function EventCard({ larp }: EventCardProps) {
                 <Box
                     className="image"
                     sx={{
-                        backgroundImage: `url(${larp.imgUrl})`
+                        backgroundImage: `url(${larp.imgUrl})`,
+                        backgroundSize:'cover',
                     }}
                 >
                     <Stack
@@ -68,4 +69,4 @@ function EventCard({ larp }: EventCardProps) {
     );
 }
 
-export default EventCard;
+export default EventDetails;

@@ -3,7 +3,7 @@ import './App.css';
 import { ThemeProvider } from '@mui/material';
 import theme from './styles/theme.tsx';
 
-import EventCard from './components/EventCard';
+import EventDetails from './components/EventDetails';
 import Calendar from './components/Calendar';
 
 import { TestLarp1 } from './data/LarpData';
@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <EventCard larp={TestLarp1} />
+        <EventDetails larp={TestLarp1} />
         {/* <Calendar/> */}
       </ThemeProvider>
     </>
