@@ -1,18 +1,23 @@
-import './App.css'
+import './App.css';
 
-import EventCard from './components/EventCard'
-import Calendar from './components/Calendar'
+import { ThemeProvider } from '@mui/material';
+import theme from './styles/theme.tsx';
 
-import { TestLarp1 } from './data/LarpData'
+import EventCard from './components/EventCard';
+import Calendar from './components/Calendar';
+
+import { TestLarp1 } from './data/LarpData';
 
 function App() {
 
   return (
     <>
-    <EventCard larp={TestLarp1}/>
-      {/* <Calendar/> */}
+      <ThemeProvider theme={theme}>
+        <EventCard larp={TestLarp1} />
+        {/* <Calendar/> */}
+      </ThemeProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
