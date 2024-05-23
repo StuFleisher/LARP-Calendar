@@ -7,6 +7,7 @@ export type Tag = {
 
 export type Larp = {
   title: string,
+  ticketStatus: "Available" | "Limited" | "Sold Out",
   tags: Tag[],
   startDate: DateTime,
   endDate: DateTime,
@@ -15,5 +16,7 @@ export type Larp = {
   country: string,
   language: string,
   description: string,
+  organizer: string,
+  eventUrl: string,
 }
 

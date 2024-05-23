@@ -14,7 +14,8 @@ const Tag2:Tag={
 }
 
 const TestLarp1:Larp = {
-  title: 'Larp1',
+  title: 'Larp1 names can be long strings that take multiple lines',
+  ticketStatus: "Limited",
   tags: [Tag1, Tag2],
   startDate: START,
   endDate: END ,
@@ -22,7 +23,9 @@ const TestLarp1:Larp = {
   city: "Stratfordshire",
   country: "United Kingdom",
   language: "English",
-  description: "This is a description of Larp1"
+  description: "This is a description of Larp1",
+  organizer:'Test Organizer',
+  eventUrl:'https://test.com',
 }
 
 

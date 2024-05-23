@@ -1,17 +1,19 @@
 import { Box, Typography } from "@mui/material";
 import { Tag } from "../types";
-import './TagCard.scss';
+import './TagDisplay.scss';
 
-type TagCardProps = {
+type TagDisplayProps = {
     tag: Tag,
 };
 
-export default function TagCard({ tag }: TagCardProps) {
+function TagDisplay({ tag }: TagDisplayProps) {
     return (
-        <Box className="tagCard">
+        <Box className="tagDisplay">
             <Typography key={tag.name} variant="caption">
                 {tag.name}
             </Typography>
         </Box>
     );
 }
+
+export default TagDisplay

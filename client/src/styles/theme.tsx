@@ -1,6 +1,47 @@
 import { createTheme } from "@mui/material";
 
+declare module '@mui/material/styles/createPalette' {
+  interface PaletteOptions {
+    dark?: PaletteColorOptions;
+  }
+  interface Palette {
+    dark: PaletteColor;
+  }
+}
+
 const theme = createTheme({
+    palette:{
+        primary:{
+            main:'#D4EC41',
+            light:'#F0FE9E',
+            dark:'#A0C732',
+            contrastText:'#070707',
+        },
+        success:{
+            main:'#4caf50',
+            light:'#F0FE9E',
+            dark:'#A0C732',
+            contrastText:'#070707',
+        },
+        warning:{
+            main:'#ed6c02',
+            light:'#ff9800',
+            dark:'#e65100',
+            contrastText:'#070707',
+        },
+        error:{
+            main:'#d32f2f',
+            light:'#ef5350',
+            dark:'#c62828',
+            contrastText:'white',
+        },
+        dark:{
+            main:'#070707',
+            light:'#0f0f0f',
+            dark:'#000000',
+            contrastText:'white',
+        },
+    },
     typography:{
         fontFamily: ["Karla",' sans-serif'].join(','),
         button:{textTransform:'none'},
@@ -45,63 +86,6 @@ const theme = createTheme({
             defaultProps:{elevation:0},
         }
     },
-    palette: {
-        primary: {
-            main:'#CF3E23'
-        },
-        secondary: {
-            main: '#F4C251'
-        },
-        info:{
-            main: '#E09A66'
-        },
-        muted:{
-            light:'#F9EFE0',
-            main:'#E2CEAB',
-            dark:'#DAB9AA',
-        },
-        almond:{
-            light:'#FFFFFF',
-            main:'#E2CEAB',
-            dark:'#F9EFE0',
-        },
-        olive:{
-            light:'#C9B96E',
-            main:'#FFFAF3',
-            dark:'#A28124',
-        },
-        mint:{
-            light:'#C6CCBE',
-            main:'#ABB2A2',
-            dark:'#819E80',
-        },
-        salmon:{
-            light:'#FF6B5F',
-            main:'#FF6B5F',
-            dark:'#D04A3C',
-        },
-        orange:{
-            light:'#FE9635',
-            main:'#FF5E05',
-            dark:'#D86306',
-        },
-        gold:{
-            light:'#FFC654',
-            main:'#FFAA01',
-            dark:'#FB963C',
-        },
-        peach:{
-            light:'#F9B577',
-            main:'#F9864F',
-            dark:'#D86306',
-        },
-        brightWhite:{
-            main:'#FFFAF3',
-        },
-        charcoal:{
-            main:'#4F4F51',
-        },
-    }
 })
 
 export default theme;

@@ -1,10 +1,10 @@
 import { Larp } from "../types";
 import DateCard from "./DateCard";
-import TagCard from "./TagCard";
+import TagCard from "./TagDisplay";
 
 import { Card, Typography, Stack, Box } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faComment } from "@fortawesome/free-solid-svg-icons";
+import DurationDisplay from "./DurationDisplay";
+import LocationDisplay from "./LocationDisplay";
 
 import "./EventDetails.scss";
 
@@ -31,31 +31,17 @@ function EventDetails({ larp }: EventDetailsProps) {
                         backgroundSize:'cover',
                     }}
                 >
-                    <Stack
-                        className="DateContainer"
-                        direction="row"
-                        spacing={1}
-                    >
-
-                        <DateCard date={larp.startDate} />
-                        <Typography variant="h3" sx={{color:'white'}}>-</Typography>
-                        <DateCard date={larp.endDate} />
-                    </Stack>
+                    <DurationDisplay
+                        startDate={larp.startDate}
+                        endDate={larp.endDate}
+                    />
                 </Box>
-                <Stack direction="row" spacing={2} className="regionContainer">
-                    <Stack direction="row" spacing={1}>
-                        <FontAwesomeIcon icon={faLocationDot} />
-                        <Typography variant="caption">
-                            {larp.city}, {larp.country}
-                        </Typography>
-                    </Stack>
-                    <Stack direction="row" spacing={1}>
-                        <FontAwesomeIcon icon={faComment} />
-                        <Typography variant="caption">
-                            {larp.language}
-                        </Typography>
-                    </Stack>
-                </Stack>
+                <LocationDisplay
+                    city={larp.city}
+                    country={larp.country}
+                    language={larp.language}
+                />
+
                 <Typography variant="h2" className="title">
                     {larp.title}
                 </Typography>
