@@ -1,0 +1,19 @@
+@import "../styles/colors";
+
+.Carousel {
+    background-color: $secondary;
+    padding: 2rem .5rem;
+    overflow: hidden;
+
+    > h2 {
+        color: $dark;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .previousButton,
+    .nextButton {
+        height: 1rem;
+        width: 1rem;
+    }
+}
