@@ -3,7 +3,7 @@
 .EventCard {
     width:325px;
 
-    .EventCard-header {
+    & .EventCard-header {
         background-color: $dark ;
         color: white;
         padding:.5rem 1rem;

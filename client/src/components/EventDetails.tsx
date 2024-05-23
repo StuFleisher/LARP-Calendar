@@ -1,6 +1,6 @@
 import { Larp } from "../types";
-import DateCard from "./DateCard";
 import TagCard from "./TagDisplay";
+import Twirldown from "./Twirldown";
 
 import { Card, Typography, Stack, Box } from "@mui/material";
 import DurationDisplay from "./DurationDisplay";
@@ -28,7 +28,7 @@ function EventDetails({ larp }: EventDetailsProps) {
                     className="image"
                     sx={{
                         backgroundImage: `url(${larp.imgUrl})`,
-                        backgroundSize:'cover',
+                        backgroundSize: 'cover',
                     }}
                 >
                     <DurationDisplay
@@ -42,12 +42,15 @@ function EventDetails({ larp }: EventDetailsProps) {
                     language={larp.language}
                 />
 
-                <Typography variant="h2" className="title">
+                <Typography component="h3" variant='h2' className="title">
                     {larp.title}
                 </Typography>
+                <Twirldown title='details'>
+                    <Typography>{larp.description}</Typography>
+                </Twirldown>
                 <Stack direction="row" spacing={1}>
                     {larp.tags.map((tag) => (
-                        <TagCard key={tag.name} tag={tag}/>
+                        <TagCard key={tag.name} tag={tag} />
                     ))}
                 </Stack>
             </Stack>
