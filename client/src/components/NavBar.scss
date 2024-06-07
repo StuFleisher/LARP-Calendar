@@ -1,15 +1,33 @@
 @import "../styles/colors";
 
 .NavBar {
-    width:100%;
+    width: 100%;
     background-color: $dark;
+    padding-left: 2rem;
 
-    .NavBar-hamburger {
+    .NavBar-menuIcon {
         background-color: $secondary;
         color: $dark;
         font-size: 1rem;
+        padding: 1rem;
+        width: 4rem;
+    }
+}
 
-        height:100%;
-        padding:1rem;
+.NavBar-menu {
+    margin: 0;
+    padding:0;
+
+    
+
+    .menuItem {
+        background-color: $dark;
+        color: $secondary;
+    }
+
+    .menuItem:hover,
+    .menuItem:focus {
+        background-color: $secondary;
+        color: $dark;
     }
 }
