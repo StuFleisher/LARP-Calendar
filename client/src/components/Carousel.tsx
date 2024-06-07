@@ -10,7 +10,18 @@ type CarouselProps = {
 };
 
 function Carousel({ title, children }: CarouselProps) {
-    const [displayed, setDisplayed] = useState(0);
+    const [displayIdx, setDisplayIdx] = useState(0);
+
+    function showNext(e: React.MouseEvent) {
+        e.preventDefault();
+        setDisplayIdx((displayed) => (children.length + displayed + 1) % children.length);
+    }
+    function showPrev(e: React.MouseEvent) {
+        e.preventDefault();
+        setDisplayIdx((displayed) => (children.length + displayed - 1) % children.length);
+    }
+
+
 
     return (
         <Stack
@@ -24,16 +35,28 @@ function Carousel({ title, children }: CarouselProps) {
                 alignItems={'center'}
                 direction="row"
             >
-                <Box className='Carousel-previousButton'>
-                <IconButton >
-                    <FontAwesomeIcon icon={faCircleChevronLeft} color={'#070707'} />
-                </IconButton>
+                <Box className='previousButton'>
+                    <IconButton
+                        component="button"
+                        onClick={showPrev}
+                    >
+                        <FontAwesomeIcon icon={faCircleChevronLeft} color={'#070707'} />
+                    </IconButton>
                 </Box>
-                {children[displayed]}
-                <Box className='Carousel-previousButton'>
-                <IconButton >
-                    <FontAwesomeIcon icon={faCircleChevronRight} color={'#070707'} />
-                </IconButton>
+
+                <Box
+                    className={`currentCard`}
+                >
+                    {children[displayIdx]}
+                </Box>
+
+                <Box className='nextButton'>
+                    <IconButton
+                        component="button"
+                        onClick={showNext}
+                    >
+                        <FontAwesomeIcon icon={faCircleChevronRight} color={'#070707'} />
+                    </IconButton>
                 </Box>
             </Stack >
         </Stack>

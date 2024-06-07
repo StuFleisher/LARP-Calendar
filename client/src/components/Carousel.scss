@@ -4,6 +4,8 @@
     background-color: $secondary;
     padding: 2rem .5rem;
     overflow: hidden;
+    position:relative;
+    width: 100%;
 
     > h2 {
         color: $dark;
@@ -11,9 +13,5 @@
         margin-bottom: 1rem;
     }
 
-    .previousButton,
-    .nextButton {
-        height: 1rem;
-        width: 1rem;
-    }
+
 }
