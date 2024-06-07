@@ -1,6 +1,6 @@
-import { Larp } from "../types";
+import { Larp } from "../../types";
 import TagCard from "./TagDisplay";
-import Twirldown from "./Twirldown";
+import Twirldown from "../Twirldown";
 
 import { Card, Typography, Stack, Box } from "@mui/material";
 import DurationDisplay from "./DurationDisplay";

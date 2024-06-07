@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Tag } from "../types";
+import { Tag } from "../../types";
 import './TagDisplay.scss';
 
 type TagDisplayProps = {

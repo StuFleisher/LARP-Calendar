@@ -1,7 +1,7 @@
 // import { Tooltip } from "react-tooltip";
 import { Box, Popper } from "@mui/material";
-import { Larp } from "../types";
-import EventCard from "./EventCard";
+import { Larp } from "../../types";
+import EventCard from "../Events/EventCard";
 import { EventProps } from "react-big-calendar";
 import { useState, useRef } from "react";
 

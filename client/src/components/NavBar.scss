@@ -1,0 +1,15 @@
+@import "../styles/colors";
+
+.NavBar {
+    width:100%;
+    background-color: $dark;
+
+    .NavBar-hamburger {
+        background-color: $secondary;
+        color: $dark;
+        font-size: 1rem;
+
+        height:100%;
+        padding:1rem;
+    }
+}

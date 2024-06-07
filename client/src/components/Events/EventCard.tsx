@@ -1,5 +1,5 @@
 import './EventCard.scss';
-import { Larp } from '../types';
+import { Larp } from '../../types';
 
 import { useTheme } from '@mui/material/styles';
 import { Card, Box, Stack, Typography } from "@mui/material";
@@ -7,7 +7,7 @@ import { Card, Box, Stack, Typography } from "@mui/material";
 import LocationDisplay from './LocationDisplay';
 import DurationDisplay from './DurationDisplay';
 import TagCard from './TagDisplay';
-import Twirldown from './Twirldown';
+import Twirldown from '../Twirldown';
 
 type EventCardProps = {
     larp: Larp,

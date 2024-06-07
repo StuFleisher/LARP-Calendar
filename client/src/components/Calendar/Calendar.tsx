@@ -1,10 +1,10 @@
-import { Larp } from '../types';
+import { Larp } from '../../types';
 import { Calendar as BigCalendar, luxonLocalizer } from 'react-big-calendar';
 import { DateTime } from 'luxon';
 
 import { Box, Modal } from "@mui/material";
 import { useState } from 'react';
-import EventDetails from './EventDetails';
+import EventDetails from '../Events/EventDetails';
 import { EventProps } from 'react-big-calendar';
 
 import "./Calendar.scss";
@@ -41,7 +41,7 @@ function Calendar({ larps }: CalendarProps) {
           />
         </Box>
       </Modal>
-      
+
       <BigCalendar
         localizer={localizer}
         events={larps}
