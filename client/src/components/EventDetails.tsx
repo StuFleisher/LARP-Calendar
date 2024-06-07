@@ -32,8 +32,8 @@ function EventDetails({ larp }: EventDetailsProps) {
                     }}
                 >
                     <DurationDisplay
-                        startDate={larp.startDate}
-                        endDate={larp.endDate}
+                        start={larp.start}
+                        end={larp.end}
                     />
                 </Box>
                 <LocationDisplay

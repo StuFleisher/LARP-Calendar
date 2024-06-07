@@ -1,8 +1,6 @@
 import './EventCard.scss';
 import { Larp } from '../types';
 
-import { useState } from 'react';
-
 import { useTheme } from '@mui/material/styles';
 import { Card, Box, Stack, Typography } from "@mui/material";
 
@@ -75,8 +73,8 @@ export default function EventCard({ larp }: EventCardProps) {
                     </Twirldown>
                 </Stack>
                 <DurationDisplay
-                    startDate={larp.startDate}
-                    endDate={larp.endDate}
+                    start={larp.start}
+                    end={larp.end}
                 />
 
             </Stack>

@@ -1,16 +1,15 @@
-import { DateTime } from "luxon";
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography } from "@mui/material";
 import DateCard from "./DateCard";
 
 
 type DurationDisplayProps = {
-    startDate: DateTime,
-    endDate: DateTime,
+    start: Date,
+    end: Date,
     background?: "light" | "dark";
 };
 
-function DurationDisplay({ startDate, endDate, background = "light" }: DurationDisplayProps) {
+function DurationDisplay({ start, end, background = "light" }: DurationDisplayProps) {
 
     const theme = useTheme();
 
@@ -21,14 +20,14 @@ function DurationDisplay({ startDate, endDate, background = "light" }: DurationD
             alignItems="center"
             spacing={1}
         >
-            <DateCard date={startDate} />
+            <DateCard date={start} />
             <Typography variant="h3"
             sx={{
                 color: background==="dark" ? 'white' : theme.palette.dark.main
             }}>
                 -
             </Typography>
-            <DateCard date={endDate} />
+            <DateCard date={end} />
         </Stack>
     )
 }

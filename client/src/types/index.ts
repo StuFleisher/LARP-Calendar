@@ -1,4 +1,3 @@
-import { DateTime } from "luxon"
 
 export type Tag = {
   id: number;
@@ -6,11 +5,13 @@ export type Tag = {
 }
 
 export type Larp = {
+  id: number
   title: string,
   ticketStatus: "Available" | "Limited" | "Sold Out",
   tags: Tag[],
-  startDate: DateTime,
-  endDate: DateTime,
+  start: Date,
+  end: Date,
+  allDay:boolean,
   imgUrl: string,
   city: string,
   country: string,
