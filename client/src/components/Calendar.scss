@@ -1,1 +1,10 @@
 @import 'react-big-calendar/lib/sass/styles';
+@import "../styles/colors";
+
+
+.Calendar {
+    height: 500px;
+    color: $dark;
+    margin:1rem;
+    font-size: .5rem;
+}
