@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TicketStatus {
+  AVAILABLE
+  LIMITED
+  SOLD_OUT
+}
+
+model Larps {
+  id  Int    @id @default(autoincrement())
+  title String @default("") @db.VarChar(500)
+  ticketStatus TicketStatus @default(AVAILABLE) @map("ticket_status")
+  start DateTime
+  end DateTime
+  allDay Boolean @map("all_day")
+  imgUrl String @default("") @db.VarChar(500) @map("img_url")
+  city String @default("") @db.VarChar(100)
+  country String @default("") @db.VarChar(100)
+  language String @default("") @db.VarChar(100)
+  description String @default("")
+  organizer String @default("") @db.VarChar(500)
+  eventUrl String @default("") @db.VarChar(500) @map("event_url")
+  tags LarpsTags[]
+
+  @@map("larps")
+}
+
+model Tags {
+  id  Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
+  larps LarpsTags[]
+
+  @@map("tags")
+}
+
+model LarpsTags {
+  id  Int    @id @default(autoincrement())
+  larp Larps @relation(fields: [larp_id  ], references: [id], onDelete: Cascade)
+  larp_id Int
+  tag Tags @relation(fields: [tag_id], references: [id], onDelete: Cascade)
+  tag_id  Int
+
+  @@map("larps_tags")
+}

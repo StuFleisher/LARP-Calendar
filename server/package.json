@@ -1,0 +1,39 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "prisma generate && tsc && cp src/schemas/*.json dist/schemas/",
+    "start": "node dist/server.js",
+    "dev": "tsc && nodemon",
+    "test": "NODE_ENV=test prisma migrate deploy && jest",
+    "buildtest": "NODE_ENV=test prisma migrate deploy && npm run build && jest"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src/**/*.ts"
+    ],
+    "ext": "ts",
+    "ignore": [
+      "src/**/*.spec.ts",
+      "node_modules"
+    ],
+    "exec": "npm run build && node dist/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.15.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.2",
+    "prisma": "^5.15.0",
+    "typescript": "^5.4.5"
+  }
+}

@@ -4,10 +4,16 @@ export type Tag = {
   name: string;
 }
 
+export enum ticketStatus {
+  AVAILABLE="Available",
+  LIMITED="Limited",
+  SOLD_OUT="Sold-Out"
+}
+
 export type Larp = {
   id: number
   title: string,
-  ticketStatus: "Available" | "Limited" | "Sold Out",
+  ticketStatus: ticketStatus,
   tags: Tag[],
   start: Date,
   end: Date,
