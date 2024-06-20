@@ -16,7 +16,8 @@
     "esm": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "node_modules/@prisma/client"
   ],
   "exclude": [
     "node_modules",
