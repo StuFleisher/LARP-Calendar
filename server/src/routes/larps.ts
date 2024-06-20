@@ -1,13 +1,25 @@
 import express from 'express';
 import { Request, Response, NextFunction } from 'express';
+import {
+  ensureLoggedIn,
+  ensureOrganizer,
+  ensureOwnerOrAdmin
+} from '../middleware/auth';
 // import jsonschema from 'jsonschema';
 const router = express.Router();
 
 import LarpManager from '../models/LarpManager';
 
+/** POST /
+  *  Creates and returns a new larp record
+  *
+  * @returns larps: [Larp,...]
+  * @auth organizer
+  */
 router.post(
   "/",
-  // ensureLoggedIn,
+  ensureLoggedIn,
+  ensureOrganizer,
   // readMultipart("image"),
 
   async function (req: Request, res: Response, next: NextFunction) {
@@ -17,7 +29,12 @@ router.post(
   }
 );
 
-
+/** GET /id
+  *  Returns a the larp with the given id
+  *
+  * @returns larps: [Larp,...]
+  * @auth none
+  */
 router.get(
   "/:id",
   async function (req: Request, res: Response, next: NextFunction) {
@@ -55,7 +72,7 @@ router.get(
 
 router.delete(
   "/:id",
-  // ensureOwnerOrAdmin,
+  ensureOwnerOrAdmin,
   async function (req: Request, res: Response, next: NextFunction) {
     const deleted = await LarpManager.deleteLarpById(+req.params.id);
     return res.json({ deleted });
@@ -69,7 +86,7 @@ router.delete(
  */
 router.put(
   "/:id",
-  // ensureOwnerOrAdmin,
+  ensureOwnerOrAdmin,
   async function (req: Request, res: Response, next: NextFunction) {
 
     // const validator = jsonschema.validate(

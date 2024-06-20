@@ -2,9 +2,12 @@
 import express, { ErrorRequestHandler, Request, Response, NextFunction } from "express";
 import cors from 'cors';
 import { NotFoundError } from './utils/expressError';
-// import { authenticateJWT } from "./middleware/auth";
+
+import { authenticateJWT } from "./middleware/auth";
 import larpRoutes from './routes/larps';
 import usersRoutes from './routes/users';
+import authRoutes from './routes/auth';
+
 
 const app = express();
 
@@ -15,9 +18,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-// app.use(authenticateJWT);
+app.use(authenticateJWT);
 
-
+app.use("/auth", authRoutes);
 app.use("/events", larpRoutes);
 app.use("/users", usersRoutes);
 

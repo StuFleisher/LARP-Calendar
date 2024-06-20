@@ -7,7 +7,7 @@ const router = express.Router();
 
 import { BadRequestError } from '../utils/expressError';
 import { createToken } from "../utils/tokens";
-// import { ensureCorrectUserOrAdmin, ensureAdmin, ensureLoggedIn } from "../middleware/auth";
+import { ensureCorrectUserOrAdmin, ensureAdmin, ensureLoggedIn } from "../middleware/auth";
 import UserManager from '../models/UserManager';
 
 
@@ -26,7 +26,7 @@ import UserManager from '../models/UserManager';
 
 router.post(
   "/",
-  // ensureAdmin,
+  ensureAdmin,
   async function (
   req: Request,
   res: Response,
@@ -56,7 +56,7 @@ router.post(
  **/
 
 router.get("/",
-  // ensureAdmin,
+  ensureAdmin,
   async function (
   req: Request,
   res: Response,
@@ -76,7 +76,7 @@ router.get("/",
  **/
 
 router.get("/:id",
-  // ensureCorrectUserOrAdmin,
+  ensureCorrectUserOrAdmin,
   async function (
   req: Request,
   res: Response,
@@ -98,7 +98,7 @@ router.get("/:id",
  **/
 
 router.patch("/:id",
-  // ensureCorrectUserOrAdmin,
+  ensureCorrectUserOrAdmin,
   async function (
   req: Request,
   res: Response,
@@ -125,7 +125,7 @@ router.patch("/:id",
  **/
 
 router.delete("/:id",
-  // ensureCorrectUserOrAdmin,
+  ensureCorrectUserOrAdmin,
   async function (
   req: Request,
   res: Response,
