@@ -19,39 +19,41 @@ enum TicketStatus {
   SOLD_OUT
 }
 
-model Larps {
-  id  Int    @id @default(autoincrement())
-  title String @default("") @db.VarChar(500)
-  ticketStatus TicketStatus @default(AVAILABLE) @map("ticket_status")
-  start DateTime
-  end DateTime
-  allDay Boolean @map("all_day")
-  imgUrl String @default("") @db.VarChar(500) @map("img_url")
-  city String @default("") @db.VarChar(100)
-  country String @default("") @db.VarChar(100)
-  language String @default("") @db.VarChar(100)
-  description String @default("")
-  organizer String @default("") @db.VarChar(500)
-  eventUrl String @default("") @db.VarChar(500) @map("event_url")
-  tags LarpsTags[]
+model Larp {
+  id           Int          @id @default(autoincrement())
+  title        String       @default("") @db.VarChar(500)
+  ticketStatus TicketStatus @map("ticket_status")
+  start        DateTime
+  end          DateTime
+  allDay       Boolean      @map("all_day")
+  imgUrl       String       @default("") @map("img_url") @db.VarChar(500)
+  city         String       @default("") @db.VarChar(100)
+  country      String       @default("") @db.VarChar(100)
+  language     String       @default("") @db.VarChar(100)
+  description  String       @default("")
+  organizer    String       @default("") @db.VarChar(500)
+  eventUrl     String       @default("") @map("event_url") @db.VarChar(500)
+  tags         Tag[]
 
   @@map("larps")
 }
 
-model Tags {
-  id  Int    @id @default(autoincrement())
-  name String @db.VarChar(100)
-  larps LarpsTags[]
+model Tag {
+  name  String @id @db.VarChar(100)
+  larps Larp[]
 
   @@map("tags")
 }
 
-model LarpsTags {
-  id  Int    @id @default(autoincrement())
-  larp Larps @relation(fields: [larp_id  ], references: [id], onDelete: Cascade)
-  larp_id Int
-  tag Tags @relation(fields: [tag_id], references: [id], onDelete: Cascade)
-  tag_id  Int
+model User {
+  id      Int     @id @default(autoincrement())
+  username    String  @unique @db.VarChar(25)
+  password    String  @db.VarChar(200)
+  firstName   String  @db.VarChar(100)
+  lastName    String  @db.VarChar(100)
+  email       String  @unique @db.VarChar(100)
+  isAdmin     Boolean
+  isOrganizer Boolean
 
-  @@map("larps_tags")
+  @@map("users")
 }
