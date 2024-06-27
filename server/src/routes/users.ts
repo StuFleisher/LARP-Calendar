@@ -1,9 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express';
 const router = express.Router();
 
-// import jsonschema from 'jsonschema';
-// import userNewSchema from "../schemas/userNew.json"
-// import userUpdateSchema from "../schemas/userUpdate.json"
+import jsonschema from 'jsonschema';
+import userForCreateSchema from "../schemas/userForCreate.json"
+import userUpdateSchema from "../schemas/userUpdate.json"
 
 import { BadRequestError } from '../utils/expressError';
 import { createToken } from "../utils/tokens";
@@ -32,15 +32,15 @@ router.post(
   res: Response,
   next: NextFunction
 ) {
-  // const validator = jsonschema.validate(
-  //   req.body,
-  //   userNewSchema,
-  //   { required: true },
-  // );
-  // if (!validator.valid) {
-  //   const errs = validator.errors.map((e: Error) => e.stack);
-  //   throw new BadRequestError(errs.join(", "));
-  // }
+  const validator = jsonschema.validate(
+    req.body,
+    userForCreateSchema,
+    { required: true },
+  );
+  if (!validator.valid) {
+    const errs = validator.errors.map((e: Error) => e.stack);
+    throw new BadRequestError(errs.join(", "));
+  }
 
   const user = await UserManager.register(req.body);
   const token = createToken(user);
@@ -104,15 +104,15 @@ router.patch("/:id",
   res: Response,
   next: NextFunction
 ) {
-  // const validator = jsonschema.validate(
-  //   req.body,
-  //   userUpdateSchema,
-  //   { required: true },
-  // );
-  // if (!validator.valid) {
-  //   const errs = validator.errors.map((e:Error) => e.stack);
-  //   throw new BadRequestError(errs.join(", "));
-  // }
+  const validator = jsonschema.validate(
+    req.body,
+    userUpdateSchema,
+    { required: true },
+  );
+  if (!validator.valid) {
+    const errs = validator.errors.map((e:Error) => e.stack);
+    throw new BadRequestError(errs.join(", "));
+  }
 
   const user = await UserManager.updateUser(Number(req.params.id), req.body);
   return res.json({ user });

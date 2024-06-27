@@ -5,10 +5,15 @@ import {
   ensureOrganizer,
   ensureOwnerOrAdmin
 } from '../middleware/auth';
-// import jsonschema from 'jsonschema';
 const router = express.Router();
 
+import { BadRequestError } from '../utils/expressError';
+
 import LarpManager from '../models/LarpManager';
+
+import jsonschema from 'jsonschema';
+import larpForCreateSchema from '../schemas/larpForCreate.json'
+import larpForUpdateSchema from '../schemas/larpForUpdate.json'
 
 /** POST /
   *  Creates and returns a new larp record
@@ -23,7 +28,16 @@ router.post(
   // readMultipart("image"),
 
   async function (req: Request, res: Response, next: NextFunction) {
-    console.log('hit the route')
+    const validator = jsonschema.validate(
+      req.body,
+      larpForCreateSchema,
+      { required: true }
+    );
+    if (!validator.valid) {
+      const errs: (string | undefined)[] = validator.errors.map((e: Error) => e.stack);
+      throw new BadRequestError(errs.join(", "));
+    }
+
     const larp = await LarpManager.createLarp(req.body)
     return res.status(201).json({larp})
   }
@@ -89,15 +103,15 @@ router.put(
   ensureOwnerOrAdmin,
   async function (req: Request, res: Response, next: NextFunction) {
 
-    // const validator = jsonschema.validate(
-    //   req.body,
-    //   larpUpdateSchema,
-    //   { required: true }
-    // );
-    // if (!validator.valid) {
-    //   const errs: (string | undefined)[] = validator.errors.map((e: Error) => e.stack);
-    //   throw new BadRequestError(errs.join(", "));
-    // }
+    const validator = jsonschema.validate(
+      req.body,
+      larpForUpdateSchema,
+      { required: true }
+    );
+    if (!validator.valid) {
+      const errs: (string | undefined)[] = validator.errors.map((e: Error) => e.stack);
+      throw new BadRequestError(errs.join(", "));
+    }
     const larp = await LarpManager.updateLarp(req.body);
     return res.json({ larp });
   }
