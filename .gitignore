@@ -1,3 +1,4 @@
 /server/.env
+/server/.env.test
 /server/dist
 /server/coverage
