@@ -1,9 +1,8 @@
-import { prisma } from '../prisma';
+import { prisma } from '../prismaSingleton';
 import { BCRYPT_WORK_FACTOR } from '../config';
 import { UserForCreate, User, UserForUpdate, PublicUser } from '../types';
 
 import bcrypt from "bcrypt";
-
 
 import {
   NotFoundError,
@@ -34,7 +33,6 @@ class UserManager {
         return user;
       }
     }
-
     throw new UnauthorizedError("Invalid username/password");
   }
 

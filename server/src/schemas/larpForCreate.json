@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 500
+      },
+      "ticketStatus": {
+        "type": "boolean"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type" : "object",
+          "properties" : {
+            "name":{
+              "type":"string",
+              "minLength":1,
+              "maxLength": 100
+            }
+          }
+        }
+      },
+      "start":{
+        "type":"string",
+        "format":"date"
+      },
+      "end":{
+        "type":"string",
+        "format":"date"
+      },
+      "allDay":{
+        "type":"boolean"
+      },
+      "imgUrl":{
+        "type":"string",
+        "format":"url"
+      },
+      "city":{
+        "type":"string",
+        "maxLength": 100
+      },
+      "country":{
+        "type":"string",
+        "maxLength": 100
+      },
+      "language":{
+        "type":"string",
+        "maxLength": 100
+      },
+      "description":{
+        "type":"string"
+      },
+      "organizer":{
+        "type":"string",
+        "minLength":1,
+        "maxLength": 100
+      },
+      "eventUrl":{
+        "type":"string",
+        "format":"url"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "title",
+      "ticketStatus",
+      "tags",
+      "start",
+      "end",
+      "allDay",
+      "imgUrl",
+      "city",
+      "country",
+      "language",
+      "description",
+      "organizer",
+      "eventUrl"
+    ]
+  }

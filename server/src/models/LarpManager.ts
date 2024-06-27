@@ -1,4 +1,4 @@
-import { prisma } from '../prisma';
+import { prisma } from '../prismaSingleton';
 import { LarpForCreate, Larp, LarpForUpdate } from '../types';
 import { NotFoundError } from '../utils/expressError';
 import { Tag } from '../types';
