@@ -75,14 +75,14 @@ router.get("/",
  * Authorization required: admin or same user-as-:username
  **/
 
-router.get("/:id",
+router.get("/:username",
   ensureCorrectUserOrAdmin,
   async function (
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const user = await UserManager.getUser(Number(req.params.id));
+  const user = await UserManager.getUser(req.params.username);
   return res.json({ user });
 });
 
@@ -97,7 +97,7 @@ router.get("/:id",
  * Authorization required: admin or same-user-as-:username
  **/
 
-router.patch("/:id",
+router.patch("/:username",
   ensureCorrectUserOrAdmin,
   async function (
   req: Request,
@@ -114,7 +114,7 @@ router.patch("/:id",
     throw new BadRequestError(errs.join(", "));
   }
 
-  const user = await UserManager.updateUser(Number(req.params.id), req.body);
+  const user = await UserManager.updateUser(req.params.username, req.body);
   return res.json({ user });
 });
 
@@ -124,14 +124,14 @@ router.patch("/:id",
  * Authorization required: admin or same-user-as-:username
  **/
 
-router.delete("/:id",
+router.delete("/:username",
   ensureCorrectUserOrAdmin,
   async function (
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const deletedUser = await UserManager.deleteUser(Number(req.params.id));
+  const deletedUser = await UserManager.deleteUser(req.params.username);
   return res.json({ deleted: deletedUser });
 });
 

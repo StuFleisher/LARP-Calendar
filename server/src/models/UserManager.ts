@@ -82,10 +82,10 @@ class UserManager {
    * Returns {username, firstName, lastName, email, isAdmin}
    * Throws NotFoundError on missing record
    */
-  static async getUser(id: number): Promise<PublicUser> {
+  static async getUser(username:string): Promise<PublicUser> {
     try {
       let user:User = await prisma.user.findUniqueOrThrow({
-        where: { id },
+        where: { username },
       });
       const {password, ...publicUser} = user;
       return publicUser;
@@ -112,7 +112,7 @@ class UserManager {
    * or a serious security risks are opened.
    */
   static async updateUser(
-    id: number, userData: UserForUpdate
+    username: string, userData: UserForUpdate
   ): Promise<PublicUser> {
     if (userData.password) {
       userData.password = await bcrypt.hash(userData.password, BCRYPT_WORK_FACTOR);
@@ -125,7 +125,7 @@ class UserManager {
     try {
       const updatedUser = await prisma.user.update({
         where: {
-          id: id,
+          username: username,
         },
         data: userData
       });
@@ -139,10 +139,10 @@ class UserManager {
 
 
     /** Delete given user from database; returns undefined. */
-    static async deleteUser(id: number) {
+    static async deleteUser(username:string) {
       try {
         const deleted = await prisma.user.delete({
-          where: { id }
+          where: { username }
         });
         return deleted.username
       } catch (err) {
