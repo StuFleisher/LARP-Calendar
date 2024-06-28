@@ -20,10 +20,10 @@ const testOrganizerUser:User = {
   firstName:"testOrganizerUser-first",
   lastName:"testOrganizerUser-last",
   email:"testOrganizerUser@test.com",
-  isOrganizer:false,
-  isAdmin:true,
+  isOrganizer:true,
+  isAdmin:false,
 }
-const organizerToken = createToken(testUser)
+const organizerToken = createToken(testOrganizerUser)
 
 const testAdminUser:User = {
   id:3,
