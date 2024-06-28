@@ -12,7 +12,8 @@
         "maxLength": 500
       },
       "ticketStatus": {
-        "type": "boolean"
+        "type": "string",
+        "enum": ["AVAILABLE", "LIMITED", "SOLD_OUT"]
       },
       "tags": {
         "type": "array",
@@ -29,11 +30,11 @@
       },
       "start":{
         "type":"string",
-        "format":"date"
+        "format":"date-time"
       },
       "end":{
         "type":"string",
-        "format":"date"
+        "format":"date-time"
       },
       "allDay":{
         "type":"boolean"
