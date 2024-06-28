@@ -20,6 +20,8 @@
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "@types/material-ui": "^0.21.17",
+    "axios": "^1.7.2",
+    "jwt-decode": "^4.0.0",
     "luxon": "^3.4.4",
     "react": "^18.2.0",
     "react-big-calendar": "^1.11.6",
@@ -28,6 +30,7 @@
   },
   "devDependencies": {
     "@types/luxon": "^3.4.2",
+    "@types/node": "^20.14.9",
     "@types/react": "^18.2.66",
     "@types/react-big-calendar": "^1.8.9",
     "@types/react-dom": "^18.2.22",
