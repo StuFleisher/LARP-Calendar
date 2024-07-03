@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 
 import { Box, Modal } from "@mui/material";
 import { useState } from 'react';
-import EventDetails from '../Events/EventDetails';
+import EventDetails from '../Events/LarpDetails';
 import { EventProps } from 'react-big-calendar';
 
 import "./Calendar.scss";
