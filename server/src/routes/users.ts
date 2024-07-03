@@ -76,7 +76,7 @@ router.get("/",
  **/
 
 router.get("/:username",
-  ensureCorrectUserOrAdmin,
+  // ensureCorrectUserOrAdmin,
   async function (
   req: Request,
   res: Response,

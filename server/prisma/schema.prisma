@@ -19,10 +19,11 @@ enum TicketStatus {
   SOLD_OUT
 }
 
+
 model Larp {
   id            Int          @id @default(autoincrement())
   title         String       @default("") @db.VarChar(500)
-  ticketStatus  TicketStatus @map("ticket_status")
+  ticketStatus  TicketStatus
   start         DateTime
   end           DateTime
   allDay        Boolean      @map("all_day")

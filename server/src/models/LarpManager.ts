@@ -10,7 +10,7 @@ class LarpManager {
   ): Promise<Larp> {
     const { tags, ...data } = larpData;
 
-    const larp = await prisma.larp.create({
+    const larp:Larp = await prisma.larp.create({
       data: {
         ...data,
         tags: {

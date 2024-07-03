@@ -1,10 +1,11 @@
-import { TicketStatus } from "@prisma/client";
 
 type PartialWithRequired<T,K extends keyof T> = Partial<Omit<T, K>> & Pick<T, K>;
 
 export type Tag = {
   name: string;
 }
+
+export type TicketStatus =  "AVAILABLE" |  "LIMITED" |  "SOLD_OUT";
 
 export type LarpForCreate = {
   title: string,
