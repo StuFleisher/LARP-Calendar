@@ -15,7 +15,7 @@ const Tag2:Tag={
 const TestLarp1:Larp = {
   id:1,
   title: 'Larp1 names can be long strings that take multiple lines',
-  ticketStatus: "Limited",
+  ticketStatus: "LIMITED",
   tags: [Tag1, Tag2],
   start: START,
   end: END ,

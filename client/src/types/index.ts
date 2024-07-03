@@ -1,23 +1,22 @@
 
+import { DateTime } from "luxon";
+
+type PartialWithRequired<T,K extends keyof T> = Partial<Omit<T, K>> & Pick<T, K>;
+
 export type Tag = {
   id: number;
   name: string;
 };
 
-export enum ticketStatus {
-  AVAILABLE = "Available",
-  LIMITED = "Limited",
-  SOLD_OUT = "Sold-Out"
-}
+export type TicketStatus =  "AVAILABLE" |  "LIMITED" |  "SOLD_OUT";
 
-export type Larp = {
-  id: number;
+export type LarpForCreate = {
   title: string,
-  ticketStatus: ticketStatus,
+  ticketStatus: TicketStatus,
   tags: Tag[],
-  start: Date,
-  end: Date,
-  allDay: boolean,
+  start: DateTime,
+  end: DateTime,
+  allDay:boolean,
   imgUrl: string,
   city: string,
   country: string,
@@ -25,7 +24,19 @@ export type Larp = {
   description: string,
   organizer: string,
   eventUrl: string,
-};
+}
+
+export type Larp = LarpForCreate & {
+  id: number
+}
+
+export type LarpForUpdate = PartialWithRequired<Larp, 'id'>
+
+export type LarpAsJSON = LarpForCreate & {
+  id?:number,
+  start: string,
+  end: string,
+}
 
 export type UserForCreate = {
   username: string,
@@ -45,3 +56,7 @@ export type UserLoginData = {
   username: string,
   password: string,
 };
+
+export type PublicUser = Omit<User,'password'>
+
+export type UserForUpdate = PartialWithRequired<User, 'id' | 'username' >

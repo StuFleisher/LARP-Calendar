@@ -1,8 +1,9 @@
 import axios, {AxiosError} from "axios";
 import { jwtDecode } from "jwt-decode";
-import { UserLoginData, UserForCreate, User, Larp } from "../types";
+import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON } from "../types";
+import { JsonToLarp } from "./typeConverters";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3001";
 
 type APIError = {
   message: string | string[];
@@ -120,16 +121,17 @@ class LarpAPI {
   /************************ LARPS ********************************/
   /**  CREATE  */
 
-  static async createLarp(larp: Larp): Promise<Larp> {
+  static async createLarp(larp: LarpForCreate): Promise<Larp> {
+
     const response = await this.request('events', larp, 'post');
-    return response.recipe;
+    return response.larp;
   }
 
 
   /**  READ  */
   static async getLarpById(id: number): Promise<Larp> {
-    const response = await this.request(`recipes/${id}`);
-    return response.recipe;
+    const response = await this.request(`events/${id}`);
+    return JsonToLarp(response.larp);
   }
 
   static async getAllLarps(query: string | null): Promise<Larp[]> {
@@ -137,7 +139,7 @@ class LarpAPI {
     const response = query
       ? await this.request(`events?q=${query}`)
       : await this.request(`events`);
-    return response.recipes;
+    return response.larps.map((larp:LarpAsJSON)=>JsonToLarp(larp));
   }
 
   /**  UPDATE  */
@@ -147,15 +149,15 @@ class LarpAPI {
       formData,
       'put'
     );
-    return response.recipe;
+    return JsonToLarp(response.larp);
   }
 
-  //static async updateRecipeImage(image: Blob, recipeId: number) {
+  //static async updatelarpImage(image: Blob, larpId: number) {
   //   const formData = new FormData();
   //   formData.set('image', image);
 
   //   const response = await this.multipartRequest(
-  //     `recipes/${recipeId}/image`,
+  //     `larps/${larpId}/image`,
   //     formData,
   //     'put'
   //   );
@@ -165,11 +167,11 @@ class LarpAPI {
   /**  DELETE  */
   static async DeleteLarp(id: number): Promise<Larp> {
     const response = await this.request(
-      `larps/${id}`,
+      `events/${id}`,
       undefined,
       'delete'
     );
-    return response.recipe;
+    return JsonToLarp(response.larp);
   }
 
 
@@ -184,20 +186,20 @@ class LarpAPI {
   // }
 
 
-  // static async addToCookbook(recipeId: number, username: string) {
+  // static async addToCookbook(larpId: number, username: string) {
   //   const response = await this.request(
-  //     `recipes/${recipeId}/addToCookbook`,
-  //     { recipeId, username },
+  //     `events/${larpId}/addToCookbook`,
+  //     { larpId, username },
   //     'post'
   //   );
   //   if (response.statusCode === 201) { return true; }
   //   return false; //is this what we want to return here?
   // }
 
-  // static async removeFromCookbook(recipeId: number, username: string) {
+  // static async removeFromCookbook(larpId: number, username: string) {
   //   const response = await this.request(
-  //     `recipes/${recipeId}/removeFromCookbook`,
-  //     { recipeId, username },
+  //     `events/${larpId}/removeFromCookbook`,
+  //     { larpId, username },
   //     'post'
   //   );
   //   if (response.statusCode === 200) { return true; }
