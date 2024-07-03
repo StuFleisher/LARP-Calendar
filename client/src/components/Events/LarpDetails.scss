@@ -1,0 +1,32 @@
+@import "../../styles/colors";
+
+.LarpDetails {
+    width:325px;
+    padding: 1rem;
+    // border: 1px $pale-blue solid;
+    margin:0;
+
+    .image {
+        width:100%;
+        aspect-ratio: 7/3;
+        border-radius: 5px 5px 75px 0px;
+        position:relative;
+
+        .DurationDisplay {
+            position:absolute;
+            right:1rem;
+            top:1rem;
+        }
+    }
+}
+
+@media(min-width:600px){
+    .LarpDetails {
+        width:550px;
+    }
+}
+@media(min-width:900px){
+    .LarpDetails {
+        width:800px;
+    }
+}

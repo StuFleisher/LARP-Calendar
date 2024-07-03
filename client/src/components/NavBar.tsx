@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
-
 import { Box, Stack, Menu, MenuItem } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import './NavBar.scss';
 import { NavLink } from "react-router-dom";
+import { UserLoginData } from "../types";
 
 const MENU_ITEMS = [
     "Home",
@@ -14,7 +14,11 @@ const MENU_ITEMS = [
     "About",
 ];
 
-function NavBar() {
+type NavBarProps = {
+    login: (credentials: UserLoginData) => Promise<void>;
+}
+
+function NavBar({props}:NavBarProps) {
 
     const [showMenu, setShowMenu] = useState(false);
     const anchorEl = useRef(null);
@@ -41,7 +45,7 @@ function NavBar() {
                 style={{ paddingTop: '0' }}
             >
                 {MENU_ITEMS.map((item) => (
-                    <MenuItem className="menuItem"><p>{item}</p></MenuItem>
+                    <MenuItem key={item} className="menuItem"><p>{item}</p></MenuItem>
                 ))}
             </Menu>
         </>

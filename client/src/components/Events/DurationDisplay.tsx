@@ -1,11 +1,12 @@
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography } from "@mui/material";
 import DateCard from "./DateCard";
+import { DateTime } from 'luxon';
 
 
 type DurationDisplayProps = {
-    start: Date,
-    end: Date,
+    start: DateTime,
+    end: DateTime,
     background?: "light" | "dark";
 };
 

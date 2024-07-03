@@ -1,0 +1,26 @@
+@import "../../styles/colors";
+
+.LarpCard {
+    width:325px;
+
+    & .LarpCard-header {
+        background-color: $dark ;
+        color: white;
+        padding:.5rem 1rem;
+    }
+
+    & > div {
+        padding:.5rem 1rem;
+    }
+}
+
+@media(min-width:600px){
+    .LarpCard {
+        width:550px;
+    }
+}
+@media(min-width:900px){
+    .LarpCard {
+        width:800px;
+    }
+}
