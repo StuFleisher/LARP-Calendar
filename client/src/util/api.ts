@@ -171,7 +171,7 @@ class LarpAPI {
       undefined,
       'delete'
     );
-    return JsonToLarp(response.larp);
+    return response.larp;
   }
 
 

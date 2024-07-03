@@ -2,7 +2,6 @@ import { useFormikContext, Form } from "formik";
 import { Larp } from "../../types";
 
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { DateTimePicker } from "@mui/x-date-pickers";
 
 import FormikMuiTextField from "../FormComponents/FormikMuiTextField";
 import FormikSelectInput from "../FormComponents/FormikSelectInput";
@@ -11,11 +10,14 @@ import ErrorDisplay from "../FormComponents/ErrorDisplay";
 import { FastField, Field } from "formik";
 import { DateTime } from "luxon";
 
+type EventFormProps = {
+    deleteLarp: () => Promise<void>;
+};
 
-
-function EventForm() {
+function EventForm({deleteLarp}:EventFormProps) {
 
     const { values, isValid, errors } = useFormikContext<Larp>();
+    console.log("form values", values)
     const errorMessage = (`
         Please check following fields to continue:
         ${Object.keys(errors).map(key => { return key !== "steps" ? key : null; }).join(", ")}
@@ -129,8 +131,18 @@ function EventForm() {
 
                     </Box>
                 </Form>
+                <Button
+                        color="primary"
+                        onClick={async (e) => {
+                            e.preventDefault();
+                            deleteLarp();
+                        }}
+                    >
+                        Delete Recipe
+                    </Button>
             </Box>
         </>
+
     );
 }
 

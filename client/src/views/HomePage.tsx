@@ -7,7 +7,7 @@ import { TestLarp1, TestLarp2, TestLarp3 } from '../data/LarpData';
 function HomePage() {
     return (
         <>
-            <Calendar larps={[TestLarp1, TestLarp2, TestLarp3]} />
+            <Calendar initialLarps={[TestLarp1, TestLarp2, TestLarp3]} />
             <Carousel
                 title="Featured Events"
             >

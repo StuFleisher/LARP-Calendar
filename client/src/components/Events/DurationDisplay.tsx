@@ -1,18 +1,18 @@
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography } from "@mui/material";
 import DateCard from "./DateCard";
-import { DateTime } from 'luxon';
 
 
 type DurationDisplayProps = {
-    start: DateTime,
-    end: DateTime,
+    start: Date,
+    end: Date,
     background?: "light" | "dark";
 };
 
 function DurationDisplay({ start, end, background = "light" }: DurationDisplayProps) {
 
     const theme = useTheme();
+    console.log(start,end)
 
     return (
         <Stack

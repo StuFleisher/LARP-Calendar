@@ -14,8 +14,8 @@ export type LarpForCreate = {
   title: string,
   ticketStatus: TicketStatus,
   tags: Tag[],
-  start: DateTime,
-  end: DateTime,
+  start: Date,
+  end: Date,
   allDay:boolean,
   imgUrl: string,
   city: string,
@@ -37,6 +37,11 @@ export type LarpAsJSON = LarpForCreate & {
   start: string,
   end: string,
 }
+
+// export type LarpWithJSDates = Omit<Larp, 'start' | 'end'> & {
+//   start: Date;
+//   end: Date;
+// };
 
 export type UserForCreate = {
   username: string,

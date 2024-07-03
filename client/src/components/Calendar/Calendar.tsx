@@ -1,6 +1,7 @@
-import { Larp } from '../../types';
+import { Larp, LarpWithJSDates } from '../../types';
 import { Calendar as BigCalendar, luxonLocalizer } from 'react-big-calendar';
 import { DateTime } from 'luxon';
+import { LuxonLarpToJSDateLarp, JSDateLarptoLuxonLarp } from '../../util/typeConverters';
 
 import { Box, Modal } from "@mui/material";
 import { useState } from 'react';
@@ -16,14 +17,16 @@ const localizer = luxonLocalizer(DateTime); // or globalizeLocalizer
 
 
 type CalendarProps = {
-  larps: Larp[];
+  initialLarps: Larp[];
 };
 
-function Calendar({ larps }: CalendarProps) {
+function Calendar({ initialLarps }: CalendarProps) {
+
+  const [larps, setLarps] = useState<Larp[]>(initialLarps);
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [selected, setSelected] = useState<Larp | null>(null);
 
-
+  console.log(larps);
   return (
     <Box className="Calendar" style={{ position: 'relative' }}>
       <Modal
@@ -36,16 +39,18 @@ function Calendar({ larps }: CalendarProps) {
         }}
       >
         <Box>
-          <EventDetails
-            larp={selected as Larp}
-          />
+          {selected &&
+            <EventDetails
+              larp={selected}
+            />
+          }
         </Box>
       </Modal>
 
       <BigCalendar
         localizer={localizer}
         events={larps}
-        views={['month','week']}
+        views={['month', 'week']}
         startAccessor="start"
         endAccessor="end"
         components={{

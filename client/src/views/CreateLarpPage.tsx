@@ -9,7 +9,7 @@ import { LarpForCreate } from "../types";
 import { LarpFormProvider } from "../context/LarpFormProvider";
 import { userContext } from "../context/userContext";
 
-type NewEventPageProps = {
+type NewLarpPageProps = {
     initialLarp?: LarpForCreate;
 };
 
@@ -29,7 +29,7 @@ const emptyLarp:LarpForCreate = {
   eventUrl: "",
 }
 
-function NewEventPage({initialLarp = emptyLarp}:NewEventPageProps) {
+function NewLarpPage({initialLarp = emptyLarp}:NewLarpPageProps) {
 
     const [larp, setLarp] = useState<LarpForCreate>(initialLarp);
 
@@ -58,4 +58,4 @@ function NewEventPage({initialLarp = emptyLarp}:NewEventPageProps) {
     );
 }
 
-export default NewEventPage;
+export default NewLarpPage;

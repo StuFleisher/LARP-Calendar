@@ -3,7 +3,8 @@ import { useContext } from "react";
 import { userContext } from "./context/userContext";
 
 import HomePage from "./views/HomePage";
-import NewEventPage from "./views/CreateLarpPage";
+import NewLarpPage from "./views/CreateLarpPage";
+import EditLarpPage from "./views/EditLarpPage";
 import LoginForm from "./components/Forms/LoginForm";
 import { UserForCreate, UserLoginData } from "./types";
 import LarpDetailPage from "./views/LarpDetailPage";
@@ -32,7 +33,8 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
 
     const organizerRoutes = (
         <>
-            <Route path='/events/create' element={<NewEventPage />} />
+            <Route path='/events/:id/edit' element={<EditLarpPage />} />
+            <Route path='/events/create' element={<NewLarpPage />} />
         </>
     );
 

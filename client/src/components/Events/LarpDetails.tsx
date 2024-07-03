@@ -16,7 +16,7 @@ type LarpDetailsProps = {
 
 function LarpDetails({ larp }: LarpDetailsProps) {
 
-    console.log(larp.start, "to", larp.end)
+    // console.log(larp.start, "to", larp.end)
     return (
         <Card className="LarpDetails">
             <Stack

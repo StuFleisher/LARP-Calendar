@@ -21,7 +21,6 @@ function LarpDetailPage (){
                 if (id !== undefined) {
                     const numericId = parseInt(id);
                     const larpDetails = await LarpAPI.getLarpById(numericId);
-                    console.log("fetched larp", larpDetails)
                     setLarp(larpDetails);
                 }
             } catch (err) {
