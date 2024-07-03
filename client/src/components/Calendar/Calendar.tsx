@@ -1,7 +1,6 @@
-import { Larp, LarpWithJSDates } from '../../types';
+import { Larp } from '../../types';
 import { Calendar as BigCalendar, luxonLocalizer } from 'react-big-calendar';
 import { DateTime } from 'luxon';
-import { LuxonLarpToJSDateLarp, JSDateLarptoLuxonLarp } from '../../util/typeConverters';
 
 import { Box, Modal } from "@mui/material";
 import { useState } from 'react';
@@ -26,7 +25,6 @@ function Calendar({ initialLarps }: CalendarProps) {
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [selected, setSelected] = useState<Larp | null>(null);
 
-  console.log(larps);
   return (
     <Box className="Calendar" style={{ position: 'relative' }}>
       <Modal

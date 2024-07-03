@@ -1,6 +1,3 @@
-import { DateTime } from "luxon";
-
-
 
 //Checks if a string is a valid url
 export function isURL(string?: string) {
