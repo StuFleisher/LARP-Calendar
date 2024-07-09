@@ -3,7 +3,8 @@
 
 
 .Calendar {
-    height: 500px;
+    height: 100vh;
+    min-height: 500px;
     color: $dark;
     margin:1rem;
     font-size: .5rem;

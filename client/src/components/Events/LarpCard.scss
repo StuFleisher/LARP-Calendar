@@ -1,26 +1,50 @@
 @import "../../styles/colors";
 
 .LarpCard {
-    width:325px;
+    min-width: 250px;
+    width: 75%;
+    height:100%;
+    border: solid 1px black;
 
     & .LarpCard-header {
-        background-color: $dark ;
-        color: white;
-        padding:.5rem 1rem;
+        height: 150px;
+        border-radius: 5px  5px 0 0;
     }
 
-    & > div {
-        padding:.5rem 1rem;
+    & .LarpCard-content {
+        padding: .5rem .75rem;
+        background-color: white;
+        color: $dark;
+        border-radius: 0 0 5px 5px;
+        flex-basis: 1;
+        flex-grow: 1;
+
+        .title {
+            margin-bottom: 5px;
+        }
+
+        & * {
+            padding-top: 2px;
+        }
+    }
+
+    & .LarpCard-details {
+        margin: 1rem 0;
     }
 }
 
-@media(min-width:600px){
+.LarpCard:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 10%);
+}
+
+@media (min-width:600px) {
     .LarpCard {
-        width:550px;
+        width: 42%;
     }
 }
-@media(min-width:900px){
+
+@media (min-width:900px) {
     .LarpCard {
-        width:800px;
+        width: 33.4%;
     }
 }

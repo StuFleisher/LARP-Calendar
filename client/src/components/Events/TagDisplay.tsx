@@ -8,11 +8,9 @@ type TagDisplayProps = {
 
 function TagDisplay({ tag }: TagDisplayProps) {
     return (
-        <Box className="tagDisplay">
-            <Typography key={tag.name} variant="caption">
+            <Typography key={tag.name} variant="details2" className="tagDisplay">
                 {tag.name}
             </Typography>
-        </Box>
     );
 }
 

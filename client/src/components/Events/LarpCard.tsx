@@ -1,13 +1,16 @@
 import './LarpCard.scss';
 import { Larp } from '../../types';
 
-import { useTheme } from '@mui/material/styles';
-import { Card, Box, Stack, Typography } from "@mui/material";
+import { Link as RouterLink } from 'react-router-dom';
 
-import LocationDisplay from './LocationDisplay';
-import DurationDisplay from './DurationDisplay';
+import { useTheme } from '@mui/material/styles';
+import { Card, Box, Stack, Typography, Link } from "@mui/material";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot, faComment, faGlobe } from "@fortawesome/free-solid-svg-icons";
+
 import TagCard from './TagDisplay';
-import Twirldown from '../ui/Twirldown';
+import { JSDateToLuxon } from '../../util/typeConverters';
 
 type LarpCardProps = {
     larp: Larp,
@@ -21,68 +24,102 @@ export default function LarpCard({ larp }: LarpCardProps) {
     if (larp.ticketStatus === "SOLD_OUT") ticketColor = theme.palette.error.main;
 
     return (
-        <Card className='LarpCard'>
-            <Box className="LarpCard-header">
-                <Stack
-                    direction="row"
-                    alignItems='center'
-                    spacing={1}
-                >
-                    <svg width="30" height="30" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="10" cy="9.5" r="9"
-                            stroke={ticketColor}
-                        />
-                    </svg>
-                    <Typography variant='h2' component="h3" className="title">
-                        {larp.title}
-                    </Typography>
-                </Stack>
-            </Box>
+        <Link
+        component={RouterLink}
+        to={`/events/${larp.id}`}
+        sx={{textDecoration:"none", color:"inherit",}}
+        >
             <Stack
-                className="LarpCard-contentContainer"
-                direction="row"
-                justifyContent='space-between'
-                alignItems="flex-start"
-
+                direction="column"
+                className='LarpCard'
             >
-                <Stack
-                    className="LarpCard-content"
-                    direction="column"
-                    spacing={0}
+
+            <Box className="LarpCard-header"
+                sx={{
+                    backgroundImage: `url(${larp.imgUrl})`,
+                    backgroundSize: 'cover',
+                }}
+            >
+            </Box>
+
+            <Stack
+                className="LarpCard-content"
+                direction="column"
+                spacing={.5}
+                flexBasis={1}
+            >
+                <Typography
+                    color={ticketColor}
+                    variant={'details2'}
                 >
-                    <Typography color={ticketColor}>
-                        Tickets {larp.ticketStatus}
-                    </Typography>
-                    <Typography >
-                        {larp.eventUrl}
-                    </Typography>
-                    <Typography>
-                        Organized by: {larp.organizer}
-                    </Typography>
-                    <Twirldown title='details'>
-                        <Typography>{larp.description}</Typography>
-                        <Stack
+                    Tickets: {larp.ticketStatus}
+                </Typography>
+                <Typography
+                    variant='h3'
+                    component="h3"
+                    className="title"
+                    sx={{
+                        display: '-webkit-box',
+                        overflow: 'hidden',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 2
+                    }}
+                >
+                    {larp.title}
+                </Typography>
+
+                <Typography
+                    className=".dates"
+                    variant={'details1'}
+                >
+                    {`${JSDateToLuxon(larp.start).toLocaleString({ weekday:'short', month: 'long', day: 'numeric' })}
+                         - ${JSDateToLuxon(larp.end).toLocaleString({ weekday:'short', month: 'long', day: 'numeric' })}`}
+                </Typography>
+
+                <Box className="LarpCard-details">
+                    <Stack
                         direction="row"
+                        alignItems="center"
                         spacing={1}
-                        sx={{marginTop:'.5rem'}}
-                        >
-                            {larp.tags.map((tag) => (
-                                <TagCard key={tag.name} tag={tag} />
-                            ))}
-                        </Stack>
-                    </Twirldown>
+                        className="icon-text"
+                    >
+                        <FontAwesomeIcon icon={faLocationDot} />
+                        <Typography variant="details2">
+                            {larp.city}, {larp.country}
+                        </Typography>
+                    </Stack>
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        spacing={1}
+                        className="icon-text"
+                    >
+                        <FontAwesomeIcon icon={faComment} />
+                        <Typography variant="details2">
+                            {larp.language}
+                        </Typography>
+                    </Stack>
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        spacing={1}
+                        className="icon-text"
+                    >
+                        <FontAwesomeIcon icon={faGlobe} />
+                        <Typography variant="details2">
+                            {larp.organizer}
+                        </Typography>
+                    </Stack>
+                </Box>
+
+                <Stack direction="row" spacing={1} margin="auto">
+                    {larp.tags.map((tag) => (
+                        <TagCard key={tag.name} tag={tag} />
+                    ))}
                 </Stack>
-                <DurationDisplay
-                    start={larp.start}
-                    end={larp.end}
-                />
+            </Stack>
 
             </Stack>
-            <LocationDisplay
-                city={larp.city}
-                country={larp.country}
-                language={larp.language}
-            />
-        </Card>
+        </Link >
     );
 }

@@ -1,5 +1,5 @@
 // import { Tooltip } from "react-tooltip";
-import { Box, Popper } from "@mui/material";
+import { Box, Popper, Card } from "@mui/material";
 import { Larp } from "../../types";
 import EventCard from "../Events/LarpCard";
 import { EventProps } from "react-big-calendar";
@@ -25,12 +25,14 @@ function CalendarEvent(props: EventProps<Larp>) {
             {event.title}
 
             <Popper
-            placement="left"
+                placement="left"
                 open={showTooltip}
                 anchorEl={anchorEl.current}
-                style={{zIndex:1000, padding:'0 .5rem'}}
+                style={{ zIndex: 1000, padding: '0 .5rem' }}
             >
-                <EventCard larp={event} />
+                <Card>
+                    <EventCard larp={event} />
+                </Card>
             </Popper>
         </Box>
     );

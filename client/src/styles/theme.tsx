@@ -55,19 +55,17 @@ const theme = createTheme({
         },
         h2: {
             fontFamily: `"Karla", sans-serif`,
-            fontSize: `1rem`,
+            fontSize: `2rem`,
             fontWeight: '900',
+            padding: '1rem',
             '@media (min-width:600px)': { fontSize: '1.25rem' },
             '@media (min-width:900px)': { fontSize: '2rem' },
             '@media (min-width:1200px)': { fontSize: '3rem' },
         },
         h3: {
             fontFamily: `"Karla", sans-serif`,
-            fontSize: '1rem',
-            '@media (min-width:600px)': {
-                fontSize: '2rem',
-            },
-            fontWeight: '500',
+            fontSize: "1.25rem",
+            fontWeight: '700',
         },
         subtitle1: { fontWeight: 300, fontStyle: 'italic' },
         body1: {
@@ -80,6 +78,13 @@ const theme = createTheme({
             fontSize: '.75rem',
             '@media (min-width:600px)': { fontSize: '1rem' },
             '@media (min-width:900px)': { fontSize: '1.4rem' },
+        },
+        details1: {
+            fontSize: 14,
+            fontWeight:500
+        },
+        details2: {
+            fontSize: 10,
         }
     },
     components: {
