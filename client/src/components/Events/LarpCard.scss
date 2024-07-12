@@ -4,15 +4,17 @@
     min-width: 250px;
     width: 75%;
     height:100%;
-    border: solid 1px black;
 
     & .LarpCard-header {
         height: 150px;
         border-radius: 5px  5px 0 0;
+        background-color: #d7d7d7;
     }
 
     & .LarpCard-content {
-        padding: .5rem .75rem;
+        width:100%;
+        // padding: .5rem .75rem;
+        padding:2rem;
         background-color: white;
         color: $dark;
         border-radius: 0 0 5px 5px;
@@ -21,15 +23,18 @@
 
         .title {
             margin-bottom: 5px;
+            overflow:hidden;
         }
 
-        & * {
-            padding-top: 2px;
-        }
+
     }
 
     & .LarpCard-details {
         margin: 1rem 0;
+
+        > * {
+            padding-top: 5px;
+        }
     }
 }
 

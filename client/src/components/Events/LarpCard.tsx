@@ -24,23 +24,24 @@ export default function LarpCard({ larp }: LarpCardProps) {
     if (larp.ticketStatus === "SOLD_OUT") ticketColor = theme.palette.error.main;
 
     return (
-        <Link
-        component={RouterLink}
-        to={`/events/${larp.id}`}
-        sx={{textDecoration:"none", color:"inherit",}}
+        <Stack
+            className='LarpCard'
+            direction="column"
         >
-            <Stack
-                direction="column"
-                className='LarpCard'
-            >
 
-            <Box className="LarpCard-header"
-                sx={{
-                    backgroundImage: `url(${larp.imgUrl})`,
-                    backgroundSize: 'cover',
-                }}
+            <Link
+                component={RouterLink}
+                to={`/events/${larp.id}`}
+                sx={{ textDecoration: "none", color: "inherit", }}
             >
-            </Box>
+                <Box className="LarpCard-header"
+                    sx={{
+                        backgroundImage: `url(${larp.imgUrl})`,
+                        backgroundSize: 'cover',
+                    }}
+                >
+                </Box>
+            </Link>
 
             <Stack
                 className="LarpCard-content"
@@ -54,26 +55,32 @@ export default function LarpCard({ larp }: LarpCardProps) {
                 >
                     Tickets: {larp.ticketStatus}
                 </Typography>
-                <Typography
-                    variant='h3'
-                    component="h3"
-                    className="title"
-                    sx={{
-                        display: '-webkit-box',
-                        overflow: 'hidden',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 2
-                    }}
+                <Link
+                    component={RouterLink}
+                    to={`/events/${larp.id}`}
+                    sx={{ textDecoration: "none", color: "inherit", }}
                 >
-                    {larp.title}
-                </Typography>
+                    <Typography
+                        variant='h3'
+                        component="h3"
+                        className="title"
+                        sx={{
+                            display: '-webkit-box',
+                            overflow: 'hidden',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 2
+                        }}
+                    >
+                        {larp.title}
+                    </Typography>
+                </Link>
 
                 <Typography
                     className=".dates"
                     variant={'details1'}
                 >
-                    {`${JSDateToLuxon(larp.start).toLocaleString({ weekday:'short', month: 'long', day: 'numeric' })}
-                         - ${JSDateToLuxon(larp.end).toLocaleString({ weekday:'short', month: 'long', day: 'numeric' })}`}
+                    {`${JSDateToLuxon(larp.start).toLocaleString({ weekday: 'short', month: 'long', day: 'numeric' })}
+                         - ${JSDateToLuxon(larp.end).toLocaleString({ weekday: 'short', month: 'long', day: 'numeric' })}`}
                 </Typography>
 
                 <Box className="LarpCard-details">
@@ -112,14 +119,13 @@ export default function LarpCard({ larp }: LarpCardProps) {
                     </Stack>
                 </Box>
 
-                <Stack direction="row" spacing={1} margin="auto">
+                <Stack direction="row" flexWrap="wrap" spacing={1} margin="auto">
                     {larp.tags.map((tag) => (
                         <TagCard key={tag.name} tag={tag} />
                     ))}
                 </Stack>
             </Stack>
 
-            </Stack>
-        </Link >
+        </Stack>
     );
 }
