@@ -4,6 +4,7 @@ import { JSDateToLuxon, LuxonToJSDate } from "../util/typeConverters";
 
 import LarpFormSchema from "../util/LarpFormSchema";
 import { Larp, LarpForCreate, LarpForUpdate } from "../types";
+import { Tag } from "../types";
 
 type Props<T> = {
   children: React.ReactNode;
@@ -15,27 +16,54 @@ function LarpFormProvider<T extends Larp | LarpForCreate | LarpForUpdate>(
   { larp, onSubmitCallback, children }: Props<T>
 ) {
 
-  function convertToLuxonDates(larp:T){
+  function joinTags(tags:Tag[] | undefined):string | undefined{
+    if (!tags || tags.length===0) return;
+
+    const tagString = tags.reduce((accumulator, current)=>{
+      if (accumulator==="") return current.name;
+      return `${accumulator}, ${current.name}`
+    },"")
+    return tagString;
+  }
+
+  function modelToFormValues(larp:T){
     return {
       ...larp,
+      tags: larp.tags ?joinTags(larp.tags) : undefined,
       start: larp.start ? JSDateToLuxon(larp.start) : undefined,
       end: larp.end ? JSDateToLuxon(larp.end) : undefined,
     }
   }
 
-  function convertToJSDates(values:any):T{
+  // function convertToJSDates(values:any):T{
+  //   return {
+  //     ...values,
+  //     start: values.start ? LuxonToJSDate(values.start) : undefined,
+  //     end: values.end ? LuxonToJSDate(values.end) : undefined,
+  //   }
+  // }
+
+  function splitTags(tagString:string):Partial<Tag>[]{
+    const tags =  tagString.split(',');
+    return tags.map((tag)=> {
+      return {name: tag.trim()}
+    })
+  }
+
+  function formValuesToLarp(values:any):T{
     return {
       ...values,
       start: values.start ? LuxonToJSDate(values.start) : undefined,
       end: values.end ? LuxonToJSDate(values.end) : undefined,
+      tags: values.tags ? splitTags(values.tags) : undefined,
     }
   }
 
   return (
 
     <Formik
-      initialValues={convertToLuxonDates(larp)}
-      onSubmit={async (values) => await onSubmitCallback(convertToJSDates(values as T))}
+      initialValues={modelToFormValues(larp)}
+      onSubmit={async (values) => await onSubmitCallback(formValuesToLarp(values as T))}
       validationSchema={LarpFormSchema}
     >
       {children}

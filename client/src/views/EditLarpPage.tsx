@@ -1,6 +1,5 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { DateTime } from "luxon";
 
 import { Modal, Box } from "@mui/material";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
@@ -10,51 +9,38 @@ import { Larp } from "../types";
 
 import { LarpFormProvider } from "../context/LarpFormProvider";
 import { userContext } from "../context/userContext";
+import { useFetchLarp } from "../hooks/useFetchLarp";
 
 
 function EditLarpPage() {
 
     const { id } = useParams();
-    const [larp, setLarp] = useState<Larp | null>(null);
-    console.log(larp);
+    if (!id){
+        throw new Error("Id is required to edit a larp")
+    }
+
     const [saving, setSaving] = useState(false);
-    const { username, isAdmin } = useContext(userContext);
+    const { username } = useContext(userContext);
     const navigate = useNavigate();
+    const [larp, loading, error] = useFetchLarp(parseInt(id))
 
-
-
-    useEffect(function fetchLarpOnMount() {
-        async function fetchLarp() {
-            try {
-                if (id !== undefined) {
-                    const numericId = parseInt(id);
-                    const larpDetails = await LarpAPI.getLarpById(numericId);
-
-                    if (larpDetails && (username !== larpDetails.organizer) && !isAdmin) {
-                        console.warn("Not Authorized");
-                        navigate(`/events/${id}`);
-                    }
-
-                    setLarp(larpDetails);
-                }
-            } catch (err) {
-                setSaving(false);
-                navigate('/events');
-            }
-        }
-        fetchLarp();
-
-    }, [id, navigate, isAdmin, username]);
+    if (error){
+        //TODO: create error page
+        console.error(error)
+        navigate('/events')
+    }
 
     /** Sends an API request to store a larp based on the current form values
   * Navigates to the larpDetail view upon success.
   */
     async function saveLarp(formData: Larp) {
         setSaving(true);
+        console.log("submitting:", formData)
         const savedLarp = await LarpAPI.UpdateLarp({
             ...formData,
             organizer: username!,
         });
+        console.log("response:",savedLarp)
         // if (image) {
         //     await ParsleyAPI.updateRecipeImage(image, recipe.recipeId);
         // }

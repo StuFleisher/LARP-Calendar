@@ -8,12 +8,7 @@ const LarpFormSchema = yup.object({
     .mixed<TicketStatus>()
     .oneOf(["AVAILABLE", "LIMITED", "SOLD_OUT"])
     .required('Ticket Status is required'),
-  tags: yup.array().of(
-    yup.object({
-      id: yup.number(),
-      name: yup.string(),
-    })
-  ),
+  tags: yup.string(),
   start: yup
     .date()
     .required("Start date is required")

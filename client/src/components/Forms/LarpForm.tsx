@@ -14,10 +14,10 @@ type EventFormProps = {
     deleteLarp: () => Promise<void>;
 };
 
-function EventForm({deleteLarp}:EventFormProps) {
+function EventForm({ deleteLarp }: EventFormProps) {
 
     const { values, isValid, errors } = useFormikContext<Larp>();
-    console.log("form values", values)
+    // console.log("form values", values)
     const errorMessage = (`
         Please check following fields to continue:
         ${Object.keys(errors).map(key => { return key !== "steps" ? key : null; }).join(", ")}
@@ -27,120 +27,112 @@ function EventForm({deleteLarp}:EventFormProps) {
         <>
             <Box className="RecipeForm">
                 <Form>
-                    <FastField
-                        component={FormikMuiTextField}
-                        placeholder="Name your event"
-                        // className="RecipeInfoInput-name MuiTypography-h2"
-                        name="title"
-                        id="larp-title"
-                        label="Event title"
-                        fullWidth
-                    />
-                    <Field
-                        component={FormikSelectInput}
-                        options = {[
-                            { label: "Available", value: "AVAILABLE" },
-                            { label: "Limited", value: "LIMITED" },
-                            { label: "Sold Out", value: "SOLD_OUT" },
-                        ]}
-                        // className="RecipeInfoInput-name MuiTypography-h2"
-                        placeholder={"AVAILABLE"}
-                        name="ticketStatus"
-                        id="larp-ticketStatus"
-                        label="Ticket Status"
-                    />
-                    <FastField
-                        component={FormikMuiTextField}
-                        // className="RecipeInfoInput-description"
-                        placeholder='Add a description for your event'
-                        name="description"
-                        id="larp-Description"
-                        label="Event description"
-                        fullWidth
-                        multiline
-                        minRows={3}
-                        maxRows={10}
-                    />
-                    <FastField
-                        component={FormikMuiTextField}
-                        // className="RecipeInfoInput-description"
-                        placeholder='What city will your event take place in'
-                        name="city"
-                        id="larp-city"
-                        label="City"
-                    />
-                    <FastField
-                        component={FormikMuiTextField}
-                        // className="RecipeInfoInput-description"
-                        placeholder='What country will your event take place in?'
-                        name="country"
-                        id="larp-country"
-                        label="Country"
-                    />
-                    <FastField
-                        component={FormikMuiTextField}
-                        // className="RecipeInfoInput-description"
-                        placeholder='What is the primary language for your event?'
-                        name="language"
-                        id="larp-language"
-                        label="Language"
-                    />
-                    <Field
-                        component={FormikDateTimePicker}
-                        // className="RecipeInfoInput-description"
-                        disablePast
-                        placeholder={DateTime.now()}
-                        name="start"
-                        id="larp-start"
-                        label="Start Date"
-                    />
-                    <Field
-                        component={FormikDateTimePicker}
-                        disablePast
-                        // className="RecipeInfoInput-description"
-                        placeholder={DateTime.now()}
-                        name="end"
-                        id="larp-end"
-                        label="End Date"
-                    />
+                    <Stack direction="column" spacing={2} sx={{margin:'1rem'}}>
 
-                    {/* <Button
-                        color="primary"
-                        onClick={async (e) => {
-                            e.preventDefault();
-                            deleteRecipe();
-                        }}
-                    >
-                        Delete Recipe
-                    </Button> */}
-                    <Box className="Recipe-submitButton">
-                        <Stack direction="row" alignContent="center" spacing={2}>
-                            {!isValid && <ErrorDisplay message={errorMessage} />}
+                        {/* <label htmlFor="title"><Typography variant='body2'>Event Title</Typography></label> */}
+                        <FastField
+                            component={FormikMuiTextField}
+                            placeholder="Name your event"
+                            name="title"
+                            id="larp-title"
+                            label="Event title"
+                            fullWidth
+                        />
+                        <FastField
+                            component={FormikMuiTextField}
+                            placeholder="Image URL"
+                            name="imgUrl"
+                            id="larp-imgUrl"
+                            label="Event Image Url"
+                            fullWidth
+                        />
+                        <Field
+                            component={FormikSelectInput}
+                            options={[
+                                { label: "Available", value: "AVAILABLE" },
+                                { label: "Limited", value: "LIMITED" },
+                                { label: "Sold Out", value: "SOLD_OUT" },
+                            ]}
+                            placeholder={"AVAILABLE"}
+                            name="ticketStatus"
+                            id="larp-ticketStatus"
+                            label="Ticket Status"
+                        />
+                        <FastField
+                            component={FormikMuiTextField}
+                            placeholder='Add a description for your event'
+                            name="description"
+                            id="larp-description"
+                            label="Event description"
+                            fullWidth
+                            multiline
+                            minRows={3}
+                            maxRows={10}
+                        />
+                        <FastField
+                            component={FormikMuiTextField}
+                            placeholder='What city will your event take place in'
+                            name="city"
+                            id="larp-city"
+                            label="City"
+                        />
+                        <FastField
+                            component={FormikMuiTextField}
+                            placeholder='What country will your event take place in?'
+                            name="country"
+                            id="larp-country"
+                            label="Country"
+                        />
+                        <FastField
+                            component={FormikMuiTextField}
+                            placeholder='What is the primary language for your event?'
+                            name="language"
+                            id="larp-language"
+                            label="Language"
+                        />
+                        <Field
+                            component={FormikDateTimePicker}
+                            disablePast
+                            placeholder={DateTime.now()}
+                            name="start"
+                            id="larp-start"
+                            label="Start Date"
+                        />
+                        <Field
+                            component={FormikDateTimePicker}
+                            disablePast
+                            placeholder={DateTime.now()}
+                            name="end"
+                            id="larp-end"
+                            label="End Date"
+                        />
+                        <FastField
+                            component={FormikMuiTextField}
+                            placeholder='Separate your tags using commas'
+                            name="tags"
+                            id="larp-tags"
+                            label="Tags"
+                            fullWidth
+                        />
+                        <Box className="Recipe-submitButton">
+                            <Stack direction="row" alignContent="center" spacing={2}>
+                                {!isValid && <ErrorDisplay message={errorMessage} />}
 
-                            <Button
-                                type='submit'
-                                variant="contained"
-                                color="primary"
-                                disabled={isValid ? false : true}
-                            >
-                                <Typography variant="h5">
-                                    Save Changes
-                                </Typography>
-                            </Button>
-                        </Stack>
-
-                    </Box>
-                </Form>
-                <Button
-                        color="primary"
-                        onClick={async (e) => {
-                            e.preventDefault();
-                            deleteLarp();
-                        }}
-                    >
-                        Delete Recipe
-                    </Button>
-            </Box>
+                                <Button
+                                    type='submit'
+                                    variant="contained"
+                                    color="primary"
+                                    disabled={isValid ? false : true}
+                                >
+                                    <Typography variant="h5">
+                                        Save Changes
+                                    </Typography>
+                                </Button>
+                            </Stack>
+                        </Box>
+                    </Stack>
+                </Form >
+            </Box >
         </>
 
     );
