@@ -5,6 +5,12 @@
     background-color: $dark;
     padding-left: 2rem;
 
+    a {
+        color:white;
+    }
+
+
+
     .NavBar-menuIcon {
         background-color: $secondary;
         color: $dark;
@@ -18,7 +24,7 @@
     margin: 0;
     padding:0;
 
-    
+
 
     .menuItem {
         background-color: $dark;

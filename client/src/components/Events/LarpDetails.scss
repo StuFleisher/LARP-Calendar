@@ -1,15 +1,15 @@
 @import "../../styles/colors";
 
 .LarpDetails {
-    width:325px;
-    padding: 1rem;
+    width:100%;
     // border: 1px $pale-blue solid;
     margin:0;
+    color: $dark;
 
-    .image {
+    .banner {
         width:100%;
         aspect-ratio: 7/3;
-        border-radius: 5px 5px 75px 0px;
+        // border-radius: 5px 5px 75px 0px;
         position:relative;
 
         .DurationDisplay {
@@ -17,16 +17,54 @@
             right:1rem;
             top:1rem;
         }
+
+        .organizerControls {
+            position:absolute;
+            bottom:1rem;
+            right: 1rem;
+
+            button{
+                color:white;
+            }
+        }
+    }
+
+    section {
+        padding: 1rem .5rem;
+    }
+
+    .LarpDetails-content {
+        margin:1rem;
+
+    }
+
+    .headlineDate {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .title {
+        a {
+            text-decoration: none;
+            color:$dark;
+        }
+    }
+
+    #Organizer {
+        h6 {
+            // padding: .5rem 0;
+        }
     }
 }
 
-@media(min-width:600px){
-    .LarpDetails {
-        width:550px;
-    }
-}
-@media(min-width:900px){
-    .LarpDetails {
-        width:800px;
-    }
-}
+
+// @media(min-width:600px){
+//     .LarpDetails {
+//         width:550px;
+//     }
+// }
+// @media(min-width:900px){
+//     .LarpDetails {
+//         width:800px;
+//     }
+// }

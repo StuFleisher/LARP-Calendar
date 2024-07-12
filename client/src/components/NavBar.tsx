@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Box, Stack, Menu, MenuItem } from "@mui/material";
+import { Box, Stack, Menu, MenuItem, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import './NavBar.scss';
@@ -26,8 +26,8 @@ function NavBar({props}:NavBarProps) {
     return (
         <>
             <Box className="NavBar">
-                <Stack direction="row" justifyContent='space-between'>
-                    <h2> LARP Calendar</h2>
+                <Stack direction="row" justifyContent='space-between' >
+                    <Typography variant="h2" component={NavLink} to='/'> LARP Calendar</Typography>
                     <Stack className="NavBar-menuIcon" direction="column" justifyContent='center' alignItems='center'
                         onClick={() => setShowMenu(true)}
                         // onMouseOut={()=>setShowMenu(false)}

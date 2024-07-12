@@ -1,17 +1,34 @@
-import { Box, Typography } from "@mui/material";
+import { Stack, Typography, Box } from "@mui/material";
 import { Tag } from "../../types";
 import './TagDisplay.scss';
 
 type TagDisplayProps = {
-    tag: Tag,
+    tag: Tag;
+    fontSize?: number;
 };
 
-function TagDisplay({ tag }: TagDisplayProps) {
+function TagDisplay({ tag, fontSize = 10 }: TagDisplayProps) {
     return (
-            <Typography key={tag.name} variant="details2" className="tagDisplay">
-                {tag.name}
-            </Typography>
+        <Stack
+            direction="column"
+            justifyContent="center"
+        >
+            <Box
+                className="tagDisplay"
+            >
+                <Typography
+                    // className="tagDisplay"
+                    key={tag.name}
+                    variant="details2"
+                    sx={{
+                        fontSize: fontSize,
+                    }}
+                >
+                    {tag.name}
+                </Typography>
+            </Box>
+        </Stack>
     );
 }
 
-export default TagDisplay
+export default TagDisplay;

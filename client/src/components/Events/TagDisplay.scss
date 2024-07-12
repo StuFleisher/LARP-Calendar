@@ -1,9 +1,10 @@
 @import "../../styles/colors";
 
 .tagDisplay {
-    padding-top: 0;
-    padding: 0rem .5rem ;
-    border-radius: 15px;
+    padding: .5rem ;
+    border-radius: 5px;
     background-color: $pale-blue;
+    margin:2px;
+    line-height: 0;
 }
 

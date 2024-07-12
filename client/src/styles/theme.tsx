@@ -40,7 +40,7 @@ const theme = createTheme({
             light: '#0f0f0f',
             dark: '#000000',
             contrastText: 'white',
-        },
+        }
     },
     typography: {
         fontFamily: ["Karla", ' sans-serif'].join(','),
@@ -55,9 +55,10 @@ const theme = createTheme({
         },
         h2: {
             fontFamily: `"Karla", sans-serif`,
-            fontSize: `2rem`,
+            fontSize: `1.25rem`,
             fontWeight: '900',
             padding: '1rem',
+            paddingLeft: '0',
             '@media (min-width:600px)': { fontSize: '1.25rem' },
             '@media (min-width:900px)': { fontSize: '2rem' },
             '@media (min-width:1200px)': { fontSize: '3rem' },
@@ -66,6 +67,18 @@ const theme = createTheme({
             fontFamily: `"Karla", sans-serif`,
             fontSize: "1.25rem",
             fontWeight: '700',
+            paddingLeft: '0',
+            '@media (min-width:600px)': { fontSize: '1.25rem' },
+            '@media (min-width:900px)': { fontSize: '2rem' },
+            '@media (min-width:1200px)': { fontSize: '3rem' },
+        },
+        h4: {
+            fontFamily: `"Karla", sans-serif`,
+            fontSize: "1.25rem",
+            fontWeight: '600',
+            '@media (min-width:600px)': { fontSize: '1.25rem' },
+            '@media (min-width:900px)': { fontSize: '2rem' },
+            '@media (min-width:1200px)': { fontSize: '3rem' },
         },
         subtitle1: { fontWeight: 300, fontStyle: 'italic' },
         body1: {
@@ -76,8 +89,8 @@ const theme = createTheme({
         },
         body2: {
             fontSize: '.75rem',
+            fontWeight:900,
             '@media (min-width:600px)': { fontSize: '1rem' },
-            '@media (min-width:900px)': { fontSize: '1.4rem' },
         },
         details1: {
             fontSize: 14,
@@ -85,12 +98,12 @@ const theme = createTheme({
         },
         details2: {
             fontSize: 10,
-        }
+        },
     },
     components: {
         MuiMenu: {
             defaultProps: { elevation: 0 },
-        }
+        },
     },
 });
 
