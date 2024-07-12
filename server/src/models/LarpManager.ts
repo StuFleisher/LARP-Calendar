@@ -104,6 +104,7 @@ class LarpManager {
       where: { id: newLarp.id },
       data: {
         title: newLarp.title || currentLarp.title,
+        description: newLarp.description || currentLarp.description,
         ticketStatus: newLarp.ticketStatus || currentLarp.ticketStatus,
         start: newLarp.start || currentLarp.start,
         end: newLarp.end || currentLarp.end,
