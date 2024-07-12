@@ -16,12 +16,11 @@ const localizer = luxonLocalizer(DateTime); // or globalizeLocalizer
 
 
 type CalendarProps = {
-  initialLarps: Larp[];
+  larps: Larp[];
 };
 
-function Calendar({ initialLarps }: CalendarProps) {
+function Calendar({ larps }: CalendarProps) {
 
-  const [larps, setLarps] = useState<Larp[]>(initialLarps);
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [selected, setSelected] = useState<Larp | null>(null);
 
@@ -36,7 +35,7 @@ function Calendar({ initialLarps }: CalendarProps) {
           justifyContent: "center"
         }}
       >
-        <Box>
+        <Box className="Calendar-modal">
           {selected &&
             <EventDetails
               larp={selected}
