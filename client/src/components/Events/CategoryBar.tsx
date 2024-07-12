@@ -2,14 +2,21 @@ import { Stack, Box, Typography } from "@mui/material";
 import { Larp } from "../../types";
 import LarpCard from "./LarpCard";
 import "./CategoryBar.scss";
+import { useFetchLarps } from "../../hooks/useFetchLarps";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 type CategoryBarProps = {
     title: string;
-    larps: Larp[];
+    // filterObject: any;
 };
 
-function CategoryBar({ title, larps }: CategoryBarProps) {
+function CategoryBar({ title }: CategoryBarProps) {
 
+    const [larps, loading, error] = useFetchLarps();
+
+    if (error) {
+        console.warn("Error loading larps from", title);
+    }
     return (
         <Box
             className="CategoryBar"
@@ -23,10 +30,15 @@ function CategoryBar({ title, larps }: CategoryBarProps) {
                 direction="row"
                 spacing={1}
             >
-                {larps.map((larp) => (
-                    <LarpCard larp={larp} key={larp.id} />
-                ))}
-
+                {
+                    loading
+                        ?
+                        <LoadingSpinner />
+                        :
+                        larps.map((larp) => (
+                            <LarpCard larp={larp} key={larp.id} />
+                        ))
+                }
             </Stack>
         </Box>
     );
