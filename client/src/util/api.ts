@@ -124,7 +124,7 @@ class LarpAPI {
   static async createLarp(larp: LarpForCreate): Promise<Larp> {
 
     const response = await this.request('events', larp, 'post');
-    return response.larp;
+    return JsonToLarp(response.larp);
   }
 
 
