@@ -47,12 +47,6 @@ function EditLarpPage() {
         navigate(`/events/${savedLarp.id}`);
     }
 
-     /** Callback to delete a larp and update the record */
-     async function deleteLarp(): Promise<void> {
-        console.log("deleteLarp");
-        await LarpAPI.DeleteLarp(larp!.id);
-        navigate(`/events/`);
-    }
 
     return (
         !larp
@@ -68,7 +62,7 @@ function EditLarpPage() {
                     </Modal>
                 }
                 <LarpFormProvider<Larp> onSubmitCallback={saveLarp} larp={larp}>
-                    <EventForm deleteLarp={deleteLarp}/>
+                    <EventForm/>
                 </LarpFormProvider>
             </>
     );

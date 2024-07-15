@@ -17,7 +17,7 @@ function LarpFormProvider<T extends Larp | LarpForCreate | LarpForUpdate>(
 ) {
 
   function joinTags(tags:Tag[] | undefined):string | undefined{
-    if (!tags || tags.length===0) return;
+    if (!tags || tags.length===0) return "";
 
     const tagString = tags.reduce((accumulator, current)=>{
       if (accumulator==="") return current.name;

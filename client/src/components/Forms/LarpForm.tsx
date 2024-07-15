@@ -10,11 +10,10 @@ import ErrorDisplay from "../FormComponents/ErrorDisplay";
 import { FastField, Field } from "formik";
 import { DateTime } from "luxon";
 
-type EventFormProps = {
-    deleteLarp: () => Promise<void>;
-};
+// type EventFormProps = {
+// };
 
-function EventForm({ deleteLarp }: EventFormProps) {
+function EventForm() {
 
     const { values, isValid, errors } = useFormikContext<Larp>();
     // console.log("form values", values)
