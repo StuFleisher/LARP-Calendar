@@ -37,8 +37,8 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                     (larp.organizer === username) || isAdmin === true
                         ?
                         <Stack direction="row" className="organizerControls">
-                            <EditLarpButton />
-                            <DeleteLarpButton />
+                            {EditLarpButton}
+                            {DeleteLarpButton}
                         </Stack>
                         :
                         <></>

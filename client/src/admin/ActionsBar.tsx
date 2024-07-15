@@ -10,12 +10,12 @@ type ActionsBarProps = {
 function ActionsBar({ larp }: ActionsBarProps) {
     // console.log(larp)
 
-    const { DeleteLarpButton, EditLarpButton } = useLarpControls(larp.id, true);
+    const { DeleteLarpButton, EditLarpButton } = useLarpControls(larp.id);
 
     return (
         <Stack direction="row" >
-            <EditLarpButton/>
-            <DeleteLarpButton/>
+            {EditLarpButton}
+            {DeleteLarpButton}
         </Stack>
     );
 
