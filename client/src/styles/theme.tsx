@@ -88,9 +88,8 @@ const theme = createTheme({
             },
         },
         body2: {
-            fontSize: '.75rem',
-            fontWeight:900,
-            '@media (min-width:600px)': { fontSize: '1rem' },
+            fontSize: '.6rem',
+            '@media (min-width:600px)': { fontSize: '.75rem' },
         },
         details1: {
             fontSize: 14,

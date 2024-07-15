@@ -9,6 +9,7 @@ import LoginForm from "./components/Forms/LoginForm";
 import { UserForCreate, UserLoginData } from "./types";
 import LarpDetailPage from "./views/LarpDetailPage";
 import LarpListPage from "./views/LarpListPage";
+import AdminRoutes from "./admin/AdminRoutes";
 
 
 type RoutesListProps = {
@@ -41,6 +42,8 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
 
     const adminRoutes = (
         <>
+            <Route path='/admin/*' element={<AdminRoutes />} />
+
         </>
     );
 

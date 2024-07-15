@@ -19,6 +19,7 @@
     "@fortawesome/react-fontawesome": "^0.2.1",
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
+    "@mui/x-data-grid": "^7.10.0",
     "@mui/x-date-pickers": "^7.8.0",
     "@types/material-ui": "^0.21.17",
     "@types/yup": "^0.32.0",
