@@ -4,7 +4,7 @@ import { useFetchLarps } from "../hooks/useFetchLarps";
 
 
 function LarpListPage() {
-    const [larps, loading, error] = useFetchLarps();
+    const {larps, loading, error} = useFetchLarps();
 
     return (
         <>

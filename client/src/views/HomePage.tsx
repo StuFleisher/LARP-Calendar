@@ -7,7 +7,7 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 function HomePage() {
 
-    const [larps, loading, error] = useFetchLarps();
+    const {larps, loading, error} = useFetchLarps();
 
     return (
         <>

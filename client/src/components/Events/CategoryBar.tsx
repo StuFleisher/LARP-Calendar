@@ -12,7 +12,7 @@ type CategoryBarProps = {
 
 function CategoryBar({ title }: CategoryBarProps) {
 
-    const [larps, loading, error] = useFetchLarps();
+    const {larps, loading, error} = useFetchLarps();
 
     if (error) {
         console.warn("Error loading larps from", title);

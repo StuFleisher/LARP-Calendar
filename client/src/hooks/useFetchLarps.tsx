@@ -2,9 +2,14 @@ import { useEffect, useState } from "react";
 import { Larp } from "../types";
 import LarpAPI from "../util/api";
 
+type FetchLarpsResult = {
+    larps:Larp[],
+    setLarps: React.Dispatch<React.SetStateAction<Larp[]>>,
+    loading:boolean,
+    error:any,
+}
 
-
-function useFetchLarps( filterObject:Partial<Larp> = {}):[Larp[], boolean, any] {
+function useFetchLarps( filterObject:Partial<Larp> = {}):FetchLarpsResult {
     const [larps, setLarps] = useState<Larp[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<any>();
@@ -25,7 +30,12 @@ function useFetchLarps( filterObject:Partial<Larp> = {}):[Larp[], boolean, any] 
         fetchLarps();
     }, [setLarps]);
 
-    return [ larps, loading, error ];
+    // return [ larps, loading, error ];
+    return {
+        larps,
+        setLarps,
+        loading,
+        error };
 }
 
 

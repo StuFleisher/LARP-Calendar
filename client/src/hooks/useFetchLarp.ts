@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import { Larp } from "../types";
 import LarpAPI from "../util/api";
 
+type FetchLarpsResult = {
+  larp:Larp | null,
+  setLarp: React.Dispatch<React.SetStateAction<Larp | null>>,
+  loading:boolean,
+  error:any,
+}
 
-function useFetchLarp(id: number): [Larp | null, boolean, any] {
+function useFetchLarp(id: number): FetchLarpsResult {
   const [larp, setLarp] = useState<Larp | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>();
@@ -23,7 +29,7 @@ function useFetchLarp(id: number): [Larp | null, boolean, any] {
     fetchLarp();
   }, [setLarp, id]);
 
-  return [larp, loading, error];
+  return {larp, setLarp, loading, error};
 }
 
 

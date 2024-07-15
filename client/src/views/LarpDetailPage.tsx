@@ -14,7 +14,7 @@ function LarpDetailPage (){
         throw new Error("Id is required in url params to load event details")
     }
 
-    const [larp, loading, error] = useFetchLarp(parseInt(id))
+    const {larp, loading, error} = useFetchLarp(parseInt(id))
     const { username } = useContext(userContext);
 
     if (error){

@@ -22,7 +22,7 @@ function EditLarpPage() {
     const [saving, setSaving] = useState(false);
     const { username } = useContext(userContext);
     const navigate = useNavigate();
-    const [larp, loading, error] = useFetchLarp(parseInt(id))
+    const {larp, loading, error} = useFetchLarp(parseInt(id))
 
     if (error){
         //TODO: create error page
