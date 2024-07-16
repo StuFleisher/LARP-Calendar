@@ -24,28 +24,9 @@ function JSDateToLuxon(jsDate: Date):DateTime {
   return DateTime.fromJSDate(jsDate);
 }
 
-// function LuxonLarpToJSDateLarp(luxonLarp:Larp):LarpWithJSDates{
-//   return {
-//     ...luxonLarp,
-//     start: LuxonToJSDate(luxonLarp.start),
-//     end: LuxonToJSDate(luxonLarp.end)
-//   }
-// }
-
-// function JSDateLarptoLuxonLarp(jsDateLarp:LarpWithJSDates):Larp{
-//   return {
-//     ...jsDateLarp,
-//     start: JSDateToLuxon(jsDateLarp.start),
-//     end: JSDateToLuxon(jsDateLarp.end)
-//   }
-// }
-
-
 
 export {
   JsonToLarp,
-  // LuxonLarpToJSDateLarp,
-  // JSDateLarptoLuxonLarp,
   JSDateToLuxon,
   LuxonToJSDate,
 }
