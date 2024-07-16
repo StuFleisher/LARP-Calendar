@@ -1,5 +1,5 @@
 import { useFetchLarps } from "../hooks/useFetchLarps";
-import { Box, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
@@ -64,7 +64,7 @@ function LarpsDashboard() {
             getActions: (params) => {
                 return [
                         <DeleteLarpButton handleDelete={()=>handleDelete(params.row.id)}/>,
-                        <EditLarpButton handleClick={()=>navigate(`/events/${params.row.id}/edit`)}/>,
+                        <EditLarpButton handleClick={()=>navigate(`${params.row.id}`)}/>,
                         <IconButton onClick={()=>{handleDuplicate(params.row.id)}}><FontAwesomeIcon icon={faCopy}/></IconButton>
                 ];
             }
@@ -79,9 +79,7 @@ function LarpsDashboard() {
 
 
     return (
-        <Box sx={{ height: '90vh' }}>
             <DataGrid columns={columns} rows={rows} />
-        </Box>
     );
 
 }

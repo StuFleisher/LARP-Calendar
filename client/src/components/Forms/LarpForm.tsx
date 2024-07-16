@@ -24,7 +24,11 @@ function EventForm() {
 
     return (
         <>
-            <Box className="RecipeForm">
+            <Box className="RecipeForm"
+                sx={{
+                    width:'100%'
+                }}
+            >
                 <Form>
                     <Stack direction="column" spacing={2} sx={{margin:'1rem'}}>
 
