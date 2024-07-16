@@ -16,23 +16,23 @@ function LarpFormProvider<T extends Larp | LarpForCreate | LarpForUpdate>(
   { larp, onSubmitCallback, children }: Props<T>
 ) {
 
-  function joinTags(tags:Tag[] | undefined):string | undefined{
-    if (!tags || tags.length===0) return "";
+  function joinTags(tags: Tag[] | undefined): string | undefined {
+    if (!tags || tags.length === 0) return "";
 
-    const tagString = tags.reduce((accumulator, current)=>{
-      if (accumulator==="") return current.name;
-      return `${accumulator}, ${current.name}`
-    },"")
+    const tagString = tags.reduce((accumulator, current) => {
+      if (accumulator === "") return current.name;
+      return `${accumulator}, ${current.name}`;
+    }, "");
     return tagString;
   }
 
-  function modelToFormValues(larp:T){
+  function modelToFormValues(larp: T) {
     return {
       ...larp,
-      tags: larp.tags ?joinTags(larp.tags) : undefined,
+      tags: joinTags(larp.tags),
       start: larp.start ? JSDateToLuxon(larp.start) : undefined,
       end: larp.end ? JSDateToLuxon(larp.end) : undefined,
-    }
+    };
   }
 
   // function convertToJSDates(values:any):T{
@@ -43,20 +43,24 @@ function LarpFormProvider<T extends Larp | LarpForCreate | LarpForUpdate>(
   //   }
   // }
 
-  function splitTags(tagString:string):Partial<Tag>[]{
-    const tags =  tagString.split(',');
-    return tags.map((tag)=> {
-      return {name: tag.trim()}
-    })
+  function splitTags(tagString: string): Partial<Tag>[] {
+    if (!tagString || tagString.trim() === "") return [];
+    const splitTags = tagString.split(',');
+    const filteredTags = splitTags.filter((tag) => tag.trim().length > 0);
+    const tags = filteredTags.map((tag) => {
+      return { name: tag.trim().toLowerCase() };
+    });
+
+    return tags;
   }
 
-  function formValuesToLarp(values:any):T{
+  function formValuesToLarp(values: any): T {
     return {
       ...values,
       start: values.start ? LuxonToJSDate(values.start) : undefined,
       end: values.end ? LuxonToJSDate(values.end) : undefined,
-      tags: values.tags ? splitTags(values.tags) : undefined,
-    }
+      tags: splitTags(values.tags),
+    };
   }
 
   return (
