@@ -34,13 +34,12 @@ function EditLarpPage() {
   * Navigates to the larpDetail view upon success.
   */
     async function saveLarp(formData: Larp) {
+        console.log(formData)
         setSaving(true);
-        console.log("submitting:", formData)
         const savedLarp = await LarpAPI.UpdateLarp({
             ...formData,
             organizer: username!,
         });
-        console.log("response:",savedLarp)
         // if (image) {
         //     await ParsleyAPI.updateRecipeImage(image, recipe.recipeId);
         // }
