@@ -19,23 +19,22 @@ enum TicketStatus {
   SOLD_OUT
 }
 
-
 model Larp {
-  id            Int          @id @default(autoincrement())
-  title         String       @default("") @db.VarChar(500)
-  ticketStatus  TicketStatus
-  start         DateTime
-  end           DateTime
-  allDay        Boolean      @map("all_day")
-  imgUrl        String       @default("") @map("img_url") @db.VarChar(500)
-  city          String       @default("") @db.VarChar(100)
-  country       String       @default("") @db.VarChar(100)
-  language      String       @default("") @db.VarChar(100)
-  description   String       @default("")
-  organizerUser User         @relation(fields: [organizer], references: [username])
-  organizer     String
-  eventUrl      String       @default("") @map("event_url") @db.VarChar(500)
-  tags          Tag[]
+  id           Int          @id @default(autoincrement())
+  title        String       @default("") @db.VarChar(500)
+  ticketStatus TicketStatus
+  start        DateTime
+  end          DateTime
+  allDay       Boolean      @map("all_day")
+  imgUrl       String       @default("") @map("img_url") @db.VarChar(500)
+  city         String       @default("") @db.VarChar(100)
+  country      String       @default("") @db.VarChar(100)
+  language     String       @default("") @db.VarChar(100)
+  description  String       @default("")
+  eventUrl     String       @default("") @map("event_url") @db.VarChar(500)
+  tags         Tag[]
+  organization Organization @relation(fields: [orgId], references: [id])
+  orgId        Int
 
   @@map("larps")
 }
@@ -48,15 +47,29 @@ model Tag {
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
-  username    String  @unique @db.VarChar(25)
-  password    String  @db.VarChar(200)
-  firstName   String  @db.VarChar(100)
-  lastName    String  @db.VarChar(100)
-  email       String  @unique @db.VarChar(100)
-  isAdmin     Boolean
-  isOrganizer Boolean
-  larps       Larp[]
+  id           Int           @id @default(autoincrement())
+  username     String        @unique @db.VarChar(25)
+  password     String        @db.VarChar(200)
+  firstName    String        @db.VarChar(100)
+  lastName     String        @db.VarChar(100)
+  email        String        @unique @db.VarChar(100)
+  isAdmin      Boolean
+  organization Organization?
 
   @@map("users")
+}
+
+model Organization {
+  id          Int     @id @default(autoincrement())
+  user        User    @relation(fields: [username], references: [username])
+  username    String  @unique
+  orgName     String  @db.VarChar(100)
+  orgUrl      String  @default("") @map("org_url") @db.VarChar(500)
+  imgUrl      String  @default("") @map("img_url") @db.VarChar(500)
+  description String
+  email       String  @unique @db.VarChar(100)
+  isApproved  Boolean
+  larps       Larp[]
+
+  @@map("organizations")
 }

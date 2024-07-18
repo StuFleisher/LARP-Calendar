@@ -27,6 +27,9 @@ export default function LarpCard({ larp }: LarpCardProps) {
         <Stack
             className='LarpCard'
             direction="column"
+            sx={{
+                width:'300px'
+            }}
         >
 
             <Link
@@ -114,7 +117,7 @@ export default function LarpCard({ larp }: LarpCardProps) {
                     >
                         <FontAwesomeIcon icon={faGlobe} />
                         <Typography variant="details2">
-                            {larp.organizer}
+                            {larp.organization.orgName}
                         </Typography>
                     </Stack>
                 </Box>

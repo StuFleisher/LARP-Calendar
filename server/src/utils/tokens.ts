@@ -8,12 +8,12 @@ import { PublicUser, User, UserForCreate } from "../types";
 function createToken(user:PublicUser) {
   console.assert(user.isAdmin !== undefined,
       "createToken passed user without isAdmin property");
-  console.assert(user.isOrganizer !== undefined,
-      "createToken passed user without isOrganizer property");
+  console.assert(user.organization && user.organization.isApproved !== (null||undefined),
+      "createToken passed user without an approved organizer");
 
   let payload = {
     username: user.username,
-    isOrganizer: user.isOrganizer || false,
+    isOrganizer: user.organization?.isApproved || false,
     isAdmin: user.isAdmin || false,
   };
 

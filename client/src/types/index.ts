@@ -7,6 +7,7 @@ export type Tag = {
   name: string;
 };
 
+/*************************** LARPS */
 export type TicketStatus =  "AVAILABLE" |  "LIMITED" |  "SOLD_OUT";
 
 export type LarpForCreate = {
@@ -21,15 +22,19 @@ export type LarpForCreate = {
   country: string,
   language: string,
   description: string,
-  organizer: string,
+  orgId: number,
   eventUrl: string,
 }
 
 export type Larp = LarpForCreate & {
-  id: number
+  id: number;
+  organization: Organization
 }
 
-export type LarpForUpdate = PartialWithRequired<Larp, 'id'>
+export type LarpForUpdate = Omit<
+  PartialWithRequired<Larp, 'id'>,
+  'organization'
+>
 
 export type LarpAsJSON = LarpForCreate & {
   id?:number,
@@ -37,10 +42,12 @@ export type LarpAsJSON = LarpForCreate & {
   end: string,
 }
 
-// export type LarpWithJSDates = Omit<Larp, 'start' | 'end'> & {
-//   start: Date;
-//   end: Date;
-// };
+/*************************** USERS */
+
+export type UserLoginData = {
+  username: string,
+  password: string,
+};
 
 export type UserForCreate = {
   username: string,
@@ -48,19 +55,40 @@ export type UserForCreate = {
   firstName: string,
   lastName: string,
   email: string,
-  isOrganizer: boolean,
   isAdmin: boolean,
 };
 
 export type User = UserForCreate & {
   id: number;
+  organization:Organization | null;
 };
 
-export type UserLoginData = {
-  username: string,
-  password: string,
-};
 
 export type PublicUser = Omit<User,'password'>
 
-export type UserForUpdate = PartialWithRequired<User, 'id' | 'username' >
+export type UserForUpdate = (
+  PartialWithRequired<
+    Omit<
+      User,
+      'organization'
+    >,
+    'id' | 'username'
+  >)
+
+/*************************** ORGANIZATIONS */
+
+export type OrganizationForCreate = {
+  username: string;
+  orgName: string;
+  orgUrl: string;
+  imgUrl: string;
+  description: string;
+  email: string;
+};
+
+export type Organization = OrganizationForCreate & {
+  isApproved: boolean;
+  id: number;
+};
+
+export type OrganizationForUpdate = PartialWithRequired<Organization, 'id'>;

@@ -6,7 +6,7 @@ const mockPrisma = prisma as unknown as DeepMockProxy<PrismaClient>;
 import LarpManager from '../LarpManager';
 import { Larp, LarpForCreate, LarpForUpdate } from '../../types';
 import { BadRequestError, NotFoundError } from '../../utils/expressError';
-import { testLarp, testTag } from '../../test/testLarpData';
+import { testLarp, testLarpForCreate, testTag } from '../../test/testLarpData';
 import { DeepMockProxy } from 'jest-mock-extended';
 import { PrismaClient } from '@prisma/client';
 
@@ -17,19 +17,19 @@ describe("Test post events/", function () {
   test("Works", async function () {
 
     //set up mocks
-    mockPrisma.larp.create.mockResolvedValueOnce(testLarp);
+    mockPrisma.larp.create.mockResolvedValueOnce({...testLarp});
     mockPrisma.larp.findUniqueOrThrow.mockResolvedValueOnce(testLarp);
 
     //run test
-    const { id, tags, ...testLarpForCreate} = testLarp;
+    const { tags, ...testLarpForCreateProps} = testLarpForCreate;
     const larp = await LarpManager.createLarp({
-        ...testLarpForCreate,
+        ...testLarpForCreateProps,
         tags
       });
 
     expect(mockPrisma.larp.create).toHaveBeenCalledWith({
       "data": {
-        ...testLarpForCreate,
+        ...testLarpForCreateProps,
         "tags": {
           "connectOrCreate":[{
             "where":{"name":testTag.name},

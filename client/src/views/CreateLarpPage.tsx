@@ -25,7 +25,7 @@ const emptyLarp:LarpForCreate = {
   country: "",
   language: "",
   description: "",
-  organizer: "",
+  orgId: 0,
   eventUrl: "",
 }
 
@@ -33,7 +33,7 @@ function NewLarpPage({initialLarp = emptyLarp}:NewLarpPageProps) {
 
     const [larp, setLarp] = useState<LarpForCreate>(initialLarp);
 
-    const { username } = useContext(userContext);
+    const { organization } = useContext(userContext);
     const navigate = useNavigate();
 
 
@@ -43,7 +43,7 @@ function NewLarpPage({initialLarp = emptyLarp}:NewLarpPageProps) {
        async function saveLarp(formData: LarpForCreate) {
         const savedLarp = await LarpAPI.createLarp({
             ...formData,
-            organizer: username!,
+            orgId: organization!.id,
         });
         // if (image) {
         //     await ParsleyAPI.updateRecipeImage(image, recipe.recipeId);

@@ -28,7 +28,7 @@ const LarpFormSchema = yup.object({
   country: yup.string().required("Please specify a country").max(100),
   language: yup.string().required("Please specify a language").max(100),
   description: yup.string().required("Description is required"),
-  organizer: yup.string(),
+  orgId: yup.number().required(),
   eventUrl: yup.string().url().max(500),
 });
 

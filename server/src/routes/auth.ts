@@ -10,6 +10,7 @@ import { BadRequestError } from '../utils/expressError';
 import { createToken } from "../utils/tokens";
 
 import UserManager from '../models/UserManager';
+import { UserForCreate } from "../types";
 
 router.post("/error", async ()=>{
   throw new BadRequestError("test error");
@@ -69,9 +70,8 @@ router.post("/register", async function (
   }
 
   const newUser = await UserManager.register({
-    ...req.body,
-    isAdmin: false, 
-    isOrganizer:false
+    ...req.body as Omit<UserForCreate,'isAdmin'>,
+    isAdmin: false,
   });
   const token = createToken(newUser);
   return res.status(201).json({ token });

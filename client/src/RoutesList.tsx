@@ -19,8 +19,8 @@ type RoutesListProps = {
 };
 
 function RoutesList({ login, register, logout }: RoutesListProps) {
-    const { username, isAdmin, isOrganizer } = useContext(userContext);
-
+    const { username, isAdmin, organization } = useContext(userContext);
+    const isOrganizer = organization?.isApproved;
 
     const anonRoutes = (
         <>

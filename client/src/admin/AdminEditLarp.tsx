@@ -18,7 +18,7 @@ function AdminEditLarp() {
     }
 
     const [saving, setSaving] = useState(false);
-    const { username } = useContext(userContext);
+    const { organization } = useContext(userContext);
     const navigate = useNavigate();
     const { larp, setLarp, loading, error } = useFetchLarp(parseInt(id));
 
@@ -36,7 +36,7 @@ function AdminEditLarp() {
         setSaving(true);
         const savedLarp = await LarpAPI.UpdateLarp({
             ...formData,
-            organizer: username!,
+            orgId: organization!.id,
         });
         setLarp(savedLarp);
         setSaving(false);

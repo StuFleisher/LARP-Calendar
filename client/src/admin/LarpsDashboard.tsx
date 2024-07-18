@@ -8,7 +8,8 @@ import AvailabilityIcon from "./AvailabilityIcon";
 import LarpAPI from "../util/api";
 import DeleteLarpButton from "../components/FormComponents/DeleteLarpButton";
 import EditLarpButton from "../components/FormComponents/EditLarpButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as NavLink } from "react-router-dom";
+import { Link } from "@mui/material";
 
 function LarpsDashboard() {
     const { larps, setLarps, loading, error } = useFetchLarps();
@@ -21,18 +22,27 @@ function LarpsDashboard() {
         ));
     }
 
-    async function handleDuplicate(id:number) {
+    async function handleDuplicate(id: number) {
         const fetchedLarp = await LarpAPI.getLarpById(id);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {id:_,...larpForCreate} = fetchedLarp;
+        const { id: _, organization, ...larpForCreate } = fetchedLarp;
         const createdLarp = await LarpAPI.createLarp(larpForCreate);
-        setLarps(()=>[...larps, createdLarp])
+        setLarps(() => [...larps, createdLarp]);
     }
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'Id', width: 50 },
         { field: 'title', headerName: 'Title', flex: 1, },
-        { field: 'organizer', headerName: 'Organizer' },
+        {
+            field: 'organization', headerName: 'Organization',
+            renderCell: (params) => {
+                return (
+                    <Link component={NavLink} to={`/admin/organizations/${params.value.id}`}>
+                        {params.value.orgName}
+                    </Link>
+                )
+            },
+        },
         {
             field: 'start', headerName: 'Start', type: "date",
             renderCell: (params) => {
@@ -60,13 +70,13 @@ function LarpsDashboard() {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
-            width:200,
+            width: 200,
             getActions: (params) => {
                 return [
-                        <DeleteLarpButton handleDelete={()=>handleDelete(params.row.id)}/>,
-                        <EditLarpButton handleClick={()=>navigate(`${params.row.id}`)}/>,
-                        <IconButton onClick={()=>{handleDuplicate(params.row.id)}}><FontAwesomeIcon icon={faCopy}/></IconButton>
-                ];
+                    <DeleteLarpButton handleDelete={() => handleDelete(params.row.id)} />,
+                    <EditLarpButton handleClick={() => navigate(`${params.row.id}`)} />,
+                    <IconButton onClick={() => { handleDuplicate(params.row.id); }}><FontAwesomeIcon icon={faCopy} /></IconButton>
+                ]
             }
         },
     ];
@@ -79,7 +89,7 @@ function LarpsDashboard() {
 
 
     return (
-            <DataGrid columns={columns} rows={rows} />
+        <DataGrid columns={columns} rows={rows} />
     );
 
 }

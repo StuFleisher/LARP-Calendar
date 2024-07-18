@@ -1,5 +1,6 @@
 import { User } from '../types';
 import { createToken } from '../utils/tokens';
+import { testOrganization } from './testOrgData';
 
 const testUser:User = {
   id:1,
@@ -8,7 +9,7 @@ const testUser:User = {
   firstName:"testUser-first",
   lastName:"testUser-last",
   email:"testUser@test.com",
-  isOrganizer:false,
+  organization:null,
   isAdmin:false,
 }
 const userToken = createToken(testUser)
@@ -20,7 +21,7 @@ const testOrganizerUser:User = {
   firstName:"testOrganizerUser-first",
   lastName:"testOrganizerUser-last",
   email:"testOrganizerUser@test.com",
-  isOrganizer:true,
+  organization: testOrganization,
   isAdmin:false,
 }
 const organizerToken = createToken(testOrganizerUser)
@@ -32,12 +33,13 @@ const testAdminUser:User = {
   firstName:"testAdminUser-first",
   lastName:"testAdminUser-last",
   email:"testAdminUser@test.com",
-  isOrganizer:true,
+  organization:null,
   isAdmin:true,
 }
 const adminToken = createToken(testAdminUser)
 
 export {
+  testOrganization,
   testUser,
   userToken,
   testOrganizerUser,

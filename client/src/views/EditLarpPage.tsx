@@ -1,14 +1,13 @@
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Modal, Box } from "@mui/material";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import EventForm from "../components/Forms/LarpForm";
 import LarpAPI from "../util/api";
-import { Larp } from "../types";
+import { LarpForUpdate } from "../types";
 
 import { LarpFormProvider } from "../context/LarpFormProvider";
-import { userContext } from "../context/userContext";
 import { useFetchLarp } from "../hooks/useFetchLarp";
 
 
@@ -20,9 +19,19 @@ function EditLarpPage() {
     }
 
     const [saving, setSaving] = useState(false);
-    const { username } = useContext(userContext);
     const navigate = useNavigate();
     const {larp, loading, error} = useFetchLarp(parseInt(id))
+
+
+    function larpToLarpForUpdate():LarpForUpdate | null{
+        if (larp){
+            const {orgId, organization, ...larpForUpdate} = larp;
+            return larpForUpdate
+        }
+        return null;
+    }
+    const larpForUpdate = larpToLarpForUpdate();
+
 
     if (error){
         //TODO: create error page
@@ -33,12 +42,11 @@ function EditLarpPage() {
     /** Sends an API request to store a larp based on the current form values
   * Navigates to the larpDetail view upon success.
   */
-    async function saveLarp(formData: Larp) {
+    async function saveLarp(formData: LarpForUpdate) {
         console.log(formData)
         setSaving(true);
         const savedLarp = await LarpAPI.UpdateLarp({
             ...formData,
-            organizer: username!,
         });
         // if (image) {
         //     await ParsleyAPI.updateRecipeImage(image, recipe.recipeId);
@@ -60,7 +68,7 @@ function EditLarpPage() {
                         </Box>
                     </Modal>
                 }
-                <LarpFormProvider<Larp> onSubmitCallback={saveLarp} larp={larp}>
+                <LarpFormProvider<LarpForUpdate> onSubmitCallback={saveLarp} larp={larpForUpdate!}>
                     <EventForm/>
                 </LarpFormProvider>
             </>

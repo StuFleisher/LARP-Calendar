@@ -52,7 +52,12 @@ function CalendarEvent(props: EventProps<Larp>) {
                     width: '250px'
                 }}
             >
-                <Card>
+                <Card
+                    sx={{
+                        minWidth:'300px',
+                        // margin:'1rem'
+                    }}
+                >
                     <LarpCard larp={event} />
                 </Card>
             </Popper>

@@ -32,7 +32,7 @@ function LarpDetailPage (){
                     :
                     <>
                         <LarpDetails larp={larp} />
-                        {username !== larp.organizer ? "" : <Link to={`/events/${larp.id}/edit`}> Edit this Event</Link>}
+                        {username !== larp.organization.username ? "" : <Link to={`/events/${larp.id}/edit`}> Edit this Event</Link>}
                     </>}
             </>
     );

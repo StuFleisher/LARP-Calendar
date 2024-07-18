@@ -34,7 +34,7 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                 }}
             >
                 {
-                    (larp.organizer === username) || isAdmin === true
+                    (larp.organization.username === username) || isAdmin === true
                         ?
                         <Stack direction="row" className="organizerControls">
                             {EditLarpButton}
@@ -81,7 +81,7 @@ function LarpDetails({ larp }: LarpDetailsProps) {
 
                 <Box className="filled-light">
                     <Typography>
-                        Hosted By: {larp.organizer}
+                        Hosted By: {larp.organization.orgName}
                     </Typography>
                     <Typography
                         // color={ticketColor}
@@ -161,7 +161,7 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                     </Typography>
                     <section>
 
-                        <Typography variant="h6" component="h6">{larp.organizer}</Typography>
+                        <Typography variant="h6" component="h6">{larp.organization.orgName}</Typography>
                         <Typography component="a" href="#">
                             placeholderurl
                         </Typography>

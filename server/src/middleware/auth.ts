@@ -87,24 +87,6 @@ function ensureCorrectUserOrAdmin(req: Request, res: Response, next: NextFunctio
   throw new UnauthorizedError();
 }
 
-/** Middleware to use when user must provide a valid token & be user matching
- *  username property within the request body.
- *
- *  If not, raises Unauthorized.
- */
-function ensureMatchingUsernameOrAdmin(
-  req: Request, res: Response, next: NextFunction
-){
-  const user = res.locals.user;
-  const username = res.locals.user?.username;
-  if (username && (username === req.body.username || user.isAdmin === true)) {
-    return next();
-  }
-
-  console.log("unauth")
-  throw new UnauthorizedError();
-}
-
 
 /** Middleware to use when they must provide a valid token & be the registered
  * owner of the Larp found in the url params.
@@ -117,7 +99,7 @@ async function ensureOwnerOrAdmin(
   const user = res.locals.user;
   const username = res.locals.user?.username;
   const larp=await LarpManager.getLarpById(+req.params.id)
-  if (username && (username === larp.organizer || user.isAdmin === true)) {
+  if (username && (username === larp.organization.username || user.isAdmin === true)) {
     return next();
   }
 
@@ -132,6 +114,5 @@ export {
   ensureAdmin,
   ensureOrganizer,
   ensureCorrectUserOrAdmin,
-  ensureMatchingUsernameOrAdmin,
   ensureOwnerOrAdmin,
 };

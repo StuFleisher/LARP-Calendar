@@ -1,12 +1,13 @@
 import React from "react";
+import { Organization } from "../types";
 
 export type NullableUser = {
   username: string | null,
   firstName: string | null,
   lastName: string | null,
   email: string | null,
-  isOrganizer: boolean | null,
   isAdmin: boolean | null,
+  organization: Organization | null,
 }
 
 const userContext = React.createContext<NullableUser>({
@@ -15,7 +16,7 @@ const userContext = React.createContext<NullableUser>({
   lastName: null,
   email:null,
   isAdmin: null,
-  isOrganizer: null,
+  organization: null,
 });
 
 const ANON_USER: NullableUser = {
@@ -24,7 +25,7 @@ const ANON_USER: NullableUser = {
   lastName: null,
   email: null,
   isAdmin: null,
-  isOrganizer: null,
+  organization: null,
 };
 
 export {userContext, ANON_USER}

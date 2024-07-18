@@ -55,10 +55,8 @@
       "description":{
         "type":"string"
       },
-      "organizer":{
-        "type":"string",
-        "minLength":1,
-        "maxLength": 100
+      "orgId":{
+        "type":"number"
       },
       "eventUrl":{
         "type":"string",
@@ -78,7 +76,7 @@
       "country",
       "language",
       "description",
-      "organizer",
+      "orgId",
       "eventUrl"
     ]
   }

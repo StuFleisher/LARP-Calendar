@@ -6,13 +6,16 @@ import { Tag } from '../types';
 class LarpManager {
 
   static async createLarp(
-    larpData: LarpForCreate
+    larpData: LarpForCreate,
   ): Promise<Larp> {
-    const { tags, ...data } = larpData;
+    const { tags, orgId, ...data } = larpData;
 
-    const larp:Larp = await prisma.larp.create({
+    const larp: Larp = await prisma.larp.create({
       data: {
         ...data,
+        organization: {
+          connect: { id: orgId }
+        },
         tags: {
           connectOrCreate:
             tags.map((tag: Tag) => (
@@ -23,7 +26,10 @@ class LarpManager {
             ))
         }
       },
-      include: { tags: true }
+      include: {
+        tags: true,
+        organization: true
+      }
     });
 
     return larp;
@@ -35,7 +41,7 @@ class LarpManager {
       return await prisma.larp.findMany(
         {
           orderBy: { start: 'asc' },
-          include: { tags: true }
+          include: { tags: true, organization: true }
         }
       );
     }
@@ -69,7 +75,7 @@ class LarpManager {
     return await prisma.larp.findMany(
       {
         orderBy: { start: 'asc' },
-        include: { tags: true }
+        include: { tags: true, organization: true }
       }
     );
   }
@@ -82,7 +88,8 @@ class LarpManager {
           id: id
         },
         include: {
-          tags: true
+          tags: true,
+          organization: true,
         }
       });
       return larp;
@@ -96,9 +103,9 @@ class LarpManager {
   static async updateLarp(newLarp: LarpForUpdate): Promise<Larp> {
 
     const currentLarp = await prisma.larp.findUniqueOrThrow({
-      where:{id:newLarp.id},
-      include:{tags:true},
-    })
+      where: { id: newLarp.id },
+      include: { tags: true },
+    });
 
     const larp = await prisma.larp.update({
       where: { id: newLarp.id },
@@ -113,42 +120,46 @@ class LarpManager {
         city: newLarp.city || currentLarp.city,
         country: newLarp.country || currentLarp.country,
         language: newLarp.language || currentLarp.language,
-        organizer: newLarp.organizer || currentLarp.organizer,
         eventUrl: newLarp.eventUrl || currentLarp.eventUrl,
         tags: {
           connectOrCreate:
             newLarp.tags ? newLarp.tags.map((tag: Tag) => (
-            {
-              where: { name: tag.name },
-              create: { name: tag.name }
-            }
-          )) : undefined},
+              {
+                where: { name: tag.name },
+                create: { name: tag.name }
+              }
+            )) : undefined
         },
-      include: {tags:true},
+      },
+      include: {
+        tags: true,
+        organization: true,
+      },
     });
 
     return larp;
   };
 
 
-  static async deleteLarpById(id: number): Promise < Larp > {
+  static async deleteLarpById(id: number): Promise<Larp> {
     // try { await this.deleteRecipeImage(id); }
     //   catch(err) {
     //   console.warn(`Image for recipeId ${id} could not be deleted`);
     // }
 
-      try {
+    try {
       const larp = await prisma.larp.delete({
         where: {
           id: id
         },
         include: {
-          tags: true
-          }
+          tags: true,
+          organization: true,
         }
+      }
       );
       return larp;
-    } catch(err) {
+    } catch (err) {
       //use our custom error instead
       throw new NotFoundError("Record not found");
     }

@@ -58,11 +58,6 @@
       "description":{
         "type":"string"
       },
-      "organizer":{
-        "type":"string",
-        "minLength":1,
-        "maxLength": 100
-      },
       "eventUrl":{
         "type":"string",
         "format":"url"
@@ -81,7 +76,6 @@
       "country",
       "language",
       "description",
-      "organizer",
       "eventUrl"
     ]
   }

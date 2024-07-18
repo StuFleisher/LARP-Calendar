@@ -22,7 +22,8 @@ class UserManager {
   ): Promise<PublicUser> {
 
     const fullUserData = await prisma.user.findUnique({
-      where: { username: username }
+      where: { username: username },
+      include:{organization:true}
     });
 
     if (fullUserData) {
@@ -59,7 +60,8 @@ class UserManager {
 
 
     const savedUser = await prisma.user.create({
-      data: userData
+      data: userData,
+      include: {organization:true}
     });
     const {password, ...publicUser} = savedUser;
     return publicUser;
@@ -68,7 +70,9 @@ class UserManager {
 
   /** Returns a list of userData without passwords */
   static async findAll(): Promise<PublicUser[]> {
-    let users = await prisma.user.findMany();
+    let users = await prisma.user.findMany({
+      include:{organization:true}
+    });
     const response = users.map((user: User) => {
       const {password, ...publicUser} = user;
       return publicUser;
@@ -86,6 +90,7 @@ class UserManager {
     try {
       let user:User = await prisma.user.findUniqueOrThrow({
         where: { username },
+        include: {organization:true},
       });
       const {password, ...publicUser} = user;
       return publicUser;
@@ -127,7 +132,8 @@ class UserManager {
         where: {
           username: username,
         },
-        data: userData
+        data: userData,
+        include:{organization:true},
       });
       const {password,...publicUser} = updatedUser;
       return publicUser;

@@ -1,11 +1,13 @@
 
-type PartialWithRequired<T,K extends keyof T> = Partial<Omit<T, K>> & Pick<T, K>;
+type PartialWithRequired<T, K extends keyof T> = Partial<Omit<T, K>> & Pick<T, K>;
 
 export type Tag = {
   name: string;
-}
+};
 
-export type TicketStatus =  "AVAILABLE" |  "LIMITED" |  "SOLD_OUT";
+/*************************** LARPS */
+
+export type TicketStatus = "AVAILABLE" | "LIMITED" | "SOLD_OUT";
 
 export type LarpForCreate = {
   title: string,
@@ -13,21 +15,27 @@ export type LarpForCreate = {
   tags: Tag[],
   start: Date,
   end: Date,
-  allDay:boolean,
+  allDay: boolean,
   imgUrl: string,
   city: string,
   country: string,
   language: string,
   description: string,
-  organizer: string,
+  orgId: number,
   eventUrl: string,
-}
+};
 
 export type Larp = LarpForCreate & {
-  id: number
-}
+  id: number;
+  organization: Organization;
+};
 
-export type LarpForUpdate = PartialWithRequired<Larp, 'id'>
+export type LarpForUpdate = Omit<
+PartialWithRequired<Larp, 'id'>,
+'organization'
+>
+
+/*************************** USERS */
 
 export type UserForCreate = {
   username: string,
@@ -35,14 +43,40 @@ export type UserForCreate = {
   firstName: string,
   lastName: string,
   email: string,
-  isOrganizer: boolean,
   isAdmin: boolean,
-}
+};
 
 export type User = UserForCreate & {
-  id: number
-}
+  id: number;
+  organization: Organization | null;
+};
 
-export type PublicUser = Omit<User,'password'>
+export type PublicUser = Omit<User, 'password'>;
 
-export type UserForUpdate = PartialWithRequired<User, 'id' | 'username' >
+export type UserForUpdate = (
+  PartialWithRequired<
+    Omit<
+      User,
+      'organization'
+    >,
+    'id' | 'username'
+  >);
+
+/*************************** ORGANIZATIONS */
+
+
+export type OrganizationForCreate = {
+  username: string;
+  orgName: string;
+  orgUrl: string;
+  imgUrl: string;
+  description: string;
+  email: string;
+};
+
+export type Organization = OrganizationForCreate & {
+  isApproved: boolean;
+  id: number;
+};
+
+export type OrganizationForUpdate = PartialWithRequired<Organization, 'id'>;
