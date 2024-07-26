@@ -107,7 +107,7 @@ class LarpAPI {
 
   //get all users
   static async getAllUsers():Promise<PublicUser[]>{
-    const response = await this.request('/users/')
+    const response = await this.request('users/')
     return response.users;
   }
 
@@ -123,6 +123,18 @@ class LarpAPI {
     const responseData = await this.request(`users/${username}`, data, 'patch');
     return responseData.user;
   }
+
+
+   /**  DELETE  */
+   static async DeleteUser(username: string): Promise<User> {
+    const response = await this.request(
+      `users/${username}`,
+      undefined,
+      'delete'
+    );
+    return response.deleted;
+  }
+
 
   /************************ LARPS ********************************/
   /**  CREATE  */

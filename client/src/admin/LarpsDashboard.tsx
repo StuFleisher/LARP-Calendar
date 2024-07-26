@@ -91,6 +91,7 @@ function LarpsDashboard() {
     return (
         <Box sx={{
             height:'85dvh',
+            width:'90%',
         }}>
             <DataGrid columns={columns} rows={rows} />
         </Box>

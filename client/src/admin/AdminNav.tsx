@@ -26,9 +26,6 @@ function AdminNav() {
                 <ListItem>
                     <Link component={NavLink} to='/admin/organizers'>Organizers</Link>
                 </ListItem>
-                <ListItem>
-                    <Link component={NavLink} to='/admin/applications'>Applications</Link>
-                </ListItem>
             </List>
         </Stack>
     );
