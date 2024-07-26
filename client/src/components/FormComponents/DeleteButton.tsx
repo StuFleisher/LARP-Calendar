@@ -1,5 +1,5 @@
 
-type DeleteLarpButtonProps = {
+type DeleteButtonProps = {
     handleDelete:(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-function DeleteLarpButton({handleDelete}:DeleteLarpButtonProps) {
+function DeleteButton({handleDelete}:DeleteButtonProps) {
 
     const [showConfirm, setShowConfirm] = useState(false);
 
@@ -41,4 +41,4 @@ function DeleteLarpButton({handleDelete}:DeleteLarpButtonProps) {
     );
   }
 
-  export default DeleteLarpButton
+  export default DeleteButton

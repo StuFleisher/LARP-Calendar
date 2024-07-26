@@ -1,13 +1,13 @@
 import { useFetchLarps } from "../hooks/useFetchLarps";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { JSDateToLuxon } from "../util/typeConverters";
 import AvailabilityIcon from "./AvailabilityIcon";
 import LarpAPI from "../util/api";
-import DeleteLarpButton from "../components/FormComponents/DeleteLarpButton";
-import EditLarpButton from "../components/FormComponents/EditLarpButton";
+import DeleteButton from "../components/FormComponents/DeleteButton";
+import EditButton from "../components/FormComponents/EditButton";
 import { useNavigate, Link as NavLink } from "react-router-dom";
 import { Link } from "@mui/material";
 
@@ -40,7 +40,7 @@ function LarpsDashboard() {
                     <Link component={NavLink} to={`/admin/organizations/${params.value.id}`}>
                         {params.value.orgName}
                     </Link>
-                )
+                );
             },
         },
         {
@@ -73,10 +73,10 @@ function LarpsDashboard() {
             width: 200,
             getActions: (params) => {
                 return [
-                    <DeleteLarpButton handleDelete={() => handleDelete(params.row.id)} />,
-                    <EditLarpButton handleClick={() => navigate(`${params.row.id}`)} />,
+                    <DeleteButton handleDelete={() => handleDelete(params.row.id)} />,
+                    <EditButton handleClick={() => navigate(`${params.row.id}`)} />,
                     <IconButton onClick={() => { handleDuplicate(params.row.id); }}><FontAwesomeIcon icon={faCopy} /></IconButton>
-                ]
+                ];
             }
         },
     ];
@@ -89,7 +89,11 @@ function LarpsDashboard() {
 
 
     return (
-        <DataGrid columns={columns} rows={rows} />
+        <Box sx={{
+            height:'85dvh',
+        }}>
+            <DataGrid columns={columns} rows={rows} />
+        </Box>
     );
 
 }

@@ -55,10 +55,10 @@ export type UserForCreate = {
   firstName: string,
   lastName: string,
   email: string,
-  isAdmin: boolean,
 };
 
 export type User = UserForCreate & {
+  isAdmin: boolean,
   id: number;
   organization:Organization | null;
 };
@@ -89,6 +89,10 @@ export type OrganizationForCreate = {
 export type Organization = OrganizationForCreate & {
   isApproved: boolean;
   id: number;
+  larps: Larp[];
 };
 
-export type OrganizationForUpdate = PartialWithRequired<Organization, 'id'>;
+export type OrganizationForUpdate = Omit<
+  PartialWithRequired<Organization, 'id'>,
+  'larps'
+>;

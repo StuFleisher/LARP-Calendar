@@ -2,11 +2,11 @@ import { Tooltip, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
-type EditLarpButtonProps = {
+type EditButtonProps = {
     handleClick:(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-function EditLarpButton({handleClick}:EditLarpButtonProps) {
+function EditButton({handleClick}:EditButtonProps) {
     return (
       <Tooltip title="Edit this event">
         <IconButton
@@ -18,4 +18,4 @@ function EditLarpButton({handleClick}:EditLarpButtonProps) {
     );
   }
 
-  export default EditLarpButton
+  export default EditButton

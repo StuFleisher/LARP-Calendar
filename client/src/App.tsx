@@ -111,12 +111,12 @@ function App() {
             :
             <userContext.Provider value={user}>
               <BrowserRouter>
-                <NavBar login={login} />
-                <RoutesList
-                  login={login}
-                  logout={logout}
-                  register={register}
-                />
+                  <NavBar login={login} />
+                  <RoutesList
+                    login={login}
+                    logout={logout}
+                    register={register}
+                  />
               </BrowserRouter>
             </userContext.Provider>}
       </LocalizationProvider>

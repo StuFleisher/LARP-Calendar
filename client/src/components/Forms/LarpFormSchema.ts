@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { TicketStatus } from '../types';
+import { TicketStatus } from '../../types';
 
 const LarpFormSchema = yup.object({
   id: yup.number(),
@@ -28,7 +28,7 @@ const LarpFormSchema = yup.object({
   country: yup.string().required("Please specify a country").max(100),
   language: yup.string().required("Please specify a language").max(100),
   description: yup.string().required("Description is required"),
-  orgId: yup.number().required(),
+  orgId: yup.number(),
   eventUrl: yup.string().url().max(500),
 });
 

@@ -16,19 +16,23 @@ function AdminHome() {
 
     return (
         <Stack
-            className="adminNav"
             direction="row"
             justifyContent="center"
             alignItems="center"
+            className="Admin-pageContainer"
+            sx={{
+                height:'100%',
+            }}
         >
 
             <Drawer
+                className="adminNav"
                 open={isOpen}
                 variant="persistent"
                 anchor="left"
                 sx={{
                     width: `${DRAWER_WIDTH}`,
-                    alignSelf:'stretch',
+                    alignSelf: 'stretch',
                     '& .MuiDrawer-paper': {
                         width: isOpen ? `${DRAWER_WIDTH}px` : '0px',
                         position: 'relative', // Ensure it is positioned within the container
@@ -42,10 +46,11 @@ function AdminHome() {
             <Stack
                 direction="row"
                 alignItems="center"
+                className="Admin-dashboardContainer"
                 sx={{
                     flexGrow: 1,
                     width: isOpen ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%',
-
+                    height:'100%'
                 }}
             >
                 <IconButton

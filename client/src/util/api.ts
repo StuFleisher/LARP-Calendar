@@ -1,6 +1,6 @@
 import axios, {AxiosError} from "axios";
 import { jwtDecode } from "jwt-decode";
-import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate } from "../types";
+import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate, OrganizationForCreate, Organization, OrganizationForUpdate } from "../types";
 import { JsonToLarp } from "./typeConverters";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3001";
@@ -173,6 +173,47 @@ class LarpAPI {
     );
     return response.larp;
   }
+
+  /************************ ORGANIZATION ********************************/
+
+
+  /**  CREATE  */
+  static async CreateOrganization(orgData:OrganizationForCreate){
+    const response = await this.request('orgs', orgData, 'post');
+    return response.org;
+  }
+
+  /**  READ  */
+  static async getOrgById(id: number): Promise<Organization> {
+    const response = await this.request(`orgs/${id}`);
+    return response.org;
+  }
+
+  static async getAllOrgs(): Promise<Organization[]> {
+    const response = await this.request(`orgs`);
+    return response.orgs;
+  }
+
+  /**  UPDATE  */
+  static async UpdateOrg(formData: OrganizationForUpdate): Promise<Organization> {
+    const response = await this.request(
+      `orgs/${formData.id}`,
+      formData,
+      'patch'
+    );
+    return response.org;
+  }
+
+   /**  DELETE  */
+   static async DeleteOrg(id: number): Promise<Organization> {
+    const response = await this.request(
+      `orgs/${id}`,
+      undefined,
+      'delete'
+    );
+    return response.deleted;
+  }
+
 
 
   /************************ FAVORITES ********************************/

@@ -12,7 +12,7 @@ import { useContext } from "react";
 import { userContext } from "../../context/userContext";
 import useLarpControls from "../../hooks/useLarpControls";
 
-import { Link as NavLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 
 
@@ -60,7 +60,7 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                             day: 'numeric',
                         })
                     } - {
-                        JSDateToLuxon(larp.start).toLocaleString({
+                        JSDateToLuxon(larp.end).toLocaleString({
                             weekday: 'short',
                             month: 'long',
                             day: 'numeric',
@@ -68,7 +68,7 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                     }
                 </Typography>
                 <Typography component="h1" variant='h1' className="title">
-                    <Link component={NavLink} to={`/events/${larp.id}`}>
+                    <Link component={RouterLink} to={`/events/${larp.id}`}>
                         {larp.title}
                     </Link>
                 </Typography>

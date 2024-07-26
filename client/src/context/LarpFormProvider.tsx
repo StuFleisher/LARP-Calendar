@@ -2,7 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import { JSDateToLuxon, LuxonToJSDate } from "../util/typeConverters";
 
-import LarpFormSchema from "../util/LarpFormSchema";
+import LarpFormSchema from "../components/Forms/LarpFormSchema";
 import { Larp, LarpForCreate, LarpForUpdate } from "../types";
 import { Tag } from "../types";
 
@@ -34,14 +34,6 @@ function LarpFormProvider<T extends Larp | LarpForCreate | LarpForUpdate>(
       end: larp.end ? JSDateToLuxon(larp.end) : undefined,
     };
   }
-
-  // function convertToJSDates(values:any):T{
-  //   return {
-  //     ...values,
-  //     start: values.start ? LuxonToJSDate(values.start) : undefined,
-  //     end: values.end ? LuxonToJSDate(values.end) : undefined,
-  //   }
-  // }
 
   function splitTags(tagString: string): Partial<Tag>[] {
     if (!tagString || tagString.trim() === "") return [];

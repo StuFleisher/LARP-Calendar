@@ -1,0 +1,53 @@
+@import "../../styles/colors";
+
+.OrgDetails {
+    width:100%;
+    // border: 1px $pale-blue solid;
+    margin:0;
+    color: $dark;
+
+
+    .banner {
+        width:100%;
+        aspect-ratio: 7/3;
+        // border-radius: 5px 5px 75px 0px;
+        position:relative;
+        background-color: #e7e7e7;
+
+        .organizerControls {
+            position:absolute;
+            bottom:1rem;
+            right: 1rem;
+
+            button{
+                color:white;
+            }
+        }
+    }
+
+    section {
+        padding: 1rem .5rem;
+    }
+
+    .OrgDetails-content {
+        margin:1rem;
+    }
+
+    .headlineDate {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .title {
+        a {
+            text-decoration: none;
+            color:$dark;
+        }
+    }
+
+    #Organizer {
+        h6 {
+            // padding: .5rem 0;
+        }
+    }
+}

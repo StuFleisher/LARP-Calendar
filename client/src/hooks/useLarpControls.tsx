@@ -1,8 +1,8 @@
 import LarpAPI from "../util/api";
 import { useNavigate } from "react-router-dom";
 
-import DeleteLarpButtonComponent from "../components/FormComponents/DeleteLarpButton";
-import EditLarpButtonComponent from "../components/FormComponents/EditLarpButton";
+import DeleteLarpButtonComponent from "../components/FormComponents/DeleteButton";
+import EditLarpButtonComponent from "../components/FormComponents/EditButton";
 
 function useLarpControls(larpId: number) {
 
