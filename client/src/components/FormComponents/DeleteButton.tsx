@@ -22,7 +22,7 @@ function DeleteButton({handleDelete}:DeleteButtonProps) {
             spacing={2}
           >
 
-            <Typography>Are you sure you want to delete this event?</Typography>
+            <Typography>Are you sure you want to delete this record?</Typography>
             <Stack direction="row" spacing={1} alignSelf="center">
               <Button variant="contained" onClick={(e) => { handleDelete(e); }}>Delete</Button>
               <Button variant="contained" onClick={() => { setShowConfirm(false); }}>Cancel</Button>
@@ -30,7 +30,7 @@ function DeleteButton({handleDelete}:DeleteButtonProps) {
           </Stack>
 
         </Dialog>
-        <Tooltip title="Delete this event">
+        <Tooltip title="Delete">
           <IconButton
             onClick={(e) => { e.preventDefault(); setShowConfirm(true); }}
           >

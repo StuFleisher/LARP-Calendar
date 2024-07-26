@@ -39,7 +39,7 @@ function OrgsDashboard() {
             field: 'orgName', headerName: 'Name', flex: 1,
             renderCell: (params) => {
                 return (
-                    <Link component={RouterLink} to={`/admin/organizations/${params.row.id}`}>
+                    <Link component={RouterLink} to={`/admin/orgs/${params.row.id}`}>
                         {params.row.orgName}
                     </Link>
                 );
@@ -79,7 +79,7 @@ function OrgsDashboard() {
             getActions: (params) => {
                 return [
                     <DeleteButton handleDelete={() => handleDelete(params.row.id)} />,
-                    <EditButton handleClick={() => navigate(`${params.row.id}`)} />,
+                    <EditButton handleClick={() => navigate(`${params.row.id}/edit`)} />,
                     <ApproveButton handleClick={()=> handleApprove(params.row.id, !params.row.isApproved)}/>
                 ]
             }

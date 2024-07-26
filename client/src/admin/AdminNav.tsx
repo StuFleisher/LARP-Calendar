@@ -24,7 +24,7 @@ function AdminNav() {
                     <Link component={NavLink} to='/admin/users'>Users</Link>
                 </ListItem>
                 <ListItem>
-                    <Link component={NavLink} to='/admin/organizers'>Organizers</Link>
+                    <Link component={NavLink} to='/admin/orgs'>Organizers</Link>
                 </ListItem>
             </List>
         </Stack>

@@ -14,7 +14,6 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 function UsersDashboard() {
     const { users, setUsers, loading, error } = useFetchUsers();
     const navigate = useNavigate();
-    console.log(users);
 
     async function handleDelete(username: string) {
         await LarpAPI.DeleteUser(username);
@@ -47,14 +46,14 @@ function UsersDashboard() {
             field: 'organization', headerName: 'Organization', flex: 1,
             renderCell: (params) => {
                 return (
-                    <Link component={RouterLink} to={`/admin/organizations/${params.row.organization?.id}`}>
+                    <Link component={RouterLink} to={`/admin/orgs/${params.row.organization?.id}`}>
                         {params.row.organization?.orgName}
                     </Link>
                 );
             }
         },
         {
-            field: 'isAdmin', headerName: 'Admin?', 
+            field: 'isAdmin', headerName: 'Admin?',
             align: "center",
             renderCell: (params) => {
                 return (
@@ -76,7 +75,7 @@ function UsersDashboard() {
             getActions: (params) => {
                 return [
                     <DeleteButton handleDelete={() => handleDelete(params.row.username)} />,
-                    <EditButton handleClick={() => navigate(`${params.row.username}`)} />,
+                    // <EditButton handleClick={() => navigate(`${params.row.username}`)} />,
                 ];
             }
         },

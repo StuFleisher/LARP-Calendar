@@ -8,7 +8,7 @@ type EditButtonProps = {
 
 function EditButton({handleClick}:EditButtonProps) {
     return (
-      <Tooltip title="Edit this event">
+      <Tooltip title="Edit">
         <IconButton
           onClick={handleClick}
         >

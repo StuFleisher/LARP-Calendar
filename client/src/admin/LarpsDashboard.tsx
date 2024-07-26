@@ -37,7 +37,7 @@ function LarpsDashboard() {
             field: 'organization', headerName: 'Organization',
             renderCell: (params) => {
                 return (
-                    <Link component={NavLink} to={`/admin/organizations/${params.value.id}`}>
+                    <Link component={NavLink} to={`/admin/orgs/${params.value.id}`}>
                         {params.value.orgName}
                     </Link>
                 );
