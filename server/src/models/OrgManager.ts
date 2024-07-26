@@ -11,7 +11,7 @@ class OrgManager {
     const org: Organization = await prisma.organization.create({
       data: {
         ...orgData,
-        isApproved:false,
+        isApproved: false,
       },
     });
 
@@ -33,9 +33,7 @@ class OrgManager {
         where: {
           id: id
         },
-        include: {
-          larps: true
-        }
+        include: { larps: { include: { tags: true } } }
       });
       return org;
     } catch (err) {
@@ -47,32 +45,30 @@ class OrgManager {
 
   static async updateOrg(newOrg: OrganizationForUpdate): Promise<Organization> {
 
-    const currentOrg: Organization = await prisma.organization.findUniqueOrThrow({
+    const currentOrg: OrganizationForUpdate = await prisma.organization.findUniqueOrThrow({
       where: { id: newOrg.id },
-      include: { larps: true },
     });
 
-    const updatedOrg: Partial<Organization> = {...currentOrg}
-
-    for (const key in newOrg) {
-      if (newOrg[key as keyof Organization] !== undefined) {
-        (updatedOrg as any)[key as keyof Organization] = newOrg[key as keyof Organization];
+    for (let key in newOrg) {
+      const typesafeKey = key as keyof OrganizationForUpdate;
+      if (newOrg[typesafeKey] !== undefined) {
+        (currentOrg as any)[typesafeKey] = newOrg[typesafeKey];
       }
     }
 
-    const org:Organization = await prisma.organization.update({
+    const org: Organization = await prisma.organization.update({
       where: { id: newOrg.id },
-      data: updatedOrg
-  });
+      data: currentOrg as OrganizationForUpdate
+    });
 
     return org;
   };
 
-  static async setApproved(id: number, isApproved:boolean):Promise<Organization> {
-    const org:Organization = await prisma.organization.update({
+  static async setApproved(id: number, isApproved: boolean): Promise<Organization> {
+    const org: Organization = await prisma.organization.update({
       where: { id },
-      data: {isApproved}
-  });
+      data: { isApproved }
+    });
 
     return org;
   }

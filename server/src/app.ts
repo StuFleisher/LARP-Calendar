@@ -7,6 +7,7 @@ import { authenticateJWT } from "./middleware/auth";
 import larpRoutes from './routes/larps';
 import usersRoutes from './routes/users';
 import authRoutes from './routes/auth';
+import orgsRoutes from './routes/orgs';
 
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(authenticateJWT);
 app.use("/auth", authRoutes);
 app.use("/events", larpRoutes);
 app.use("/users", usersRoutes);
+app.use("/orgs", orgsRoutes);
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req: Request, res: Response, next: NextFunction) {

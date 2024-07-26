@@ -6,6 +6,7 @@ import { SECRET_KEY } from "../config";
 import jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../utils/expressError";
 import LarpManager from "../models/LarpManager";
+import OrgManager from "../models/OrgManager";
 
 
 
@@ -99,7 +100,27 @@ async function ensureOwnerOrAdmin(
   const user = res.locals.user;
   const username = res.locals.user?.username;
   const larp=await LarpManager.getLarpById(+req.params.id)
-  if (username && (username === larp.organization.username || user.isAdmin === true)) {
+  if (username && (username === larp.organization?.username || user.isAdmin === true)) {
+    return next();
+  }
+
+  console.log("unauth")
+  throw new UnauthorizedError();
+}
+
+
+/** Middleware to use when they must provide a valid token & username must
+ * match the username on the Organizer record being accessed
+ *
+ *  If not, raises Unauthorized.
+ */
+async function ensureMatchingOrganizerOrAdmin(
+  req: Request, res: Response, next: NextFunction
+){
+  const user = res.locals.user;
+  const username = res.locals.user?.username;
+  const org=await OrgManager.getOrganizationById(+req.params.id)
+  if (username && (username === org.username || user.isAdmin === true)) {
     return next();
   }
 
@@ -115,4 +136,5 @@ export {
   ensureOrganizer,
   ensureCorrectUserOrAdmin,
   ensureOwnerOrAdmin,
+  ensureMatchingOrganizerOrAdmin,
 };

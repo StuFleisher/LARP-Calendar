@@ -4,6 +4,7 @@ import {
   ensureAdmin,
   ensureLoggedIn,
   ensureOrganizer,
+  ensureMatchingOrganizerOrAdmin,
   ensureOwnerOrAdmin
 } from '../middleware/auth';
 const router = express.Router();
@@ -98,7 +99,7 @@ router.delete(
 router.patch(
   "/:id",
   ensureLoggedIn,
-  ensureOwnerOrAdmin,
+  ensureMatchingOrganizerOrAdmin,
   async function (req: Request, res: Response, next: NextFunction) {
 
     const validator = jsonschema.validate(

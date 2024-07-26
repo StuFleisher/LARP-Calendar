@@ -27,13 +27,13 @@ export type LarpForCreate = {
 
 export type Larp = LarpForCreate & {
   id: number;
-  organization: Organization;
+  organization?: Organization;
 };
 
 export type LarpForUpdate = Omit<
-PartialWithRequired<Larp, 'id'>,
-'organization'
->
+  PartialWithRequired<Larp, 'id'>,
+  'organization'
+>;
 
 /*************************** USERS */
 
@@ -77,6 +77,11 @@ export type OrganizationForCreate = {
 export type Organization = OrganizationForCreate & {
   isApproved: boolean;
   id: number;
+  larps?: Larp[];
 };
 
-export type OrganizationForUpdate = PartialWithRequired<Organization, 'id'>;
+
+export type OrganizationForUpdate = Omit<
+  PartialWithRequired<Organization, 'id'>,
+  'larps'
+>;

@@ -31,6 +31,10 @@
             "type": "string",
             "maxLength": 100,
             "format": "email"
+        },
+        "username": {
+            "type": "string",
+            "maxLength": 100
         }
     },
     "additionalProperties": false,

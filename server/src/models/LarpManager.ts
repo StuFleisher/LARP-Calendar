@@ -107,6 +107,23 @@ class LarpManager {
       include: { tags: true },
     });
 
+    const newTagNames = newLarp.tags
+      ?
+      newLarp.tags.map(tag => tag.name)
+      :
+      [];
+    const currTagNames = currentLarp.tags
+      ?
+      currentLarp.tags.map(tag => tag.name)
+      :
+      [];
+    const tagsToRemove = currentLarp.tags
+      ?
+      currentLarp.tags
+        .filter(tag => !newTagNames.includes(tag.name))
+      :
+      currentLarp.tags;
+
     const larp = await prisma.larp.update({
       where: { id: newLarp.id },
       data: {
@@ -122,13 +139,14 @@ class LarpManager {
         language: newLarp.language || currentLarp.language,
         eventUrl: newLarp.eventUrl || currentLarp.eventUrl,
         tags: {
-          connectOrCreate:
+          connectOrCreate: (
             newLarp.tags ? newLarp.tags.map((tag: Tag) => (
               {
                 where: { name: tag.name },
                 create: { name: tag.name }
               }
-            )) : undefined
+            )) : undefined),
+          disconnect: tagsToRemove
         },
       },
       include: {
