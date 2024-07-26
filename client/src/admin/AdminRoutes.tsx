@@ -4,6 +4,7 @@ import LarpsDashboard from "./LarpsDashboard";
 import AdminHome from "./AdminHome";
 import AdminEditLarp from "./AdminEditLarp";
 import LarpDetailPage from "../views/LarpDetailPage";
+import OrgsDashboard from "./OrgsDashboard";
 
 function AdminRoutes(){
 
@@ -18,7 +19,7 @@ function AdminRoutes(){
                 <Route path="/events/:id" element={<AdminEditLarp/>}/>
                 <Route path="/users" element={<LarpsDashboard/>}/>
                 <Route path="/applications" element={<LarpsDashboard/>}/>
-                <Route path="/organizers" element={<LarpsDashboard/>}/>
+                <Route path="/organizers" element={<OrgsDashboard/>}/>
             </Route>
         </Routes>
     )

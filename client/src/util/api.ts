@@ -1,6 +1,6 @@
 import axios, {AxiosError} from "axios";
 import { jwtDecode } from "jwt-decode";
-import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate, OrganizationForCreate, Organization, OrganizationForUpdate } from "../types";
+import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate, OrganizationForCreate, Organization, OrganizationForUpdate, PublicUser } from "../types";
 import { JsonToLarp } from "./typeConverters";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3001";
@@ -105,6 +105,12 @@ class LarpAPI {
     return response.user;
   }
 
+  //get all users
+  static async getAllUsers():Promise<PublicUser[]>{
+    const response = await this.request('/users/')
+    return response.users;
+  }
+
   //verify that the user exists
   // static async verifyUser(username: string) {
   //   const response = await this.request(`users/${username}/verify`);
@@ -201,6 +207,15 @@ class LarpAPI {
       formData,
       'patch'
     );
+    return response.org;
+  }
+
+  static async UpdateOrgApproval(id:number, isApproved:boolean):Promise<Organization> {
+    const response = await this.request(
+      `orgs/${id}/approval`,
+      {id, isApproved},
+      'patch'
+    )
     return response.org;
   }
 
