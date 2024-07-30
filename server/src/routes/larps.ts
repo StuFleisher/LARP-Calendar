@@ -5,6 +5,7 @@ import {
   ensureOrganizer,
   ensureOwnerOrAdmin
 } from '../middleware/auth';
+import readMultipart from '../middleware/multer';
 const router = express.Router();
 
 import { BadRequestError } from '../utils/expressError';
@@ -116,5 +117,42 @@ router.put(
     return res.json({ larp });
   }
 );
+
+/** PUT /[id]/image
+ * Expects a Content:multipart/form-data
+ * Stores the attached image in s3 and updates the imageUrl accordingly
+ * Returns the updated larp record
+ */
+
+router.put(
+  "/:id/image",
+  ensureOwnerOrAdmin,
+  readMultipart('image'),
+  async function (req: Request, res: Response, next: NextFunction) {
+    //TODO: test middleware
+
+    if (!req.file) { throw new BadRequestError('Please attach an image'); }
+    const larp = await LarpManager.updateLarpImage(
+      req.file,
+      +req.params.id
+    );
+
+    return res.json(larp);
+  }
+);
+
+/** DELETE /[id]/image
+ * Deletes the image associated with the recipeId in params from s3
+ * and updates the imageUrl accordingly.
+ */
+// router.delete(
+//   "/:id/image",
+//   ensureOwnerOrAdmin,
+//   async function (req: Request, res: Response, next: NextFunction) {
+
+//     const larp = await LarpManager.deleteLarpImage(+req.params.id);
+//     return res.json({ larp });
+//   }
+// );
 
 export default router;

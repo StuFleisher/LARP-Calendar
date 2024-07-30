@@ -2,6 +2,16 @@ import { prisma } from '../prismaSingleton';
 import { LarpForCreate, Larp, LarpForUpdate } from '../types';
 import { NotFoundError } from '../utils/expressError';
 import { Tag } from '../types';
+import ImageHandler from '../utils/imageHandler';
+
+const LARP_INCLUDE_OBJ = {
+  tags: true,
+  imgUrl: true,
+  organization: { include: { imgUrl: true } }
+};
+
+const BUCKET_NAME = process.env.BUCKET_NAME
+const DEFAULT_IMG_URL = `https://${BUCKET_NAME}.s3.amazonaws.com/default`;
 
 class LarpManager {
 
@@ -14,7 +24,14 @@ class LarpManager {
       data: {
         ...data,
         organization: {
-          connect: { id: orgId }
+          connect: { id: orgId },
+        },
+        imgUrl: {
+          create: {
+            sm: `${DEFAULT_IMG_URL}-sm`,
+            md: `${DEFAULT_IMG_URL}-md`,
+            lg: `${DEFAULT_IMG_URL}-lg`,
+          }
         },
         tags: {
           connectOrCreate:
@@ -26,11 +43,9 @@ class LarpManager {
             ))
         }
       },
-      include: {
-        tags: true,
-        organization: true
-      }
-    });
+      include: LARP_INCLUDE_OBJ
+    }
+    );
 
     return larp;
   }
@@ -41,7 +56,7 @@ class LarpManager {
       return await prisma.larp.findMany(
         {
           orderBy: { start: 'asc' },
-          include: { tags: true, organization: true }
+          include: LARP_INCLUDE_OBJ
         }
       );
     }
@@ -75,7 +90,7 @@ class LarpManager {
     return await prisma.larp.findMany(
       {
         orderBy: { start: 'asc' },
-        include: { tags: true, organization: true }
+        include: LARP_INCLUDE_OBJ
       }
     );
   }
@@ -87,10 +102,7 @@ class LarpManager {
         where: {
           id: id
         },
-        include: {
-          tags: true,
-          organization: true,
-        }
+        include: LARP_INCLUDE_OBJ
       });
       return larp;
     } catch (err) {
@@ -102,9 +114,9 @@ class LarpManager {
 
   static async updateLarp(newLarp: LarpForUpdate): Promise<Larp> {
 
-    const currentLarp = await prisma.larp.findUniqueOrThrow({
+    const currentLarp: Larp = await prisma.larp.findUniqueOrThrow({
       where: { id: newLarp.id },
-      include: { tags: true },
+      include: LARP_INCLUDE_OBJ,
     });
 
     const newTagNames = newLarp.tags
@@ -112,11 +124,11 @@ class LarpManager {
       newLarp.tags.map(tag => tag.name)
       :
       [];
-    const currTagNames = currentLarp.tags
-      ?
-      currentLarp.tags.map(tag => tag.name)
-      :
-      [];
+    // const currTagNames = currentLarp.tags
+    //   ?
+    //   currentLarp.tags.map(tag => tag.name)
+    //   :
+    //   [];
     const tagsToRemove = currentLarp.tags
       ?
       currentLarp.tags
@@ -124,7 +136,7 @@ class LarpManager {
       :
       currentLarp.tags;
 
-    const larp = await prisma.larp.update({
+    const larp:Larp = await prisma.larp.update({
       where: { id: newLarp.id },
       data: {
         title: newLarp.title || currentLarp.title,
@@ -133,7 +145,6 @@ class LarpManager {
         start: newLarp.start || currentLarp.start,
         end: newLarp.end || currentLarp.end,
         allDay: newLarp.allDay || currentLarp.allDay,
-        imgUrl: newLarp.imgUrl || currentLarp.imgUrl,
         city: newLarp.city || currentLarp.city,
         country: newLarp.country || currentLarp.country,
         language: newLarp.language || currentLarp.language,
@@ -148,11 +159,18 @@ class LarpManager {
             )) : undefined),
           disconnect: tagsToRemove
         },
+        imgUrl: {
+          update: {
+            data: {
+              sm: newLarp.imgUrl?.sm || currentLarp.imgUrl.sm,
+              md: newLarp.imgUrl?.md || currentLarp.imgUrl.md,
+              lg: newLarp.imgUrl?.lg || currentLarp.imgUrl.lg,
+            },
+            where: { id: newLarp.imgSetId }
+          }
+        }
       },
-      include: {
-        tags: true,
-        organization: true,
-      },
+      include: LARP_INCLUDE_OBJ,
     });
 
     return larp;
@@ -170,10 +188,7 @@ class LarpManager {
         where: {
           id: id
         },
-        include: {
-          tags: true,
-          organization: true,
-        }
+        include: LARP_INCLUDE_OBJ
       }
       );
       return larp;
@@ -182,7 +197,55 @@ class LarpManager {
       throw new NotFoundError("Record not found");
     }
   };
+
+
+  /**************************** IMAGES ***************************************/
+
+  /**Uploads a file to s3 and stores the resulting uri in the imageUrl property
+   *
+   * @param file: the file to upload
+   * @param id: the id for the record to update
+   *
+   * @returns the updated larp
+   */
+  static async updateLarpImage(file: Express.Multer.File, id: number) {
+
+    const s3Path = `larpImage/larp-${id}`;
+    await ImageHandler.uploadAllSizes(file.buffer, s3Path);
+
+    const basePath=`https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`
+    const larp = await LarpManager.getLarpById(+id);
+
+    if (larp.imgUrl.sm !== `${basePath}-sm`) {
+      larp.imgUrl = {
+        sm: `${basePath}-sm`,
+        md: `${basePath}-md`,
+        lg: `${basePath}-lg`,
+      };
+      return await LarpManager.updateLarp(larp);
+    }
+    return larp;
+  }
+
+  /**Deletes the image associated with the recipeId from s3 and updates the
+   * imageUrl field.
+   *
+   * @param id: the recipeId for the record to update
+   *
+   * @returns {deleted:{imageUrl:string}}
+   */
+  // static async deleteRecipeImage(id: number) {
+  //   const path = `recipeImage/recipe-${id}`;
+  //   await deleteFile(path);
+
+  //   const recipe = await RecipeManager.getRecipeById(id);
+  //   recipe.imageSm = `${DEFAULT_IMG_URL}-sm`;
+  //   recipe.imageMd = `${DEFAULT_IMG_URL}-md`;
+  //   recipe.imageLg = `${DEFAULT_IMG_URL}-lg`;
+  //   return await RecipeManager.updateRecipe(recipe);
+  // }
+
+
   //end class
 }
-
 export default LarpManager;

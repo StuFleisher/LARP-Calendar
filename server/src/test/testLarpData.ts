@@ -1,5 +1,6 @@
 import { Larp, LarpForCreate, Tag } from "../types";
 import { testOrganization } from "./testOrgData";
+import { testImgSet } from "./testImgSet";
 
 const START = new Date();
 const END = new Date(START.getTime() + 1 * 24 * 60 * 60 * 1000);
@@ -16,7 +17,6 @@ const testLarpForCreate: LarpForCreate = {
   start: START,
   end: END,
   allDay: false,
-  imgUrl: "https://testLarp.com",
   city: "testLarp-city",
   country: "testLarp-country",
   language: "testLarp-language",
@@ -32,7 +32,8 @@ const testLarp: Larp = {
   start: START,
   end: END,
   allDay: false,
-  imgUrl: "https://testLarp.com",
+  imgUrl: testImgSet,
+  imgSetId: 1,
   city: "testLarp-city",
   country: "testLarp-country",
   language: "testLarp-language",
