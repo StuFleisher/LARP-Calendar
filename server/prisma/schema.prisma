@@ -26,13 +26,15 @@ model Larp {
   start        DateTime
   end          DateTime
   allDay       Boolean      @map("all_day")
-  imgUrl       String       @default("") @map("img_url") @db.VarChar(500)
+  // imgUrl       String       @default("") @map("img_url") @db.VarChar(500)
   city         String       @default("") @db.VarChar(100)
   country      String       @default("") @db.VarChar(100)
   language     String       @default("") @db.VarChar(100)
   description  String       @default("")
   eventUrl     String       @default("") @map("event_url") @db.VarChar(500)
   tags         Tag[]
+  imgUrl       ImageSet     @relation(fields: [imgSetId], references: [id])
+  imgSetId     Int          @unique @map("img_set_id")
   organization Organization @relation(fields: [orgId], references: [id])
   orgId        Int
 
@@ -60,16 +62,28 @@ model User {
 }
 
 model Organization {
-  id          Int     @id @default(autoincrement())
-  user        User    @relation(fields: [username], references: [username])
-  username    String  @unique
-  orgName     String  @db.VarChar(100)
-  orgUrl      String  @default("") @map("org_url") @db.VarChar(500)
-  imgUrl      String  @default("") @map("img_url") @db.VarChar(500)
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [username], references: [username])
+  username    String   @unique
+  orgName     String   @db.VarChar(100)
+  orgUrl      String   @default("") @map("org_url") @db.VarChar(500)
+  imgUrl      ImageSet @relation(fields: [imgSetId], references: [id])
+  imgSetId    Int      @unique @map("img_set_id")
   description String
-  email       String  @unique @db.VarChar(100)
+  email       String   @unique @db.VarChar(100)
   isApproved  Boolean
   larps       Larp[]
 
   @@map("organizations")
+}
+
+model ImageSet {
+  id   Int           @id @default(autoincrement())
+  sm   String        @default("https://sf-larpcal.s3.amazonaws.com/recipeImage/default-sm")
+  md   String        @default("https://sf-larpcal.s3.amazonaws.com/recipeImage/default-md")
+  lg   String        @default("https://sf-larpcal.s3.amazonaws.com/recipeImage/default-lg")
+  org  Organization?
+  larp Larp?
+
+  @@map("image_sets")
 }

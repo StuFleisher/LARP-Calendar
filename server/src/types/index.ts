@@ -5,6 +5,12 @@ export type Tag = {
   name: string;
 };
 
+export type ImageSet = {
+  sm:string;
+  md:string;
+  lg:string;
+}
+
 /*************************** LARPS */
 
 export type TicketStatus = "AVAILABLE" | "LIMITED" | "SOLD_OUT";
@@ -16,7 +22,6 @@ export type LarpForCreate = {
   start: Date,
   end: Date,
   allDay: boolean,
-  imgUrl: string,
   city: string,
   country: string,
   language: string,
@@ -27,6 +32,8 @@ export type LarpForCreate = {
 
 export type Larp = LarpForCreate & {
   id: number;
+  imgUrl: ImageSet;
+  imgSetId: number;
   organization?: Organization;
 };
 
@@ -69,17 +76,17 @@ export type OrganizationForCreate = {
   username: string;
   orgName: string;
   orgUrl: string;
-  imgUrl: string;
   description: string;
   email: string;
 };
 
 export type Organization = OrganizationForCreate & {
   isApproved: boolean;
+  imgUrl: ImageSet;
+  imgSetId: number;
   id: number;
   larps?: Larp[];
 };
-
 
 export type OrganizationForUpdate = Omit<
   PartialWithRequired<Organization, 'id'>,
