@@ -36,10 +36,6 @@
       "allDay":{
         "type":"boolean"
       },
-      "imgUrl":{
-        "type":"string",
-        "format":"url"
-      },
       "city":{
         "type":"string",
         "maxLength": 100
@@ -71,7 +67,6 @@
       "start",
       "end",
       "allDay",
-      "imgUrl",
       "city",
       "country",
       "language",

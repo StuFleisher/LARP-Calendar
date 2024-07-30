@@ -1,84 +1,101 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://example.com/example.json",
-    "type": "object",
-    "properties": {
-      "id":{
-        "type":"integer"
-      },
-      "title": {
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 500
-      },
-      "ticketStatus": {
-        "type": "string",
-        "enum": ["AVAILABLE", "LIMITED", "SOLD_OUT"]
-      },
-      "tags": {
-        "type": "array",
-        "items": {
-          "type" : "object",
-          "properties" : {
-            "name":{
-              "type":"string",
-              "minLength":1,
-              "maxLength": 100
-            }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "ticketStatus": {
+      "type": "string",
+      "enum": [
+        "AVAILABLE",
+        "LIMITED",
+        "SOLD_OUT"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
           }
         }
-      },
-      "start":{
-        "type":"string",
-        "format":"date-time"
-      },
-      "end":{
-        "type":"string",
-        "format":"date-time"
-      },
-      "allDay":{
-        "type":"boolean"
-      },
-      "imgUrl":{
-        "type":"string",
-        "format":"url"
-      },
-      "city":{
-        "type":"string",
-        "maxLength": 100
-      },
-      "country":{
-        "type":"string",
-        "maxLength": 100
-      },
-      "language":{
-        "type":"string",
-        "maxLength": 100
-      },
-      "description":{
-        "type":"string"
-      },
-      "eventUrl":{
-        "type":"string",
-        "format":"url"
-      },
-      "orgId":{
-        "type":"number"
       }
     },
-    "additionalProperties": false,
-    "required": [
-      "title",
-      "ticketStatus",
-      "tags",
-      "start",
-      "end",
-      "allDay",
-      "imgUrl",
-      "city",
-      "country",
-      "language",
-      "description",
-      "eventUrl"
-    ]
-  }
+    "start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "allDay": {
+      "type": "boolean"
+    },
+    "imgUrl": {
+      "type": "object",
+      "properties": {
+        "sm": {
+          "type": "string",
+          "format": "url"
+        },
+        "md": {
+          "type": "string",
+          "format": "url"
+        },
+        "lg": {
+          "type": "string",
+          "format": "url"
+        }
+      }
+    },
+    "city": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "country": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "language": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "description": {
+      "type": "string"
+    },
+    "eventUrl": {
+      "type": "string",
+      "format": "url"
+    },
+    "orgId": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "ticketStatus",
+    "tags",
+    "start",
+    "end",
+    "allDay",
+    "imgUrl",
+    "city",
+    "country",
+    "language",
+    "description",
+    "eventUrl"
+  ]
+}

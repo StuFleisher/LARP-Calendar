@@ -19,11 +19,6 @@
             "format": "url",
             "maxLength": 500
         },
-        "imgUrl": {
-            "type": "string",
-            "format": "url",
-            "maxLength": 500
-        },
         "description": {
             "type": "string"
         },
