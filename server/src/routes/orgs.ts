@@ -56,7 +56,7 @@ router.post(
 router.get(
   "/:id",
   async function (req: Request, res: Response, next: NextFunction) {
-    const org = await OrgManager.getOrganizationById(+req.params.id);
+    const org = await OrgManager.getOrgById(+req.params.id);
     return res.json({ org });
   }
 );

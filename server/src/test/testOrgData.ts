@@ -1,9 +1,13 @@
-const testOrganization = {
+import { Organization } from "../types";
+import { testImgSet } from "./testImgSet"
+
+const testOrganization:Organization = {
   id:1,
   username:"testOrganizerUser-username",
   orgName:"testOrg-orgname",
   orgUrl:"https://testLarp.com/orgUrl",
-  imgUrl:"https://testLarp.com/imgUrl",
+  imgSetId: 1,
+  imgUrl:testImgSet,
   description:"testOrg-description",
   email:"testOrg@test.com",
   isApproved:true,

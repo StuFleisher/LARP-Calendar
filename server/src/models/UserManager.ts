@@ -10,6 +10,14 @@ import {
   UnauthorizedError,
 } from '../utils/expressError';
 
+const USER_INCLUDE_OBJ = {
+  organization: {
+    include: {
+      tags: true,
+      imgUrl: true,
+    }
+  }
+};
 class UserManager {
 
   /**Authenticate a user with username/password
@@ -23,7 +31,7 @@ class UserManager {
 
     const fullUserData = await prisma.user.findUnique({
       where: { username: username },
-      include:{organization:true}
+      include: USER_INCLUDE_OBJ
     });
 
     if (fullUserData) {
@@ -61,9 +69,9 @@ class UserManager {
 
     const savedUser = await prisma.user.create({
       data: userData,
-      include: {organization:true}
+      include: USER_INCLUDE_OBJ
     });
-    const {password, ...publicUser} = savedUser;
+    const { password, ...publicUser } = savedUser;
     return publicUser;
   }
 
@@ -71,10 +79,10 @@ class UserManager {
   /** Returns a list of userData without passwords */
   static async findAll(): Promise<PublicUser[]> {
     let users = await prisma.user.findMany({
-      include:{organization:true}
+      include: { organization: true }
     });
     const response = users.map((user: User) => {
-      const {password, ...publicUser} = user;
+      const { password, ...publicUser } = user;
       return publicUser;
     });
 
@@ -86,13 +94,13 @@ class UserManager {
    * Returns {username, firstName, lastName, email, isAdmin}
    * Throws NotFoundError on missing record
    */
-  static async getUser(username:string): Promise<PublicUser> {
+  static async getUser(username: string): Promise<PublicUser> {
     try {
-      let user:User = await prisma.user.findUniqueOrThrow({
+      let user: User = await prisma.user.findUniqueOrThrow({
         where: { username },
-        include: {organization:true},
+        include: USER_INCLUDE_OBJ,
       });
-      const {password, ...publicUser} = user;
+      const { password, ...publicUser } = user;
       return publicUser;
     } catch (err) {
       throw new NotFoundError("User not found");
@@ -133,9 +141,9 @@ class UserManager {
           username: username,
         },
         data: userData,
-        include:{organization:true},
+        include: USER_INCLUDE_OBJ,
       });
-      const {password,...publicUser} = updatedUser;
+      const { password, ...publicUser } = updatedUser;
       return publicUser;
     } catch (err) {
       console.log(err);
@@ -144,19 +152,19 @@ class UserManager {
   }
 
 
-    /** Delete given user from database; returns undefined. */
-    static async deleteUser(username:string) {
-      try {
-        const deleted = await prisma.user.delete({
-          where: { username }
-        });
-        return deleted.username
-      } catch (err) {
-        throw new NotFoundError("User not found");
-      }
+  /** Delete given user from database; returns undefined. */
+  static async deleteUser(username: string) {
+    try {
+      const deleted = await prisma.user.delete({
+        where: { username }
+      });
+      return deleted.username;
+    } catch (err) {
+      throw new NotFoundError("User not found");
     }
+  }
 
   // end class
 };
 
-export default UserManager
+export default UserManager;
