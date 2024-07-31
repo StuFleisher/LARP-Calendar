@@ -13,7 +13,6 @@ import {
 const USER_INCLUDE_OBJ = {
   organization: {
     include: {
-      tags: true,
       imgUrl: true,
     }
   }
