@@ -21,7 +21,6 @@ function CreateOrgPage() {
     const EMPTY_ORG: OrganizationForCreate = {
         orgName: "",
         orgUrl: "",
-        imgUrl: "",
         description: "",
         email: "",
         username: user.username,

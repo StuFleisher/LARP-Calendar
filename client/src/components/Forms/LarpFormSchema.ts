@@ -23,7 +23,6 @@ const LarpFormSchema = yup.object({
       return start ? value >= start : true;
     }),
   allDay: yup.boolean(),
-  imageUrl: yup.string().url(),
   city: yup.string().required("Please specify a city").max(100),
   country: yup.string().required("Please specify a country").max(100),
   language: yup.string().required("Please specify a language").max(100),

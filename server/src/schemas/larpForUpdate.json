@@ -60,6 +60,9 @@
         }
       }
     },
+    "imgSetId":{
+      "type":"integer"
+    },
     "city": {
       "type": "string",
       "maxLength": 100
@@ -92,6 +95,7 @@
     "end",
     "allDay",
     "imgUrl",
+    "imgSetId",
     "city",
     "country",
     "language",

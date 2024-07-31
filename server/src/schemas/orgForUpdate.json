@@ -14,6 +14,26 @@
             "minLength": 1,
             "maxLength": 100
         },
+        "imgUrl": {
+            "type": "object",
+            "properties": {
+                "sm": {
+                    "type": "string",
+                    "format": "url"
+                },
+                "md": {
+                    "type": "string",
+                    "format": "url"
+                },
+                "lg": {
+                    "type": "string",
+                    "format": "url"
+                }
+            }
+        },
+        "imgSetId": {
+            "type": "integer"
+        },
         "orgUrl": {
             "type": "string",
             "format": "url",

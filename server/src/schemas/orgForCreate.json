@@ -16,6 +16,23 @@
             "format": "url",
             "maxLength": 500
         },
+        "imgUrl": {
+            "type": "object",
+            "properties": {
+                "sm": {
+                    "type": "string",
+                    "format": "url"
+                },
+                "md": {
+                    "type": "string",
+                    "format": "url"
+                },
+                "lg": {
+                    "type": "string",
+                    "format": "url"
+                }
+            }
+        },
         "description": {
             "type": "string"
         },
