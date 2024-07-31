@@ -79,9 +79,9 @@ model Organization {
 
 model ImageSet {
   id   Int           @id @default(autoincrement())
-  sm   String        @default("https://sf-larpcal.s3.amazonaws.com/recipeImage/default-sm")
-  md   String        @default("https://sf-larpcal.s3.amazonaws.com/recipeImage/default-md")
-  lg   String        @default("https://sf-larpcal.s3.amazonaws.com/recipeImage/default-lg")
+  sm   String        @default("https://sf-larpcal.s3.amazonaws.com/larpImage/default-sm")
+  md   String        @default("https://sf-larpcal.s3.amazonaws.com/larpImage/default-md")
+  lg   String        @default("https://sf-larpcal.s3.amazonaws.com/larpImage/default-lg")
   org  Organization?
   larp Larp?
 
