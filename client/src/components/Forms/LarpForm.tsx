@@ -41,14 +41,6 @@ function EventForm() {
                             label="Event title"
                             fullWidth
                         />
-                        <FastField
-                            component={FormikMuiTextField}
-                            placeholder="Image URL"
-                            name="imgUrl"
-                            id="larp-imgUrl"
-                            label="Event Image Url"
-                            fullWidth
-                        />
                         <Field
                             component={FormikSelectInput}
                             options={[

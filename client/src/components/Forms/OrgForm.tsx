@@ -34,14 +34,6 @@ function OrgForm(){
                         <FastField
                             component={FormikMuiTextField}
                             placeholder="Image URL"
-                            name="imgUrl"
-                            id="larp-imgUrl"
-                            label="Event Image Url"
-                            fullWidth
-                        />
-                        <FastField
-                            component={FormikMuiTextField}
-                            placeholder="Image URL"
                             name="orgUrl"
                             id="orgUrl"
                             label="Website"

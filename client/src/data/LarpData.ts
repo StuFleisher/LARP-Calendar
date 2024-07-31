@@ -1,4 +1,4 @@
-import { Tag, Larp } from "../types";
+import { Tag, Larp, Organization, ImageSet } from "../types";
 
 const START = new Date();
 const END = new Date(START.getTime() + 3 * 24 * 60 * 60 * 1000);
@@ -12,15 +12,23 @@ const Tag2: Tag = {
   name: "Tag2"
 };
 
-const testOrganization = {
+const testImageSet:ImageSet = {
+  sm: 'https://testLarp.com/testImage-sm',
+  md: 'https://testLarp.com/testImage-md',
+  lg: 'https://testLarp.com/testImage-lg',
+}
+
+const testOrganization:Organization = {
   id: 1,
   username: "testOrganizerUser-username",
   orgName: "testOrg-orgname",
   orgUrl: "https://testLarp.com/orgUrl",
-  imgUrl: "https://testLarp.com/imgUrl",
+  imgUrl: testImageSet,
+  imgSetId: 1,
   description: "testOrg-description",
   email: "testOrg@test.com",
   isApproved: true,
+  larps:[],
 };
 
 const TestLarp1: Larp = {
@@ -31,7 +39,8 @@ const TestLarp1: Larp = {
   start: START,
   end: END,
   allDay: false,
-  imgUrl: "https://picsum.photos/900/800",
+  imgUrl: testImageSet,
+  imgSetId:1,
   city: "Stratfordshire",
   country: "United Kingdom",
   language: "English",

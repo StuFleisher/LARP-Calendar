@@ -4,7 +4,7 @@ import { Larp } from '../../types';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useTheme } from '@mui/material/styles';
-import { Card, Box, Stack, Typography, Link } from "@mui/material";
+import { Box, Stack, Typography, Link } from "@mui/material";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faComment, faGlobe } from "@fortawesome/free-solid-svg-icons";
@@ -39,7 +39,7 @@ export default function LarpCard({ larp }: LarpCardProps) {
             >
                 <Box className="LarpCard-header"
                     sx={{
-                        backgroundImage: `url(${larp.imgUrl})`,
+                        backgroundImage: `url(${larp.imgUrl.md})`,
                         backgroundSize: 'cover',
                     }}
                 >

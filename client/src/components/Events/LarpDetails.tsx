@@ -29,7 +29,7 @@ function LarpDetails({ larp }: LarpDetailsProps) {
             <Box
                 className="banner"
                 sx={{
-                    backgroundImage: `url(${larp.imgUrl})`,
+                    backgroundImage: `url(${larp.imgUrl.lg})`,
                     backgroundSize: 'cover',
                 }}
             >
