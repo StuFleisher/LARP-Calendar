@@ -8,6 +8,7 @@ import LarpAPI from "../util/api";
 import { LarpForUpdate } from "../types";
 import { LarpFormProvider } from "../context/LarpFormProvider";
 import { useFetchLarp } from "../hooks/useFetchLarp";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 const DEFAULT_IMG_URL = "https://sf-larpcal.s3.amazonaws.com/larpImage/default-sm";
 
@@ -21,44 +22,56 @@ function EditLarpPage() {
     }
 
     const [saving, setSaving] = useState(false);
+    const [saveErrs, setSaveErrs] = useState<string[]>([]);
+
     const navigate = useNavigate();
     const { larp, loading, error } = useFetchLarp(parseInt(id));
 
+    /** Auth check --> Does the user have write permission for this record */
     if (username !== larp?.organization.username && !isAdmin) {
         return <Navigate to={`events/${id}`} />;
     }
 
-    if (error) {
-        //TODO: create error page
-        console.error(error);
-        navigate('/events');
-    }
 
     /** Sends an API request to store a larp based on the current form values
   * Navigates to the larpDetail view upon success.
   */
     async function saveLarp(formData: LarpForUpdate) {
-        setSaving(true);
-        const savedLarp = await LarpAPI.UpdateLarp({
-            ...formData,
-        });
-
-        navigate(
-            savedLarp.imgUrl.sm === DEFAULT_IMG_URL
-                ?
-                `/events/${savedLarp.id}/image?new=true`
-                :
-                `/events/${savedLarp.id}`
-        );
+        try {
+            setSaving(true);
+            const savedLarp = await LarpAPI.UpdateLarp({
+                ...formData,
+            });
+            navigate(
+                savedLarp.imgUrl.sm === DEFAULT_IMG_URL
+                    ?
+                    `/events/${savedLarp.id}/image?new=true`
+                    :
+                    `/events/${savedLarp.id}`
+            );
+        } catch (e: any) {
+            setSaving(false);
+            console.error(e);
+            setSaveErrs(() => [...e]);
+        }
     }
 
 
+
     return (
-        !larp
+        loading
             ?
             <LoadingSpinner />
             :
             <>
+                <ErrorMessage
+                    title="Sorry, there was a problem loading your data"
+                    errs={error}
+                />
+                <ErrorMessage
+                    title="Sorry, there was a problem submitting the form"
+                    errs={saveErrs}
+                />
                 {saving &&
                     <Modal open={true}>
                         <Box className="LoadingSpinnerContainer">
@@ -66,9 +79,14 @@ function EditLarpPage() {
                         </Box>
                     </Modal>
                 }
-                <LarpFormProvider<LarpForUpdate> onSubmitCallback={saveLarp} larp={larp as LarpForUpdate}>
-                    <EventForm />
-                </LarpFormProvider>
+                {larp &&
+                    <LarpFormProvider<LarpForUpdate>
+                        onSubmitCallback={saveLarp}
+                        larp={larp as LarpForUpdate}
+                        >
+                        <EventForm />
+                    </LarpFormProvider>
+                }
             </>
     );
 }

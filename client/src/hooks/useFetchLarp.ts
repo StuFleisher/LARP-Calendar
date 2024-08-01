@@ -12,7 +12,7 @@ type FetchLarpsResult = {
 function useFetchLarp(id: number): FetchLarpsResult {
   const [larp, setLarp] = useState<Larp | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchLarp() {
@@ -20,7 +20,7 @@ function useFetchLarp(id: number): FetchLarpsResult {
         const response = await LarpAPI.getLarpById(id);
         setLarp(response);
         setLoading(false);
-      } catch (err) {
+      } catch (err:any) {
         setError(err);
         setLoading(false);
       }
