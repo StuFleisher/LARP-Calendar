@@ -7,8 +7,11 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 import LarpAPI from "../util/api";
 import { OrgFormProvider } from "../context/OrgFormProvider";
 import OrgForm from "../components/Forms/OrgForm";
-import { Box, Modal } from "@mui/material";
+import { Alert, Box, Link, Modal } from "@mui/material";
 import EditOrgSchema from "../components/Forms/EditOrgSchema";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 function EditOrgPage() {
 
@@ -19,6 +22,7 @@ function EditOrgPage() {
     }
     const { org, error, loading } = useFetchOrg(+id);
     const [saving, setSaving] = useState(false);
+    const [saveErrs, setSaveErrs] = useState<string[]>([]);
     const navigate = useNavigate();
 
     /** Auth check --> Is this the user's Organization
@@ -39,18 +43,19 @@ function EditOrgPage() {
     }
     const orgForUpdate = orgToOrgForUpdate();
 
-    if (error) {
-        //TODO: create error page
-        console.error(error);
-        navigate(`/orgs/${id}`);
-    }
-
     async function saveOrg(formData: OrganizationForUpdate) {
-        setSaving(true);
-        const savedOrg = await LarpAPI.UpdateOrg({
-            ...formData,
-        });
-        navigate(`/orgs/${savedOrg.id}`);
+        try {
+            setSaving(true);
+            const savedOrg = await LarpAPI.UpdateOrg({
+                ...formData,
+            });
+            navigate(`/orgs/${savedOrg.id}`);
+        } catch (e: any) {
+            setSaving(false);
+            console.error(e);
+            setSaveErrs(() => [...e]);
+        }
+
     }
 
 
@@ -61,6 +66,14 @@ function EditOrgPage() {
             <LoadingSpinner />
             :
             <>
+                <ErrorMessage
+                    title="Sorry, there was a problem loading your data"
+                    errs={error}
+                />
+                <ErrorMessage
+                    title="Sorry, there was a problem submitting the form"
+                    errs={saveErrs}
+                />
                 {saving &&
                     <Modal open={true}>
                         <Box className="LoadingSpinnerContainer">
@@ -68,7 +81,11 @@ function EditOrgPage() {
                         </Box>
                     </Modal>
                 }
-
+                {!org?.isApproved &&
+                    <Alert severity="success" icon={<FontAwesomeIcon icon={faCheck} />}>
+                        Your application is currently being reviewed by our admin team. Once your application has been approved you will be able to publish events. Send questions to <Link to="mailto:info@larpcalendar.com">info@larpcalendar.com</Link>
+                    </Alert>
+                }
                 <OrgFormProvider<OrganizationForUpdate>
                     onSubmitCallback={saveOrg}
                     org={orgForUpdate!}

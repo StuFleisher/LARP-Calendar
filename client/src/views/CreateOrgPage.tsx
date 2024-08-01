@@ -8,15 +8,18 @@ import { Modal, Box, Typography } from "@mui/material";
 import { userContext } from "../context/userContext";
 import OrgForm from "../components/Forms/OrgForm";
 import CreateOrgSchema from "../components/Forms/CreateOrgSchema";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 
 function CreateOrgPage() {
 
     const user = useContext(userContext);
     const [saving, setSaving] = useState(false);
+    const [errs, setErrs] = useState<string[]>([]);
     const navigate = useNavigate();
 
-    if (!user.username) {return <Navigate to="/auth/login"/>}
+    if (!user.username) { return <Navigate to="/auth/login" />; }
+    if (user.organization) { return <Navigate to={`/orgs/${user.organization.id}/edit`} />; }
 
     const EMPTY_ORG: OrganizationForCreate = {
         orgName: "",
@@ -27,37 +30,46 @@ function CreateOrgPage() {
     };
 
     async function saveOrg(formData: OrganizationForCreate) {
-        setSaving(true);
-        const savedOrg = await LarpAPI.CreateOrganization({
-            ...formData,
-        });
-        navigate(`/orgs/${savedOrg.id}/image`);
+        try {
+            setSaving(true);
+            const savedOrg = await LarpAPI.CreateOrganization({
+                ...formData,
+            });
+            navigate(`/orgs/${savedOrg.id}/image`);
+        } catch (e: any) {
+            setErrs(e);
+            setSaving(false);
+        }
     }
 
     return (
-            <>
-                {saving &&
-                    <Modal open={true}>
-                        <Box className="LoadingSpinnerContainer">
-                            <LoadingSpinner />
-                        </Box>
-                    </Modal>
-                }
-    <Typography component="h1" variant="h1"  m='2rem'>
-        Become an organizer
-    </Typography>
-    <Typography m='2rem'>
-        Would you like to add your events to the calendar?  We'd love to have you!  Fill out the form below and our team will review your application.  Once you're approved, you'll be able to post your own events.
-    </Typography>
-                <OrgFormProvider<OrganizationForCreate>
-                 onSubmitCallback={saveOrg}
-                 org={EMPTY_ORG}
-                 schema={CreateOrgSchema}
-                 >
-                    <OrgForm />
-                </OrgFormProvider>
-            </>
-    )
+        <>
+            <ErrorMessage
+                title="Sorry, there was a problem submitting the form"
+                errs={errs}
+            />
+            {saving &&
+                <Modal open={true}>
+                    <Box className="LoadingSpinnerContainer">
+                        <LoadingSpinner />
+                    </Box>
+                </Modal>
+            }
+            <Typography component="h1" variant="h1" m='2rem'>
+                Become an organizer
+            </Typography>
+            <Typography m='2rem'>
+                Would you like to add your events to the calendar?  We'd love to have you!  Fill out the form below and our team will review your application.  Once you're approved, you'll be able to post your own events.
+            </Typography>
+            <OrgFormProvider<OrganizationForCreate>
+                onSubmitCallback={saveOrg}
+                org={EMPTY_ORG}
+                schema={CreateOrgSchema}
+            >
+                <OrgForm />
+            </OrgFormProvider>
+        </>
+    );
 }
 
 export default CreateOrgPage;

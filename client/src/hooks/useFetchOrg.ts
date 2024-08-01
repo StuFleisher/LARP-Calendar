@@ -12,7 +12,7 @@ type FetchOrgResult = {
 function useFetchOrg(id: number): FetchOrgResult {
   const [org, setOrg] = useState<Organization | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchOrg() {
