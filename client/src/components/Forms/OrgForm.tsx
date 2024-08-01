@@ -1,6 +1,6 @@
 import { Organization } from "../../types";
 import { useFormikContext, Form } from "formik";
-import { FastField, Field } from "formik";
+import { FastField } from "formik";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import FormikMuiTextField from "../FormComponents/FormikMuiTextField";
 import ErrorDisplay from "../FormComponents/ErrorDisplay";
@@ -33,15 +33,15 @@ function OrgForm(){
                         />
                         <FastField
                             component={FormikMuiTextField}
-                            placeholder="Image URL"
+                            placeholder="Website"
                             name="orgUrl"
                             id="orgUrl"
-                            label="Website"
+                            label="https://example.com"
                             fullWidth
                         />
                         <FastField
                             component={FormikMuiTextField}
-                            placeholder="Image URL"
+                            placeholder="email"
                             name="email"
                             id="email"
                             label="email"
