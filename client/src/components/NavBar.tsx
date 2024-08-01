@@ -15,8 +15,8 @@ type NavBarProps = {
 
 function NavBar({ login }: NavBarProps) {
 
-    const user = useContext(userContext);
-    
+    const { username, organization, isAdmin } = useContext(userContext);
+
     const [showAccountMenu, setShowAccountMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -48,8 +48,117 @@ function NavBar({ login }: NavBarProps) {
         };
     }, [handleResize]);
 
+    /*********************** Menu Item Display Elements by Auth ******************************/
+    const ANON_ITEMS = (
+        <Box>
+            {!username &&
+                <>
+                    <MenuItem
+                        component={RouterLink}
+                        to="/auth/register"
+                        onClick={() => setShowAccountMenu(false)}
+                    >
+                        Sign Up
+                    </MenuItem>
+                    <MenuItem
+                        component={RouterLink}
+                        to="/auth/login"
+                        onClick={() => setShowAccountMenu(false)}
+                    >
+                        Log In
+                    </MenuItem>
 
-    /** Dropdown menu contents */
+                </>
+            }
+        </Box>
+    );
+
+    const USER_ITEMS = (
+        <Box>
+            {username &&
+                <>
+                    <MenuItem
+                        component={RouterLink}
+                        to="/auth/logout"
+                        onClick={() => setShowAccountMenu(false)}
+                    >
+                        Log Out
+                    </MenuItem>
+                    {!organization &&
+                        <>
+                            <Divider />
+                            <MenuItem
+                                component={RouterLink}
+                                to={`/orgs/apply`}
+                                onClick={() => setShowAccountMenu(false)}
+                            >
+                                Become an Organizer
+                            </MenuItem>
+                        </>
+                    }
+                </>
+            }
+        </Box>
+    );
+
+    const UNAPPROVED_ORG_ITEMS = (
+        <Box>
+            {username && organization && !organization.isApproved &&
+                <>
+                    <MenuItem
+                        component={RouterLink}
+                        to={`/orgs/${organization.id}`}
+                        onClick={() => setShowAccountMenu(false)}
+                    >
+                        Organizer Hub
+                    </MenuItem>
+                </>
+            }
+        </Box>
+    );
+
+    const APPROVED_ORG_ITEMS = (
+        <Box>
+            {organization && organization.isApproved &&
+                <>
+                    <Divider />
+                    <MenuItem
+                        component={RouterLink}
+                        to={`/events/create`}
+                        onClick={() => setShowAccountMenu(false)}
+                    >
+                        Create an Event
+                    </MenuItem>
+                    <MenuItem
+                        component={RouterLink}
+                        to={`/orgs/${organization.id}`}
+                        onClick={() => setShowAccountMenu(false)}
+                    >
+                        Organizer Hub
+                    </MenuItem>
+                </>
+            }
+        </Box >
+    );
+
+    const ADMIN_ITEMS = (
+        <Box>
+            {isAdmin &&
+                <>
+                    <Divider />
+                    <MenuItem
+                        component={RouterLink}
+                        to={`/admin`}
+                        onClick={() => setShowAccountMenu(false)}
+                    >
+                        Admin
+                    </MenuItem>
+                </>
+            }
+        </Box>
+    );
+
+    /*********************** Menu Displays ******************************/
     const ACCOUNT_MENU = (
         <Menu
             open={showAccountMenu}
@@ -58,53 +167,12 @@ function NavBar({ login }: NavBarProps) {
                 setShowAccountMenu(false);
                 handleCloseMenu();
             }}
-
         >
-            {
-                user.username
-                    ? (
-                        <Box>
-                            <MenuItem
-                                component={RouterLink}
-                                to="/auth/logout"
-                                onClick={() => setShowAccountMenu(false)}
-                            >
-                                Log Out
-                            </MenuItem>
-                            <MenuItem
-                                component={RouterLink}
-                                to={
-                                    user.organization
-                                        ?
-                                        `/orgs/${user.organization.id}`
-                                        :
-                                        `/orgs/apply`
-                                }
-                                onClick={() => setShowAccountMenu(false)}
-                            >
-                                Organizer Hub
-                            </MenuItem>
-                        </Box>
-                    )
-                    : (
-                        <Box>
-                            <MenuItem
-                                component={RouterLink}
-                                to="/auth/register"
-                                onClick={() => setShowAccountMenu(false)}
-                            >
-                                Sign Up
-                            </MenuItem>
-                            <MenuItem
-                                component={RouterLink}
-                                to="/auth/login"
-                                onClick={() => setShowAccountMenu(false)}
-                            >
-                                Log In
-                            </MenuItem>
-                        </Box>
-                    )
-            }
+            {ANON_ITEMS}
+            {USER_ITEMS}
+            {UNAPPROVED_ORG_ITEMS}
+            {APPROVED_ORG_ITEMS}
+            {ADMIN_ITEMS}
         </Menu >
     );
 
@@ -119,56 +187,12 @@ function NavBar({ login }: NavBarProps) {
             }}
         >
 
-            {
-                user.username
-                    ? (
-                        <Box>
-                            <MenuItem
-                                component={RouterLink}
-                                to="/auth/logout"
-                                onClick={() => setShowAccountMenu(false)}
-                            >
-                                Log Out
-                            </MenuItem>
-                            <Divider />
-                            <MenuItem
-                                component={RouterLink}
-                                to={
-                                    user.organization
-                                        ?
-                                        `/orgs/${user.organization.id}`
-                                        :
-                                        `/orgs/apply`
-                                }
-                                onClick={() => setShowAccountMenu(false)}
-                            >
-                                Organizer Hub
-                            </MenuItem>
-                        </Box>
-                    )
-                    : (
-                        <Box>
-                            <MenuItem
-                                component={RouterLink}
-                                to="/auth/register"
-                                onClick={() => setShowAccountMenu(false)}
-                            >
-                                Sign Up
-                            </MenuItem>
-                            <MenuItem
-                                component={RouterLink}
-                                to="/auth/login"
-                                onClick={() => setShowAccountMenu(false)}
-                            >
-                                Log In
-                            </MenuItem>
-                            <Divider />
-                        </Box>
-                    )
-            }
+            {ANON_ITEMS}
+            {USER_ITEMS}
+            <Divider/>
             <MenuItem
                 component={RouterLink}
-                to="/auth/logout"
+                to="/about"
                 onClick={() => setShowAccountMenu(false)}
             >
                 About
@@ -176,11 +200,14 @@ function NavBar({ login }: NavBarProps) {
 
             <MenuItem
                 component={RouterLink}
-                to="/auth/logout"
+                to="/events"
                 onClick={() => setShowAccountMenu(false)}
             >
                 Events
             </MenuItem>
+            {UNAPPROVED_ORG_ITEMS}
+            {APPROVED_ORG_ITEMS}
+            {ADMIN_ITEMS}
         </Menu >
     );
 
@@ -225,7 +252,6 @@ function NavBar({ login }: NavBarProps) {
                             </Button>
                             <Button
                                 className="NavBar-button"
-                                //FIXME:
                                 onClick={(e) => {
                                     handleClickMenu(e);
                                     setShowAccountMenu(!showAccountMenu);
