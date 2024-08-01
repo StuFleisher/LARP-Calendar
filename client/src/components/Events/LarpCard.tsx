@@ -39,7 +39,8 @@ export default function LarpCard({ larp }: LarpCardProps) {
             >
                 <Box className="LarpCard-header"
                     sx={{
-                        backgroundImage: `url(${larp.imgUrl.md})`,
+                        backgroundImage: `url(${larp.imgUrl.sm})`,
+                        backgroundPosition: 'center',
                         backgroundSize: 'cover',
                     }}
                 >

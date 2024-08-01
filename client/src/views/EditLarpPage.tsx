@@ -9,38 +9,29 @@ import { LarpForUpdate } from "../types";
 import { LarpFormProvider } from "../context/LarpFormProvider";
 import { useFetchLarp } from "../hooks/useFetchLarp";
 
+const DEFAULT_IMG_URL = "https://sf-larpcal.s3.amazonaws.com/larpImage/default-sm";
+
 
 function EditLarpPage() {
 
-    const {username, isAdmin} = useContext(userContext);
+    const { username, isAdmin } = useContext(userContext);
     const { id } = useParams();
-    if (!id){
-        throw new Error("Id is required to edit a larp")
+    if (!id) {
+        throw new Error("Id is required to edit a larp");
     }
 
     const [saving, setSaving] = useState(false);
     const navigate = useNavigate();
-    const {larp, loading, error} = useFetchLarp(parseInt(id))
+    const { larp, loading, error } = useFetchLarp(parseInt(id));
 
-    if (username !== larp?.organization.username && !isAdmin){
-        return <Navigate to={`events/${id}`}/>
+    if (username !== larp?.organization.username && !isAdmin) {
+        return <Navigate to={`events/${id}`} />;
     }
 
-
-    function larpToLarpForUpdate():LarpForUpdate | null{
-        if (larp){
-            const {orgId, organization, ...larpForUpdate} = larp;
-            return larpForUpdate
-        }
-        return null;
-    }
-    const larpForUpdate = larpToLarpForUpdate();
-
-
-    if (error){
+    if (error) {
         //TODO: create error page
-        console.error(error)
-        navigate('/events')
+        console.error(error);
+        navigate('/events');
     }
 
     /** Sends an API request to store a larp based on the current form values
@@ -51,10 +42,14 @@ function EditLarpPage() {
         const savedLarp = await LarpAPI.UpdateLarp({
             ...formData,
         });
-        // if (image) {
-        //     await ParsleyAPI.updateRecipeImage(image, recipe.recipeId);
-        // }
-        navigate(`/events/${savedLarp.id}`);
+
+        navigate(
+            savedLarp.imgUrl.sm === DEFAULT_IMG_URL
+                ?
+                `/events/${savedLarp.id}/image?new=true`
+                :
+                `/events/${savedLarp.id}`
+        );
     }
 
 
@@ -71,8 +66,8 @@ function EditLarpPage() {
                         </Box>
                     </Modal>
                 }
-                <LarpFormProvider<LarpForUpdate> onSubmitCallback={saveLarp} larp={larpForUpdate!}>
-                    <EventForm/>
+                <LarpFormProvider<LarpForUpdate> onSubmitCallback={saveLarp} larp={larp as LarpForUpdate}>
+                    <EventForm />
                 </LarpFormProvider>
             </>
     );

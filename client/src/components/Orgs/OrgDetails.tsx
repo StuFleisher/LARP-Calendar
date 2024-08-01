@@ -2,7 +2,7 @@ import { Organization } from "../../types";
 import { Typography, Stack, Box, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import CategoryBar from "../Events/CategoryBar";
-import "./OrgDetails.scss"
+import "./OrgDetails.scss";
 import useOrgControls from "../../hooks/useOrgControls";
 import { useContext } from "react";
 import { userContext } from "../../context/userContext";
@@ -13,27 +13,26 @@ type OrgDetailsProps = {
 
 function OrgDetails({ org }: OrgDetailsProps) {
     const { username, isAdmin } = useContext(userContext);
-    const {EditOrgButton} = useOrgControls(org.id)
+    const { EditOrgButton } = useOrgControls(org.id);
 
     return (
         <Box className="OrgDetails">
             <Box
                 className="banner"
                 sx={{
-                    backgroundImage: `url(${org.imgUrl})`,
+                    backgroundImage: `url(${org.imgUrl.lg})`,
                     backgroundSize: 'cover',
                 }}
             >
                 {
-                (org.username === username) || isAdmin === true
-                    ?
-                    <Stack direction="row" className="organizerControls">
-                        {EditOrgButton}
-                    </Stack>
-                    :
-                    <></>
-
-            }
+                    (org.username === username) || isAdmin === true
+                        ?
+                        <Stack direction="row" className="organizerControls">
+                            {EditOrgButton}
+                        </Stack>
+                        :
+                        <></>
+                }
             </Box>
             <Stack
                 className="OrgDetails-content"

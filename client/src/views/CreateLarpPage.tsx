@@ -1,6 +1,5 @@
-import { useState, useContext } from "react";
+import {  useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { DateTime } from "luxon";
 
 import EventForm from "../components/Forms/LarpForm";
 import LarpAPI from "../util/api";
@@ -30,8 +29,6 @@ const emptyLarp:LarpForCreate = {
 
 function NewLarpPage({initialLarp = emptyLarp}:NewLarpPageProps) {
 
-    const [larp, setLarp] = useState<LarpForCreate>(initialLarp);
-
     const { organization } = useContext(userContext);
     const navigate = useNavigate();
 
@@ -44,14 +41,12 @@ function NewLarpPage({initialLarp = emptyLarp}:NewLarpPageProps) {
             ...formData,
             orgId: organization!.id,
         });
-        // if (image) {
-        //     await ParsleyAPI.updateRecipeImage(image, recipe.recipeId);
-        // }
-        navigate(`/events/${savedLarp.id}`);
+
+        navigate(`/events/${savedLarp.id}/image?new=true`);
     }
 
     return (
-        <LarpFormProvider<LarpForCreate> onSubmitCallback={saveLarp} larp={larp}>
+        <LarpFormProvider<LarpForCreate> onSubmitCallback={saveLarp} larp={initialLarp}>
             <EventForm />
         </LarpFormProvider>
     );

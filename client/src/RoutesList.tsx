@@ -13,8 +13,10 @@ import AdminRoutes from "./admin/AdminRoutes";
 import OrgDetailPage from "./views/OrgDetailPage";
 import CreateOrgPage from "./views/CreateOrgPage";
 import EditOrgPage from "./views/EditOrgPage";
+import EditLarpImagePage from "./views/EditLarpImagePage";
 import UserRegistrationForm from "./components/Forms/RegisterForm";
 import LogOutPage from "./views/LogOutPage";
+import EditOrgImagePage from "./views/EditOrgImagePage";
 
 
 type RoutesListProps = {
@@ -38,13 +40,15 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
         <>
         <Route path='/orgs/apply' element={<CreateOrgPage />} />
         <Route path='/orgs/:id/edit' element={<EditOrgPage />} />
+        <Route path='/orgs/:id/image' element={<EditOrgImagePage />} />
         <Route path='/auth/logout' element={<LogOutPage logOut={logout} />} />
         </>
     );
 
-    const organizerRoutes = (
+    const approvedOrganizerRoutes = (
         <>
             <Route path='/events/:id/edit' element={<EditLarpPage />} />
+            <Route path='/events/:id/image' element={<EditLarpImagePage />} />
             <Route path='/events/create' element={<NewLarpPage />} />
         </>
     );
@@ -62,7 +66,7 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
             <Routes>
                 <Route path='/' element={<HomePage />} />
                 {username ? loginRoutes : anonRoutes}
-                {isOrganizer ? organizerRoutes : ""}
+                {isOrganizer ? approvedOrganizerRoutes : ""}
                 {isAdmin ? adminRoutes : ""}
                 {/* <Route path='/events/create' element={<NewEventPage />} /> */}
                 <Route path='/orgs/:id' element={<OrgDetailPage />} />

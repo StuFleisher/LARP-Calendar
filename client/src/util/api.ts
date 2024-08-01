@@ -170,17 +170,17 @@ class LarpAPI {
     return JsonToLarp(response.larp);
   }
 
-  //static async updatelarpImage(image: Blob, larpId: number) {
-  //   const formData = new FormData();
-  //   formData.set('image', image);
+  static async updateLarpImage(image: Blob, larpId: number) {
+    const formData = new FormData();
+    formData.set('image', image);
 
-  //   const response = await this.multipartRequest(
-  //     `larps/${larpId}/image`,
-  //     formData,
-  //     'put'
-  //   );
-  //   return response.imageUrl;
-  // }
+    const response = await this.multipartRequest(
+      `events/${larpId}/image`,
+      formData,
+      'put'
+    );
+    return response.imageUrl;
+  }
 
   /**  DELETE  */
   static async DeleteLarp(id: number): Promise<Larp> {
@@ -220,6 +220,18 @@ class LarpAPI {
       'patch'
     );
     return response.org;
+  }
+
+  static async updateOrgImage(image: Blob, orgId: number) {
+    const formData = new FormData();
+    formData.set('image', image);
+
+    const response = await this.multipartRequest(
+      `orgs/${orgId}/image`,
+      formData,
+      'put'
+    );
+    return response.imageUrl;
   }
 
   static async UpdateOrgApproval(id:number, isApproved:boolean):Promise<Organization> {
