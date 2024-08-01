@@ -11,7 +11,7 @@ const LARP_INCLUDE_OBJ = {
 };
 
 const BUCKET_NAME = process.env.BUCKET_NAME
-const DEFAULT_IMG_URL = `https://${BUCKET_NAME}.s3.amazonaws.com/default`;
+const DEFAULT_IMG_URL = `https://${BUCKET_NAME}.s3.amazonaws.com/larpImage/default`;
 
 class LarpManager {
 
@@ -209,6 +209,8 @@ class LarpManager {
    * @returns the updated larp
    */
   static async updateLarpImage(file: Express.Multer.File, id: number) {
+
+    console.log("updateLarpImage")
 
     const s3Path = `larpImage/larp-${id}`;
     await ImageHandler.uploadAllSizes(file.buffer, s3Path);

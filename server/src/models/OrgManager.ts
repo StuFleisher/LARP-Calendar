@@ -15,7 +15,7 @@ const ORG_INCLUDE_OBJ = {
 };
 
 const BUCKET_NAME = process.env.BUCKET_NAME;
-const DEFAULT_IMG_URL = `https://${BUCKET_NAME}.s3.amazonaws.com/default`;
+const DEFAULT_IMG_URL = `https://${BUCKET_NAME}.s3.amazonaws.com/orgImage/default`;
 class OrgManager {
 
   static async createOrg(

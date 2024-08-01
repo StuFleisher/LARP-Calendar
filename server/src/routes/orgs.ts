@@ -7,6 +7,7 @@ import {
   ensureMatchingOrganizerOrAdmin,
   ensureOwnerOrAdmin
 } from '../middleware/auth';
+import readMultipart from '../middleware/multer';
 const router = express.Router();
 
 import { BadRequestError } from '../utils/expressError';
@@ -140,6 +141,29 @@ router.patch(
     }
     const org = await OrgManager.setApproved(req.body.id, req.body.isApproved);
     return res.json({ org });
+  }
+);
+
+/** PUT /[id]/image
+ * Expects a Content:multipart/form-data
+ * Stores the attached image in s3 and updates the imageUrl accordingly
+ * Returns the updated larp record
+ */
+
+router.put(
+  "/:id/image",
+  ensureMatchingOrganizerOrAdmin,
+  readMultipart('image'),
+  async function (req: Request, res: Response, next: NextFunction) {
+    //TODO: test middleware
+
+    if (!req.file) { throw new BadRequestError('Please attach an image'); }
+    const larp = await OrgManager.updateOrgImage(
+      req.file,
+      +req.params.id
+    );
+
+    return res.json(larp);
   }
 );
 
