@@ -12,7 +12,6 @@ import { Link } from "@mui/material";
 
 function OrgDetailPage() {
 
-    const navigate = useNavigate();
     const { id } = useParams();
     if (!id) {
         throw new Error("Id is required to view details page for an organization");
