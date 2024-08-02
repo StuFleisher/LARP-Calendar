@@ -11,8 +11,10 @@ function AdminNav() {
             alignItems="center"
             direction="column"
             sx={{
-                '& .MuiPaper-root':{
-                    border:'none'
+                position: "sticky",
+                top: 0,
+                '& .MuiPaper-root': {
+                    border: 'none'
                 }
             }}
         >

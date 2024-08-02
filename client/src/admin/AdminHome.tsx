@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Stack, Drawer, IconButton } from "@mui/material";
+import { Stack, Drawer, IconButton, Box } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleRight, faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Outlet } from "react-router-dom";
 import AdminNav from "./AdminNav";
+import { relative } from "path";
+import { NONAME } from "dns";
 
 const DRAWER_WIDTH = 150;
 
@@ -18,10 +20,12 @@ function AdminHome() {
         <Stack
             direction="row"
             justifyContent="center"
-            alignItems="center"
+            alignItems="flex-start"
             className="Admin-pageContainer"
             sx={{
-                height:'100%',
+                height: '100%',
+                maxWidth: '100vw',
+                position: 'relative',
             }}
         >
 
@@ -31,12 +35,13 @@ function AdminHome() {
                 variant="persistent"
                 anchor="left"
                 sx={{
-                    width: `${DRAWER_WIDTH}`,
-                    alignSelf: 'stretch',
+                    position: 'sticky',
+                    top: 0,
+                    width: `${DRAWER_WIDTH}px`,
                     '& .MuiDrawer-paper': {
+                        borderRight: 'none',
                         width: isOpen ? `${DRAWER_WIDTH}px` : '0px',
-                        position: 'relative', // Ensure it is positioned within the container
-                        // border:'none'
+                        position: 'relative', // Ensure button is positioned within the container
                     },
                 }}
             >
@@ -45,20 +50,31 @@ function AdminHome() {
 
             <Stack
                 direction="row"
-                alignItems="center"
+                alignItems="flex-start"
                 className="Admin-dashboardContainer"
                 sx={{
                     flexGrow: 1,
                     width: isOpen ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%',
-                    height:'100%'
+                    height: '100%',
                 }}
             >
                 <IconButton
                     onClick={toggleDrawer}
+                    sx={{
+                        position: "sticky",
+                        top: 0
+                    }}
                 >
                     <FontAwesomeIcon icon={isOpen ? faChevronCircleLeft : faChevronCircleRight} />
                 </IconButton>
-                <Outlet />
+                <Box
+                    sx={{
+                        flex: 1,
+                        overflow:"auto"
+                    }}
+                >
+                    <Outlet />
+                </Box>
             </Stack>
         </Stack>
     );
