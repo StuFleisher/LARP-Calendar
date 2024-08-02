@@ -17,12 +17,6 @@ function LarpDetailPage (){
     const {larp, loading, error} = useFetchLarp(parseInt(id))
     const { username } = useContext(userContext);
 
-    if (error){
-        //TODO: create error page
-        console.error(error)
-        navigate('/events')
-    }
-
     return (
 
             <>

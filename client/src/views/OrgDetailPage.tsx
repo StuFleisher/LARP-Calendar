@@ -20,12 +20,6 @@ function OrgDetailPage() {
 
     const { org, error, loading } = useFetchOrg(+id);
 
-    if (error) {
-        //TODO: create error page
-        console.error(error);
-        navigate('/events');
-    }
-
     if (loading) return (<LoadingSpinner />);
 
     if (org) return (

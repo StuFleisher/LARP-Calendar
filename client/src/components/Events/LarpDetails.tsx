@@ -81,7 +81,10 @@ function LarpDetails({ larp }: LarpDetailsProps) {
 
                 <Box className="filled-light">
                     <Typography>
-                        Hosted By: {larp.organization.orgName}
+                        Hosted By:
+                        <Link component={RouterLink} to={`/orgs/${larp.organization.id}`}>
+                            {larp.organization.orgName}
+                        </Link>
                     </Typography>
                     <Typography
                         // color={ticketColor}
