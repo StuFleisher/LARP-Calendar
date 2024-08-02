@@ -3,18 +3,40 @@
 .LarpCard {
     min-width: 250px;
     width: 75%;
-    height:100%;
+    height: 100%;
 
     & .LarpCard-header {
         height: 150px;
-        border-radius: 5px  5px 0 0;
+        border-radius: 5px 5px 0 0;
         background-color: #d7d7d7;
+        position: relative;
+
+
+    }
+
+    .larpControls {
+        // position: absolute;
+        // bottom: 0;
+        width: 100%;
+        transition: background-color .2s;
+        background-color: #070707ff;
+
+        button {
+            color: white;
+            margin: 0 .5rem;
+            font-size: 1rem;
+        }
+    }
+
+    .larpControls:hover {
+        transition: background-color .2s;
+        background-color: #070707cc;
     }
 
     & .LarpCard-content {
-        width:100%;
+        width: 100%;
         // padding: .5rem .75rem;
-        padding:2rem;
+        padding: 2rem;
         background-color: white;
         color: $dark;
         border-radius: 0 0 5px 5px;
@@ -23,7 +45,7 @@
 
         .title {
             margin-bottom: 5px;
-            overflow:hidden;
+            overflow: hidden;
         }
 
 
@@ -32,7 +54,7 @@
     & .LarpCard-details {
         margin: 1rem 0;
 
-        > * {
+        >* {
             padding-top: 5px;
         }
     }

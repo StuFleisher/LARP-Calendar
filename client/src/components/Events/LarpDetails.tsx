@@ -22,7 +22,7 @@ type LarpDetailsProps = {
 
 function LarpDetails({ larp }: LarpDetailsProps) {
     const { username, isAdmin } = useContext(userContext);
-    const { EditLarpButton, DeleteLarpButton } = useLarpControls(larp.id);
+    const { EditLarpButton, DeleteLarpButton, EditImageButton } = useLarpControls(larp.id);
 
     return (
         <Box className="LarpDetails">
@@ -36,8 +36,13 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                 {
                     (larp.organization.username === username) || isAdmin === true
                         ?
-                        <Stack direction="row" className="organizerControls">
+                        <Stack
+                        direction="row"
+                        className="larpControls"
+                        justifyContent="space-around"
+                        >
                             {EditLarpButton}
+                            {EditImageButton}
                             {DeleteLarpButton}
                         </Stack>
                         :

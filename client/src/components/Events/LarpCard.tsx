@@ -11,6 +11,9 @@ import { faLocationDot, faComment, faGlobe } from "@fortawesome/free-solid-svg-i
 
 import TagCard from './TagDisplay';
 import { JSDateToLuxon } from '../../util/typeConverters';
+import useLarpControls from '../../hooks/useLarpControls';
+import { userContext } from '../../context/userContext';
+import { useContext } from 'react';
 
 type LarpCardProps = {
     larp: Larp,
@@ -18,6 +21,8 @@ type LarpCardProps = {
 
 export default function LarpCard({ larp }: LarpCardProps) {
     const theme = useTheme();
+    const { username, isAdmin } = useContext(userContext);
+    const { EditLarpButton, DeleteLarpButton, EditImageButton } = useLarpControls(larp.id);
 
     let ticketColor = theme.palette.success.main;
     if (larp.ticketStatus === "LIMITED") ticketColor = theme.palette.warning.main;
@@ -28,7 +33,7 @@ export default function LarpCard({ larp }: LarpCardProps) {
             className='LarpCard'
             direction="column"
             sx={{
-                width:'300px'
+                width: '300px'
             }}
         >
 
@@ -46,6 +51,22 @@ export default function LarpCard({ larp }: LarpCardProps) {
                 >
                 </Box>
             </Link>
+            {
+                (larp.organization.username === username) || isAdmin === true
+                    ?
+                    <Stack
+                        direction="row"
+                        className="larpControls"
+                        justifyContent="space-around"
+                    >
+                        {EditLarpButton}
+                        {EditImageButton}
+                        {DeleteLarpButton}
+                    </Stack>
+                    :
+                    <></>
+
+            }
 
             <Stack
                 className="LarpCard-content"
@@ -124,7 +145,7 @@ export default function LarpCard({ larp }: LarpCardProps) {
                 </Box>
 
                 <Stack direction="row" flexWrap="wrap" spacing={1} margin="auto">
-                    {larp.tags.map((tag) => (
+                    {larp.tags.slice(0,4).map((tag) => (
                         <TagCard key={tag.name} tag={tag} />
                     ))}
                 </Stack>
