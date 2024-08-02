@@ -2,7 +2,7 @@ import { Larp } from "../../types";
 import TagCard from "./TagDisplay";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faComment } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faComment, faUser, faGlobe, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 import { Typography, Stack, Box, Link } from "@mui/material";
 import { JSDateToLuxon } from "../../util/typeConverters";
@@ -81,8 +81,7 @@ function LarpDetails({ larp }: LarpDetailsProps) {
 
                 <Box className="filled-light">
                     <Typography>
-                        Hosted By:
-                        <Link component={RouterLink} to={`/orgs/${larp.organization.id}`}>
+                        Hosted By: <Link component={RouterLink} to={`/orgs/${larp.organization.id}`}>
                             {larp.organization.orgName}
                         </Link>
                     </Typography>
@@ -162,14 +161,74 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                     <Typography component="h3" variant='h2' className="organizer">
                         About the organizer:
                     </Typography>
-                    <section>
+                    <Box
+                        className="filled-light"
+                        sx={{
+                            padding:'1rem 2rem',
+                            width: "100%"
+                        }}
+                    >
+                        <Stack
+                            direction="row"
+                            // spacing={3}
+                            alignItems="center"
+                            flexWrap='wrap'
+                        >
+                            <Box
+                                sx={{
+                                    backgroundImage: `url(${larp.organization.imgUrl.lg})`,
+                                    backgroundPosition: 'center',
+                                    backgroundSize: 'cover',
+                                    backgroundRepeat: "no-repeat",
+                                    borderRadius: '5px',
+                                    overflow: 'auto',
+                                    width: {xs:"100%", sm:'200px'},
+                                    height: '200px',
 
-                        <Typography variant="h6" component="h6">{larp.organization.orgName}</Typography>
-                        <Typography component="a" href="#">
-                            placeholderurl
+                                }}
+                            />
+                            <Box sx={{
+                                padding:{
+                                    xs: '1rem 0',
+                                    sm:'2rem'
+                                }
+                            }}>
+                                <Typography variant="h4" component="h6"
+                                    sx={{
+                                        marginBottom:'.5rem'
+                                    }}
+                                >{larp.organization.orgName}</Typography>
+                                <Typography>
+                                    <FontAwesomeIcon icon={faUser} />
+                                    &nbsp;  &nbsp;
+                                    <Link component={RouterLink} to={`/orgs/${larp.organization.id}`}>
+                                        View Profile
+                                    </Link>
+                                </Typography>
+                                <Typography>
+                                    <FontAwesomeIcon icon={faGlobe} />
+                                    &nbsp;  &nbsp;
+                                    <Link component={RouterLink} to={`${larp.organization.orgUrl}`}>
+                                        {larp.organization.orgUrl}
+                                    </Link>
+                                </Typography>
+                                <Typography>
+                                    <FontAwesomeIcon icon={faEnvelope} />
+                                    &nbsp;  &nbsp;
+                                    <Link component={RouterLink} to={`mailto:${larp.organization.email}`}>
+                                        {larp.organization.email}
+                                    </Link>
+                                </Typography>
+                            </Box>
+                        </Stack>
+                        <Typography
+                            sx={{
+                                paddingTop: "1rem",
+                            }}
+                        >
+                            {larp.organization.description}
                         </Typography>
-                    </section>
-                    <Typography>{larp.description}</Typography>
+                    </Box>
                 </section>
             </Stack>
         </Box >
