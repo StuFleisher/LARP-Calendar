@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import DeleteLarpButtonComponent from "../components/FormComponents/DeleteButton";
 import EditLarpButtonComponent from "../components/FormComponents/EditButton";
+import TooltipButton from "../components/FormComponents/TooltipButton";
+import { faImage, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function useOrgControls(orgId: number) {
 
@@ -21,10 +23,39 @@ function useOrgControls(orgId: number) {
     navigate(`/orgs/${orgId}/edit`);
   }
 
-  const DeleteOrgButton = <DeleteLarpButtonComponent handleDelete={deleteOrg}/>
-  const EditOrgButton = <EditLarpButtonComponent handleClick={editOrg}/>
+  function editImage(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
+    e.preventDefault();
+    navigate(`/orgs/${orgId}/image`);
+  }
 
-  return { DeleteOrgButton, EditOrgButton };
+
+  // const DeleteOrgButton = <DeleteLarpButtonComponent handleDelete={deleteOrg}/>
+  // const EditOrgButton = <EditLarpButtonComponent handleClick={editOrg}/>
+
+  const DeleteOrgButton = (
+    <TooltipButton
+      handleClick={deleteOrg}
+      title="Delete this Event"
+      icon={faTrash}
+    />
+  );
+  const EditOrgButton = (
+    <TooltipButton
+      handleClick={editOrg}
+      title="Edit this Event"
+      icon={faPencil}
+    />
+  );
+  const EditImageButton = (
+    <TooltipButton
+      handleClick={editImage}
+      title="Update Banner Image"
+      icon={faImage}
+    />
+  );
+
+  return { DeleteOrgButton, EditOrgButton, EditImageButton };
 
 }
 
