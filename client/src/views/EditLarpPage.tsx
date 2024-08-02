@@ -28,10 +28,20 @@ function EditLarpPage() {
     const { larp, loading, error } = useFetchLarp(parseInt(id));
 
     /** Auth check --> Does the user have write permission for this record */
-    if (username !== larp?.organization.username && !isAdmin) {
-        return <Navigate to={`events/${id}`} />;
+    if (larp && username !== larp?.organization.username && !isAdmin) {
+        console.error("You do not have permission to edit this event");
+        return <Navigate to={`/events/${id}`} />;
     }
 
+    /** Type conversion. Schema prevents a simple cast from working. */
+    function larpToLarpForUpdate():LarpForUpdate | null{
+        if (larp){
+            const {orgId:_orgId, organization:_organization, ...larpForUpdate} = larp;
+            return larpForUpdate
+        }
+        return null;
+    }
+    const larpForUpdate=larpToLarpForUpdate();
 
     /** Sends an API request to store a larp based on the current form values
   * Navigates to the larpDetail view upon success.
@@ -55,8 +65,6 @@ function EditLarpPage() {
             setSaveErrs(() => [...e]);
         }
     }
-
-
 
     return (
         loading
@@ -82,8 +90,8 @@ function EditLarpPage() {
                 {larp &&
                     <LarpFormProvider<LarpForUpdate>
                         onSubmitCallback={saveLarp}
-                        larp={larp as LarpForUpdate}
-                        >
+                        larp={larpForUpdate!}
+                    >
                         <EventForm />
                     </LarpFormProvider>
                 }

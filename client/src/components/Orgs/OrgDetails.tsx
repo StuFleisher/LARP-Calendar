@@ -13,7 +13,7 @@ type OrgDetailsProps = {
 
 function OrgDetails({ org }: OrgDetailsProps) {
     const { username, isAdmin } = useContext(userContext);
-    const { EditOrgButton } = useOrgControls(org.id);
+    const { EditOrgButton, EditImageButton } = useOrgControls(org.id);
 
     return (
         <Box className="OrgDetails">
@@ -29,6 +29,7 @@ function OrgDetails({ org }: OrgDetailsProps) {
                         ?
                         <Stack direction="row" className="organizerControls">
                             {EditOrgButton}
+                            {EditImageButton}
                         </Stack>
                         :
                         <></>

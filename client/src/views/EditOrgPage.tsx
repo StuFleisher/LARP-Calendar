@@ -36,7 +36,7 @@ function EditOrgPage() {
     /** Convert data to maintain type safety */
     function orgToOrgForUpdate(): OrganizationForUpdate | null {
         if (org) {
-            const { larps, isApproved, ...orgForUpdate } = org;
+            const { larps:_larps, isApproved:_isApproved, ...orgForUpdate } = org;
             return orgForUpdate;
         }
         return null;

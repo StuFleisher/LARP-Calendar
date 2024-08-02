@@ -2,7 +2,6 @@
 
 .OrgDetails {
     width:100%;
-    // border: 1px $pale-blue solid;
     margin:0;
     color: $dark;
 
@@ -10,7 +9,6 @@
     .banner {
         width:100%;
         aspect-ratio: 7/3;
-        // border-radius: 5px 5px 75px 0px;
         position:relative;
         background-color: #e7e7e7;
 
@@ -18,10 +16,20 @@
             position:absolute;
             bottom:1rem;
             right: 1rem;
+            border-radius: 5px ;
+            transition:  background-color .2s;
+            background-color: #070707ff;
 
             button{
                 color:white;
+                margin: 0 .5rem;
+                font-size: 2rem;
             }
+        }
+
+        .organizerControls:hover {
+            transition:  background-color .2s;
+            background-color: #07070777;
         }
     }
 
@@ -45,9 +53,4 @@
         }
     }
 
-    #Organizer {
-        h6 {
-            // padding: .5rem 0;
-        }
-    }
 }
