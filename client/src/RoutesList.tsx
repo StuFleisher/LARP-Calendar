@@ -17,7 +17,8 @@ import EditLarpImagePage from "./views/EditLarpImagePage";
 import UserRegistrationForm from "./components/Forms/RegisterForm";
 import LogOutPage from "./views/LogOutPage";
 import EditOrgImagePage from "./views/EditOrgImagePage";
-
+import DemoHome from "./views/DemoHome";
+import AboutPage from "./views/AboutPage";
 
 type RoutesListProps = {
     login: (credentials: UserLoginData) => Promise<void>,
@@ -72,6 +73,8 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
                 <Route path='/orgs/:id' element={<OrgDetailPage />} />
                 <Route path='/events' element={<LarpListPage />} />
                 <Route path='/events/:id' element={<LarpDetailPage />} />
+                <Route path='/demo' element={<DemoHome />} />
+                <Route path='/about' element={<AboutPage />} />
                 <Route path='*' element={<HomePage />} />
             </Routes>
         </>
