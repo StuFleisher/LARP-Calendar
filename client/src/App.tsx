@@ -23,7 +23,7 @@ function App() {
 
   const [user, setUser] = useState<NullableUser>(ANON_USER);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string[]>([]);
 
 
   /** Sets state about our current user and token by doing the following:
@@ -40,7 +40,8 @@ function App() {
           setUser(userData);
         }
       } catch (e) {
-        setError(() => `Error fetching user: ${e}`);
+        console.error(e)
+        setError(() => [`Error fetching user: ${e}`]);
       }
     }
 
@@ -79,7 +80,7 @@ function App() {
     setToken(token);
   }
 
-  if (error) {
+  if (error.length) {
     return (
       <ThemeProvider theme={theme}>
         <Box className="App">
