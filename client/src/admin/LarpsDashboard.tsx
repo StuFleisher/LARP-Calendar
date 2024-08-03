@@ -74,7 +74,7 @@ function LarpsDashboard() {
             getActions: (params) => {
                 return [
                     <DeleteButton handleDelete={() => handleDelete(params.row.id)} />,
-                    <EditButton handleClick={() => navigate(`${params.row.id}`)} />,
+                    <EditButton handleClick={() => navigate(`/admin/events/${params.row.id}/edit`)} />,
                     <IconButton onClick={() => { handleDuplicate(params.row.id); }}><FontAwesomeIcon icon={faCopy} /></IconButton>
                 ];
             }

@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 
 import LarpAPI from "../util/api";
@@ -8,7 +8,7 @@ import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
 import { useFetchUsers } from "../hooks/useFetchUsers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 
 function UsersDashboard() {
@@ -73,6 +73,16 @@ function UsersDashboard() {
             type: 'actions',
             width: 200,
             getActions: (params) => {
+                if (params.row.username === 'testUser') {
+                    return [
+                        <IconButton
+                        disabled
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </IconButton>,
+                    ];
+                }
+
                 return [
                     <DeleteButton handleDelete={() => handleDelete(params.row.username)} />,
                     // <EditButton handleClick={() => navigate(`${params.row.username}`)} />,

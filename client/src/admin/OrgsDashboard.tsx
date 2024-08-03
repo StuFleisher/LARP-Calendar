@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 
 import LarpAPI from "../util/api";
@@ -8,6 +8,8 @@ import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
 import { useFetchOrgs } from "../hooks/useFetchOrgs";
 import ApproveButton from "../components/FormComponents/ApproveButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function OrgsDashboard() {
     const { orgs, setOrgs, loading, error } = useFetchOrgs();
@@ -20,17 +22,17 @@ function OrgsDashboard() {
         ));
     }
 
-    async function handleApprove(id: number, isApproved:boolean){
-        const updatedOrg = await LarpAPI.UpdateOrgApproval(id,isApproved);
-        setOrgs(()=>{
-            return orgs.map((org)=>(
-                org.id===id
-                ?
+    async function handleApprove(id: number, isApproved: boolean) {
+        const updatedOrg = await LarpAPI.UpdateOrgApproval(id, isApproved);
+        setOrgs(() => {
+            return orgs.map((org) => (
+                org.id === id
+                    ?
                     updatedOrg
-                :
+                    :
                     org
-            ))
-        })
+            ));
+        });
     }
 
     const columns: GridColDef[] = [
@@ -68,7 +70,7 @@ function OrgsDashboard() {
                         ?
                         <Typography variant="details1" color="success.main"> Approved </Typography>
                         :
-                        <Typography variant="details1" color="error.main"> Not Approved </Typography>)
+                        <Typography variant="details1" color="error.main"> Not Approved </Typography>);
             }
         },
         {
@@ -77,11 +79,23 @@ function OrgsDashboard() {
             type: 'actions',
             width: 200,
             getActions: (params) => {
+                if (params.row.id === 1) {
+                    return [
+                        <IconButton
+                        disabled
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </IconButton>,
+                        <EditButton handleClick={() => navigate(`/admin/orgs/${params.row.id}/edit`)} />,
+                        <ApproveButton handleClick={() => handleApprove(params.row.id, !params.row.isApproved)} />
+                    ];
+                }
+
                 return [
                     <DeleteButton handleDelete={() => handleDelete(params.row.id)} />,
                     <EditButton handleClick={() => navigate(`${params.row.id}/edit`)} />,
-                    <ApproveButton handleClick={()=> handleApprove(params.row.id, !params.row.isApproved)}/>
-                ]
+                    <ApproveButton handleClick={() => handleApprove(params.row.id, !params.row.isApproved)} />
+                ];
             }
         },
     ];
@@ -100,10 +114,10 @@ function OrgsDashboard() {
         }}>
             <DataGrid columns={columns} rows={rows}
                 initialState={{
-                    sorting:{
-                        sortModel:[{
-                            field:'isApproved',
-                            sort:'asc'
+                    sorting: {
+                        sortModel: [{
+                            field: 'isApproved',
+                            sort: 'asc'
                         }]
                     }
                 }}
