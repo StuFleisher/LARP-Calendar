@@ -16,6 +16,7 @@ import { BrowserRouter } from 'react-router-dom';
 import RoutesList from './RoutesList.tsx';
 import NavBar from './components/NavBar.tsx';
 import { CircularProgress } from '@mui/material';
+import ScrollToTop from './components/ui/ScrollToTop.ts';
 
 
 function App() {
@@ -111,12 +112,13 @@ function App() {
             :
             <userContext.Provider value={user}>
               <BrowserRouter>
-                  <NavBar login={login} />
-                  <RoutesList
-                    login={login}
-                    logout={logout}
-                    register={register}
-                  />
+                <ScrollToTop />
+                <NavBar login={login} />
+                <RoutesList
+                  login={login}
+                  logout={logout}
+                  register={register}
+                />
               </BrowserRouter>
             </userContext.Provider>}
       </LocalizationProvider>
