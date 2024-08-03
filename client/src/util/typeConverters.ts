@@ -2,8 +2,6 @@ import { DateTime } from "luxon";
 import type { LarpAsJSON, Larp } from "../types"
 
 
-
-
 function JsonToLarp(data:LarpAsJSON):Larp{
 
   return {

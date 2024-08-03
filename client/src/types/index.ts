@@ -40,14 +40,17 @@ export type Larp = LarpForCreate & {
 }
 
 export type LarpForUpdate = Omit<
-  PartialWithRequired<Larp, 'id'>,
-  'organization'
+PartialWithRequired<Larp, 'id'>,
+'organization'
 >
 
 export type LarpAsJSON = LarpForCreate & {
   id?:number,
   start: string,
   end: string,
+  imgUrl: ImageSet,
+  imgSetId: number,
+  organization: Organization,
 }
 
 /*************************** USERS */
