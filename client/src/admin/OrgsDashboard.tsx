@@ -1,4 +1,4 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 
 import LarpAPI from "../util/api";
@@ -10,6 +10,8 @@ import { useFetchOrgs } from "../hooks/useFetchOrgs";
 import ApproveButton from "../components/FormComponents/ApproveButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import ErrorMessage from "../components/ui/ErrorMessage";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 function OrgsDashboard() {
     const { orgs, setOrgs, loading, error } = useFetchOrgs();
@@ -82,9 +84,9 @@ function OrgsDashboard() {
                 if (params.row.id === 1) {
                     return [
                         <IconButton
-                        disabled
+                            disabled
                         >
-                          <FontAwesomeIcon icon={faTrash} />
+                            <FontAwesomeIcon icon={faTrash} />
                         </IconButton>,
                         <EditButton handleClick={() => navigate(`/admin/orgs/${params.row.id}/edit`)} />,
                         <ApproveButton handleClick={() => handleApprove(params.row.id, !params.row.isApproved)} />
@@ -108,23 +110,34 @@ function OrgsDashboard() {
 
 
     return (
-        <Box sx={{
-            height: '85dvh',
-            width: '100%',
-        }}>
-            <DataGrid columns={columns} rows={rows}
-                initialState={{
-                    sorting: {
-                        sortModel: [{
-                            field: 'isApproved',
-                            sort: 'asc'
-                        }]
-                    }
-                }}
-            />
-        </Box>
-    );
 
+        loading
+            ?
+            <LoadingSpinner />
+            :
+            <>
+                <ErrorMessage
+                    title="Sorry, there was a problem loading your data"
+                    errs={error}
+                />
+                <Box sx={{
+                    height: '85dvh',
+                    width: '100%',
+                }}>
+                    <DataGrid columns={columns} rows={rows}
+                        initialState={{
+                            sorting: {
+                                sortModel: [{
+                                    field: 'isApproved',
+                                    sort: 'asc'
+                                }]
+                            }
+                        }}
+                    />
+                </Box>
+            </>
+
+    );
 }
 
 export default OrgsDashboard;

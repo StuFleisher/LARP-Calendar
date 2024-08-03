@@ -5,7 +5,7 @@ import { Modal, Box } from "@mui/material";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import EventForm from "../components/Forms/LarpForm";
 import LarpAPI from "../util/api";
-import { Larp, LarpForUpdate } from "../types";
+import { LarpForUpdate } from "../types";
 
 import { LarpFormProvider } from "../context/LarpFormProvider";
 import { userContext } from "../context/userContext";
@@ -37,7 +37,7 @@ function AdminEditLarp() {
     /** Sends an API request to store a larp based on the current form values
   * Navigates to the larpDetail view upon success.
   */
-    async function saveLarp(formData: Larp) {
+    async function saveLarp(formData: LarpForUpdate) {
         try {
             setSaving(true);
             const savedLarp = await LarpAPI.UpdateLarp({
@@ -76,7 +76,7 @@ function AdminEditLarp() {
                         </Box>
                     </Modal>
                 }
-                <LarpFormProvider<Larp> onSubmitCallback={saveLarp} larp={larpForUpdate!}>
+                <LarpFormProvider<LarpForUpdate> onSubmitCallback={saveLarp} larp={larpForUpdate!}>
                     <EventForm />
                 </LarpFormProvider>
             </>

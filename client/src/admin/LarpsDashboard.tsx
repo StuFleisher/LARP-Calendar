@@ -10,6 +10,8 @@ import DeleteButton from "../components/FormComponents/DeleteButton";
 import EditButton from "../components/FormComponents/EditButton";
 import { useNavigate, Link as NavLink } from "react-router-dom";
 import { Link } from "@mui/material";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 function LarpsDashboard() {
     const { larps, setLarps, loading, error } = useFetchLarps();
@@ -89,12 +91,24 @@ function LarpsDashboard() {
 
 
     return (
-        <Box sx={{
-            height:'85dvh',
-            width:'100%',
-        }}>
-            <DataGrid columns={columns} rows={rows} />
-        </Box>
+
+        loading
+            ?
+            <LoadingSpinner />
+            :
+            <>
+                <ErrorMessage
+                    title="Sorry, there was a problem loading your data"
+                    errs={error}
+                />
+                <Box sx={{
+                    height: '85dvh',
+                    width: '100%',
+                }}>
+                    <DataGrid columns={columns} rows={rows} />
+                </Box>
+            </>
+
     );
 
 }

@@ -1,19 +1,19 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 
 import LarpAPI from "../util/api";
 import DeleteButton from "../components/FormComponents/DeleteButton";
-import EditButton from "../components/FormComponents/EditButton";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
 import { useFetchUsers } from "../hooks/useFetchUsers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import ErrorMessage from "../components/ui/ErrorMessage";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 
 function UsersDashboard() {
     const { users, setUsers, loading, error } = useFetchUsers();
-    const navigate = useNavigate();
 
     async function handleDelete(username: string) {
         await LarpAPI.DeleteUser(username);
@@ -85,7 +85,6 @@ function UsersDashboard() {
 
                 return [
                     <DeleteButton handleDelete={() => handleDelete(params.row.username)} />,
-                    // <EditButton handleClick={() => navigate(`${params.row.username}`)} />,
                 ];
             }
         },
@@ -97,16 +96,25 @@ function UsersDashboard() {
         }
     ));
 
-
     return (
-        <Box sx={{
-            height: '85dvh',
-            width: '100%',
-        }}>
-            <DataGrid columns={columns} rows={rows}
 
-            />
-        </Box>
+        loading
+            ?
+            <LoadingSpinner />
+            :
+            <>
+                <ErrorMessage
+                    title="Sorry, there was a problem loading your data"
+                    errs={error}
+                />
+                <Box sx={{
+                    height: '85dvh',
+                    width: '100%',
+                }}>
+                    <DataGrid columns={columns} rows={rows} />
+                </Box>
+            </>
+
     );
 
 }
