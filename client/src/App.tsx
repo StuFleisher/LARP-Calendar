@@ -84,7 +84,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Box className="App">
           <BrowserRouter>
-            <NavBar login={login} />
+            <NavBar/>
             <Box className="App-page">
               <Box className="App-errors">
                 <Typography variant="h2">Sorry, we had trouble loading the page</Typography>
@@ -113,7 +113,7 @@ function App() {
             <userContext.Provider value={user}>
               <BrowserRouter>
                 <ScrollToTop />
-                <NavBar login={login} />
+                <NavBar/>
                 <RoutesList
                   login={login}
                   logout={logout}

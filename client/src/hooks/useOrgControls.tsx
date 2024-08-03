@@ -1,8 +1,6 @@
 import LarpAPI from "../util/api";
 import { useNavigate } from "react-router-dom";
 
-import DeleteLarpButtonComponent from "../components/FormComponents/DeleteButton";
-import EditLarpButtonComponent from "../components/FormComponents/EditButton";
 import TooltipButton from "../components/FormComponents/TooltipButton";
 import { faImage, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -28,10 +26,6 @@ function useOrgControls(orgId: number) {
     e.preventDefault();
     navigate(`/orgs/${orgId}/image`);
   }
-
-
-  // const DeleteOrgButton = <DeleteLarpButtonComponent handleDelete={deleteOrg}/>
-  // const EditOrgButton = <EditLarpButtonComponent handleClick={editOrg}/>
 
   const DeleteOrgButton = (
     <TooltipButton

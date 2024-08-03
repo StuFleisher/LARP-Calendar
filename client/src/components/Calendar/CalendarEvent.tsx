@@ -1,4 +1,3 @@
-// import { Tooltip } from "react-tooltip";
 import { Box, Popper, Card } from "@mui/material";
 import { Larp } from "../../types";
 import LarpCard from "../Events/LarpCard";

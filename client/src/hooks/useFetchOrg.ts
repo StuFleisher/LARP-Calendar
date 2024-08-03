@@ -20,7 +20,7 @@ function useFetchOrg(id: number): FetchOrgResult {
         const response = await LarpAPI.getOrgById(id);
         setOrg(response);
         setLoading(false);
-      } catch (err) {
+      } catch (err:any) {
         setError(err);
         setLoading(false);
       }

@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import LarpAPI from "../util/api";
-import LoadingSpinner from "../components/ui/LoadingSpinner";
+
 import { Box, Button, List, ListItem, Stack, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCalendar, faCheck, faCheckCircle, faCircleChevronRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { Link as RouterLink } from "react-router-dom";
 
 function AboutPage() {

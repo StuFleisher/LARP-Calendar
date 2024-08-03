@@ -23,7 +23,7 @@ function EditOrgImagePage() {
     const location = useLocation();
     const newOrg = new URLSearchParams(location.search).get('new');
 
-    const { org, loading, error } = useFetchOrg(parseInt(id));
+    const { org, loading, error:fetchError } = useFetchOrg(parseInt(id));
     const navigate = useNavigate();
 
     //TODO: move auth checks to custom hook
@@ -47,6 +47,10 @@ function EditOrgImagePage() {
 
     return (
         <>
+            <ErrorMessage
+                title="Sorry, there was a problem fetching this record"
+                errs={fetchError}
+            />
             <ErrorMessage
                 title="Sorry, there was a problem submitting the form"
                 errs={errs}

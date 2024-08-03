@@ -1,19 +1,15 @@
 import { useState, useEffect, useCallback, useContext } from "react";
 import { userContext } from "../context/userContext";
-import { Box, Stack, Button, MenuItem, Typography, Menu, Hidden, Tooltip, useMediaQuery, useTheme, Divider, Card } from "@mui/material";
+import { Box, Stack, Button, MenuItem, Typography, Menu, Hidden, useMediaQuery, useTheme, Divider } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCalendar, faShapes, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import './NavBar.scss';
 import { NavLink as RouterLink } from "react-router-dom";
-import { UserLoginData } from "../types";
 import SearchBar from "./ui/SearchBar";
 
 
-type NavBarProps = {
-    login: (credentials: UserLoginData) => Promise<void>;
-};
 
-function NavBar({ login }: NavBarProps) {
+function NavBar() {
 
     const { username, organization, isAdmin } = useContext(userContext);
 

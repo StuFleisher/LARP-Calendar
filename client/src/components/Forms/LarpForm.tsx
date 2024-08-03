@@ -15,8 +15,7 @@ import { DateTime } from "luxon";
 
 function EventForm() {
 
-    const { values, isValid, errors } = useFormikContext<Larp>();
-    // console.log("form values", values)
+    const { isValid, errors } = useFormikContext<Larp>();
     const errorMessage = (`
         Please check following fields to continue:
         ${Object.keys(errors).map(key => { return key !== "steps" ? key : null; }).join(", ")}

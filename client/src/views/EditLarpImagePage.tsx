@@ -23,7 +23,7 @@ function EditLarpImagePage() {
     const location = useLocation();
     const newLarp = new URLSearchParams(location.search).get('new');
 
-    const { larp, loading, error } = useFetchLarp(parseInt(id));
+    const { larp, loading, error:fetchError } = useFetchLarp(parseInt(id));
     const navigate = useNavigate();
 
     //TODO: move auth checks to custom hook
@@ -46,8 +46,12 @@ function EditLarpImagePage() {
     return (
         <>
             <ErrorMessage
-                title="Sorry, there was a problem submitting the form"
+                title="Sorry, there was a problem fetching this record"
                 errs={errs}
+            />
+            <ErrorMessage
+                title="Sorry, there was a problem submitting the form"
+                errs={fetchError}
             />
             {saving &&
                 <Modal open={true}>

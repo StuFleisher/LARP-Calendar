@@ -3,7 +3,7 @@ import LarpAPI from "../util/api";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { Box, Button, List, ListItem, Stack, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCheck, faCheckCircle, faCircleChevronRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { Link as RouterLink } from "react-router-dom";
 
 function DemoHome() {

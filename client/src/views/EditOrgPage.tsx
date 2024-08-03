@@ -12,6 +12,7 @@ import EditOrgSchema from "../components/Forms/EditOrgSchema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import { Link as RouterLink } from "react-router-dom";
 
 function EditOrgPage() {
 
@@ -83,7 +84,7 @@ function EditOrgPage() {
                 }
                 {!org?.isApproved &&
                     <Alert severity="success" icon={<FontAwesomeIcon icon={faCheck} />}>
-                        Your application is currently being reviewed by our admin team. Once your application has been approved you will be able to publish events. Send questions to <Link to="mailto:info@larpcalendar.com">info@larpcalendar.com</Link>
+                        Your application is currently being reviewed by our admin team. Once your application has been approved you will be able to publish events. Send questions to <Link  component={RouterLink} to="mailto:info@larpcalendar.com">info@larpcalendar.com</Link>
                     </Alert>
                 }
                 <OrgFormProvider<OrganizationForUpdate>

@@ -9,7 +9,8 @@ type FetchLarpsResult = {
     error:any,
 }
 
-function useFetchLarps( filterObject:Partial<Larp> = {}):FetchLarpsResult {
+// function useFetchLarps( filterObject:Partial<Larp> = {}):FetchLarpsResult {
+function useFetchLarps():FetchLarpsResult {
     const [larps, setLarps] = useState<Larp[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<any>();
@@ -30,7 +31,6 @@ function useFetchLarps( filterObject:Partial<Larp> = {}):FetchLarpsResult {
         fetchLarps();
     }, [setLarps]);
 
-    // return [ larps, loading, error ];
     return {
         larps,
         setLarps,

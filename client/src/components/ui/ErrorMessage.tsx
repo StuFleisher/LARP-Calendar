@@ -1,6 +1,6 @@
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Alert, Typography, Box, Slide } from "@mui/material";
+import { Alert, Typography, Slide } from "@mui/material";
 
 
 type ErrorMessageProps = {

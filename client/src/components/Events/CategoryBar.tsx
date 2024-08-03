@@ -1,5 +1,4 @@
 import { Stack, Box, Typography } from "@mui/material";
-import { Larp } from "../../types";
 import LarpCard from "./LarpCard";
 import "./CategoryBar.scss";
 import { useFetchLarps } from "../../hooks/useFetchLarps";

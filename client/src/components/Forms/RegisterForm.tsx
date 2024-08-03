@@ -33,7 +33,7 @@ type props = {
 
 function UserRegistrationForm({ register }: props) {
     const navigate = useNavigate();
-    const [error, setError] = useState<string | null>(null);
+    const [_error, setError] = useState<string | null>(null);
 
     async function registerUser(values: UserRegistrationData) {
         try {

@@ -6,7 +6,7 @@ import FormikMuiTextField from "../FormComponents/FormikMuiTextField";
 import ErrorDisplay from "../FormComponents/ErrorDisplay";
 
 function OrgForm(){
-    const { values, isValid, errors } = useFormikContext<Organization>();
+    const { isValid, errors } = useFormikContext<Organization>();
     const errorMessage = (`
         Please check following fields to continue:
         ${Object.keys(errors).map(key => { return key !== "steps" ? key : null; }).join(", ")}
@@ -22,7 +22,6 @@ function OrgForm(){
                 <Form>
                     <Stack direction="column" spacing={2} sx={{margin:'1rem'}}>
 
-                        {/* <label htmlFor="title"><Typography variant='body2'>Event Title</Typography></label> */}
                         <FastField
                             component={FormikMuiTextField}
                             placeholder="Name your event"
