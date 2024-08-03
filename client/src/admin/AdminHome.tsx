@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleRight, faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Outlet } from "react-router-dom";
 import AdminNav from "./AdminNav";
-import { relative } from "path";
-import { NONAME } from "dns";
 
 const DRAWER_WIDTH = 150;
 
