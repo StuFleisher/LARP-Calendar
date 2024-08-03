@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate, OrganizationForCreate, Organization, OrganizationForUpdate, PublicUser } from "../types";
 import { JsonToLarp } from "./typeConverters";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3001";
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3001/";
 
 type APIError = {
   message: string | string[];
@@ -21,7 +21,7 @@ class LarpAPI {
   ) {
     console.debug("API Call:", endpoint, data, method);
 
-    const url = `${BASE_URL}/${endpoint}`;
+    const url = `${BASE_URL}${endpoint}`;
     const headers = { Authorization: `Bearer ${LarpAPI.token}` };
     const params = (method === "get")
       ? data
@@ -42,7 +42,7 @@ class LarpAPI {
     method = "put",
   ) {
 
-    const url = `${BASE_URL}/${endpoint}`;
+    const url = `${BASE_URL}${endpoint}`;
     const headers = {
       "Content-Type": "multipart/form-data",
       "Authorization": `Bearer ${LarpAPI.token}`
