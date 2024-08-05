@@ -26,7 +26,15 @@ function LarpsDashboard() {
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'Id', width: 50 },
-        { field: 'title', headerName: 'Title', flex: 1, },
+        { field: 'title', headerName: 'Title', flex: 1,
+            renderCell: (params)=>{
+                return (
+                    <Link component={RouterLink} to={`/admin/events/${params.row.id}`}>
+                        {params.row.title}
+                    </Link>
+                )
+            }
+        },
         {
             field: 'organization', headerName: 'Organization',
             renderCell: (params) => {
@@ -67,9 +75,6 @@ function LarpsDashboard() {
             width: 200,
             getActions: (params) => {
                 return [
-                    <IconButton component={RouterLink} to={`/admin/events/${params.row.id}`}>
-                        <FontAwesomeIcon icon={faEye} />
-                    </IconButton>,
                     <DeleteButton handleDelete={() => handleDelete(params.row.id)} />,
                     <EditButton handleClick={() => navigate(`/admin/events/${params.row.id}/edit`)} />,
                 ];
