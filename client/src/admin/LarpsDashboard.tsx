@@ -1,14 +1,14 @@
 import { useFetchLarps } from "../hooks/useFetchLarps";
 import { Box, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { JSDateToLuxon } from "../util/typeConverters";
 import AvailabilityIcon from "./AvailabilityIcon";
 import LarpAPI from "../util/api";
 import DeleteButton from "../components/FormComponents/DeleteButton";
 import EditButton from "../components/FormComponents/EditButton";
-import { useNavigate, Link as NavLink } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import ErrorMessage from "../components/ui/ErrorMessage";
@@ -24,14 +24,6 @@ function LarpsDashboard() {
         ));
     }
 
-    async function handleDuplicate(id: number) {
-        const fetchedLarp = await LarpAPI.getLarpById(id);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id: _, organization, ...larpForCreate } = fetchedLarp;
-        const createdLarp = await LarpAPI.createLarp(larpForCreate);
-        setLarps(() => [...larps, createdLarp]);
-    }
-
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'Id', width: 50 },
         { field: 'title', headerName: 'Title', flex: 1, },
@@ -39,7 +31,7 @@ function LarpsDashboard() {
             field: 'organization', headerName: 'Organization',
             renderCell: (params) => {
                 return (
-                    <Link component={NavLink} to={`/admin/orgs/${params.value.id}`}>
+                    <Link component={RouterLink} to={`/admin/orgs/${params.value.id}`}>
                         {params.value.orgName}
                     </Link>
                 );
@@ -75,9 +67,11 @@ function LarpsDashboard() {
             width: 200,
             getActions: (params) => {
                 return [
+                    <IconButton component={RouterLink} to={`/admin/events/${params.row.id}`}>
+                        <FontAwesomeIcon icon={faEye} />
+                    </IconButton>,
                     <DeleteButton handleDelete={() => handleDelete(params.row.id)} />,
                     <EditButton handleClick={() => navigate(`/admin/events/${params.row.id}/edit`)} />,
-                    <IconButton onClick={() => { handleDuplicate(params.row.id); }}><FontAwesomeIcon icon={faCopy} /></IconButton>
                 ];
             }
         },
