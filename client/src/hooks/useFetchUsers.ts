@@ -12,7 +12,7 @@ type FetchUsersResult = {
 function useFetchUsers():FetchUsersResult {
     const [users, setUsers] = useState<PublicUser[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<any>();
+    const [error, setError] = useState<string[]>([]);
 
     useEffect(() => {
         async function fetchLarps() {

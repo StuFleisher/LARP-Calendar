@@ -12,7 +12,7 @@ type FetchOrgsResult = {
 function useFetchOrgs():FetchOrgsResult {
     const [orgs, setOrgs] = useState<Organization[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<any>();
+    const [error, setError] = useState<string[]>([]);
 
     useEffect(() => {
         async function fetchLarps() {
@@ -21,7 +21,7 @@ function useFetchOrgs():FetchOrgsResult {
                 const response = await LarpAPI.getAllOrgs();
                 setOrgs(response);
                 setLoading(false);
-            } catch(err) {
+            } catch(err:any) {
                 setError(err)
                 setLoading(false)
             }
