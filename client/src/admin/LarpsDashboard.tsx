@@ -1,7 +1,5 @@
 import { useFetchLarps } from "../hooks/useFetchLarps";
-import { Box, IconButton } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { Box } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { JSDateToLuxon } from "../util/typeConverters";
 import AvailabilityIcon from "./AvailabilityIcon";
