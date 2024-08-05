@@ -21,7 +21,7 @@ function useFetchUsers():FetchUsersResult {
                 const response = await LarpAPI.getAllUsers();
                 setUsers(response);
                 setLoading(false);
-            } catch(err) {
+            } catch(err:any) {
                 setError(err)
                 setLoading(false)
             }
