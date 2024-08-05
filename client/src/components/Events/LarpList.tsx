@@ -68,7 +68,7 @@ function LarpList({ larps, recordsPerPage = 24 }: LarpListProps) {
                     larps.slice(pageStart, pageEnd).map((larp) => {
                         return (
                             <Grid item key={larp.id}
-                                xs={12} sm={6} md={4} lg={2} xl={2}
+                                xs={12} sm={6} md={4} lg={4} xl={4}
                             >
                                 <LarpCard larp={larp} />
                             </Grid>

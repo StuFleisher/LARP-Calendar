@@ -18,8 +18,6 @@ function LarpListPage() {
                     title="Sorry, there was a problem fetching records for this page"
                     errs={error}
                 />
-                {loading && <h1>fetching larp data</h1>}
-                {error && <h1>There was an error</h1>}
 
                 <LarpList larps={larps} />
             </>
