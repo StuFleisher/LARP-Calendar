@@ -69,8 +69,8 @@ const theme = createTheme({
             fontWeight: '700',
             paddingLeft: '0',
             '@media (min-width:600px)': { fontSize: '1.25rem' },
-            '@media (min-width:900px)': { fontSize: '2rem' },
-            '@media (min-width:1200px)': { fontSize: '3rem' },
+            '@media (min-width:900px)': { fontSize: '1.25rem' },
+            '@media (min-width:1200px)': { fontSize: '1.25rem' },
         },
         h4: {
             fontFamily: `"Karla", sans-serif`,
