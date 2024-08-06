@@ -12,11 +12,12 @@ function DemoHome() {
 
   useEffect(() => {
     async function loginDemoUser() {
+      console.log("logging in")
       await LarpAPI.userLogin({ username: "testUser", password: "password" });
       setLoading(false);
     }
     loginDemoUser();
-  }, [setLoading]);
+  }, []);
 
   return (
     <>
