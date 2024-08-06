@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
-import LarpAPI from "../util/api";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { Box, Button, List, ListItem, Stack, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { Link as RouterLink } from "react-router-dom";
+import { UserLoginData } from "../types";
 
-function DemoHome() {
+type DemoHomeProps = {
+  login: (credentials: UserLoginData) => Promise<void>,
+}
+
+function DemoHome({login}:DemoHomeProps) {
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loginDemoUser() {
       console.log("logging in")
-      await LarpAPI.userLogin({ username: "testUser", password: "password" });
+      login({ username: "testUser", password: "password" })
       setLoading(false);
     }
     loginDemoUser();

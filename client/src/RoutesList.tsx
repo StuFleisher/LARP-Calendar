@@ -73,7 +73,7 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
                 <Route path='/orgs/:id' element={<OrgDetailPage />} />
                 <Route path='/events' element={<LarpListPage />} />
                 <Route path='/events/:id' element={<LarpDetailPage />} />
-                <Route path='/demo' element={<DemoHome />} />
+                <Route path='/demo' element={<DemoHome login={login} />} />
                 <Route path='/about' element={<AboutPage />} />
                 <Route path='*' element={<HomePage />} />
             </Routes>
