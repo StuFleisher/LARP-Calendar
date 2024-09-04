@@ -42,6 +42,24 @@ export type LarpForUpdate = Omit<
   'organization'
 >;
 
+
+/*************************** LARP QUERY */
+export type LarpQuery = {
+  term?: string;
+  title?: string;
+  ticketStatus?: TicketStatus;
+  tags?: string
+  startBefore?: string;
+  startAfter?:string;
+  endBefore?:string;
+  endAfter?:string;
+  city?: string;
+  country?: string;
+  language?: string;
+  description?: string;
+  org?: string;
+}
+
 /*************************** USERS */
 
 export type UserForCreate = {
@@ -92,3 +110,5 @@ export type OrganizationForUpdate = Omit<
   PartialWithRequired<Organization, 'id'>,
   'larps'
 >;
+
+

@@ -1,5 +1,5 @@
 import { prisma } from '../prismaSingleton';
-import { LarpForCreate, Larp, LarpForUpdate } from '../types';
+import { LarpForCreate, Larp, LarpForUpdate, LarpQuery } from '../types';
 import { NotFoundError } from '../utils/expressError';
 import { Tag } from '../types';
 import ImageHandler from '../utils/imageHandler';
@@ -51,40 +51,42 @@ class LarpManager {
   }
 
 
-  static async getAllLarps(query?: string): Promise<Larp[]> {
-    if (!query) {
-      return await prisma.larp.findMany(
+  static async getAllLarps(query?: LarpQuery): Promise<Larp[]> {
+
+    let unfilteredResults:Larp[];
+    if (!query || !query.term) {
+      unfilteredResults = await prisma.larp.findMany(
         {
           orderBy: { start: 'asc' },
           include: LARP_INCLUDE_OBJ
         }
       );
+    } else {
+      unfilteredResults = await prisma.larp.findMany({
+        where: {
+          OR: [
+            { title: { search: query.term } },
+            { description: { search: query.term } },
+
+          ]
+        },
+        include:{tags:true},
+        orderBy: [
+          {
+            _relevance: {
+              fields: ["name", "description"],
+              search: query.term,
+              sort: 'desc',
+            }
+          },
+        ]
+      })
     }
 
+
     // TODO: implement filtering
-    // const cleanQuery = query.split(/\s+/g).join("&");
-    //
-    // let larps: Larp[] = await prisma.larp.findMany({
-    //   where: {
-    //     OR: [
-    //       { title: { search: cleanQuery } },
-    //       { description: { search: cleanQuery } },
-    //       { steps: { some: { instructions: { search: cleanQuery } } } },
-    //       { steps: { some: { ingredients: { some: { description: { search: cleanQuery } } } } } },
-    //     ]
-    //   },
-    //   orderBy: [
-    //     {
-    //       _relevance: {
-    //         fields: ["name", "description"],
-    //         search: cleanQuery,
-    //         sort: 'desc',
-    //       }
-    //     },
-    //   ]
-    // })
-    //
-    // return larps;
+
+    return larps;
 
     //FIXME: delete after implementing filters
     return await prisma.larp.findMany(
