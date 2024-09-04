@@ -1,8 +1,10 @@
 import { prisma } from '../prismaSingleton';
 import { LarpForCreate, Larp, LarpForUpdate, LarpQuery } from '../types';
-import { NotFoundError } from '../utils/expressError';
+import { BadRequestError, NotFoundError } from '../utils/expressError';
 import { Tag } from '../types';
 import ImageHandler from '../utils/imageHandler';
+import { TicketStatus } from '@prisma/client';
+import { start } from 'repl';
 
 const LARP_INCLUDE_OBJ = {
   tags: true,
@@ -10,7 +12,7 @@ const LARP_INCLUDE_OBJ = {
   organization: { include: { imgUrl: true } }
 };
 
-const BUCKET_NAME = process.env.BUCKET_NAME
+const BUCKET_NAME = process.env.BUCKET_NAME;
 const DEFAULT_IMG_URL = `https://${BUCKET_NAME}.s3.amazonaws.com/larpImage/default`;
 
 class LarpManager {
@@ -53,49 +55,105 @@ class LarpManager {
 
   static async getAllLarps(query?: LarpQuery): Promise<Larp[]> {
 
-    let unfilteredResults:Larp[];
-    if (!query || !query.term) {
-      unfilteredResults = await prisma.larp.findMany(
+    let larps: Larp[];
+
+    if (!query) {  //No query provided
+      larps = await prisma.larp.findMany(
         {
           orderBy: { start: 'asc' },
           include: LARP_INCLUDE_OBJ
         }
       );
-    } else {
-      unfilteredResults = await prisma.larp.findMany({
-        where: {
+    } else if (query && !query.term) {   // Query contains filters but no search term
+      let prismaFilterObject = {
+        AND: {
+          title: { contains: query.title },
+          ticketStatus: {
+            equals: query.ticketStatus ? TicketStatus[query.ticketStatus] : undefined
+          },
+          start: {
+            gte: query.startAfter ? new Date(query.startAfter) : undefined,
+            lte: query.startBefore ? new Date(query.startBefore) : undefined,
+          },
+          end: {
+            gte: query.endAfter ? new Date(query.endAfter) : undefined,
+            lte: query.endBefore ? new Date(query.endBefore) : undefined,
+          },
+          city: { contains: query.city },
+          country: { contains: query.country },
+          language: { contains: query.language },
+          organization: {
+            orgName: { contains: query.org }
+          },
+          tags: {
+            some: {
+              name: { contains: query.tags }
+            }
+          }
+        }
+      };
+
+      larps = await prisma.larp.findMany({
+        where: prismaFilterObject,
+        include: LARP_INCLUDE_OBJ,
+        orderBy: { start: 'asc' }
+      });
+    } else {    // Query contains search term and filters
+      let prismaFilterObject = {
+        AND: {
           OR: [
             { title: { search: query.term } },
             { description: { search: query.term } },
+            { city: { search: query.term } },
+            { country: { search: query.term } },
+            { language: { search: query.term } },
+            { tags: { some: { name: { contains: query.term } } } },
+            { organization: { orgName: { contains: query.term } } }
+          ],
+          title: { contains: query.title },
+          ticketStatus: {
+            equals: query.ticketStatus ? TicketStatus[query.ticketStatus] : undefined
+          },
+          start: {
+            gte: query.startAfter ? new Date(query.startAfter) : undefined,
+            lte: query.startBefore ? new Date(query.startBefore) : undefined,
+          },
+          end: {
+            gte: query.endAfter ? new Date(query.endAfter) : undefined,
+            lte: query.endBefore ? new Date(query.endBefore) : undefined,
+          },
+          city: { contains: query.city },
+          country: { contains: query.country },
+          language: { contains: query.language },
+          organization: {
+            orgName: { contains: query.org }
+          },
+          tags: {
+            some: {
+              name: { contains: query.tags }
+            }
+          }
+        }
+      };
 
-          ]
-        },
-        include:{tags:true},
+      larps = await prisma.larp.findMany({
+        where: prismaFilterObject,
+        include: LARP_INCLUDE_OBJ,
         orderBy: [
           {
             _relevance: {
-              fields: ["name", "description"],
-              search: query.term,
-              sort: 'desc',
+              fields: ["title", "description", "country", "city", "language"],
+              search: query.term!,
+              sort: 'asc',
             }
           },
         ]
-      })
+      });
     }
 
-
-    // TODO: implement filtering
-
     return larps;
+  };
 
-    //FIXME: delete after implementing filters
-    return await prisma.larp.findMany(
-      {
-        orderBy: { start: 'asc' },
-        include: LARP_INCLUDE_OBJ
-      }
-    );
-  }
 
 
   static async getLarpById(id: number): Promise<Larp> {
@@ -138,7 +196,7 @@ class LarpManager {
       :
       currentLarp.tags;
 
-    const larp:Larp = await prisma.larp.update({
+    const larp: Larp = await prisma.larp.update({
       where: { id: newLarp.id },
       data: {
         title: newLarp.title || currentLarp.title,
@@ -212,12 +270,12 @@ class LarpManager {
    */
   static async updateLarpImage(file: Express.Multer.File, id: number) {
 
-    console.log("updateLarpImage")
+    console.log("updateLarpImage");
 
     const s3Path = `larpImage/larp-${id}`;
     await ImageHandler.uploadAllSizes(file.buffer, s3Path);
 
-    const basePath=`https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`
+    const basePath = `https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`;
     const larp = await LarpManager.getLarpById(+id);
 
     if (larp.imgUrl.sm !== `${basePath}-sm`) {

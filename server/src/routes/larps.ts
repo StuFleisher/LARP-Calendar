@@ -67,8 +67,8 @@ router.get(
 router.get(
   "/",
   async function (req: Request, res: Response, next: NextFunction) {
-    const query = req.query.q;
-    if (typeof query === "string") {
+    const query = req.body;
+    if (query) {
       const larps = await LarpManager.getAllLarps(query);
       return res.json({ larps });
     } else {

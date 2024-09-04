@@ -56,7 +56,6 @@ export type LarpQuery = {
   city?: string;
   country?: string;
   language?: string;
-  description?: string;
   org?: string;
 }
 
