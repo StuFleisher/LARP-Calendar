@@ -13,8 +13,8 @@ import { BadRequestError } from '../utils/expressError';
 import LarpManager from '../models/LarpManager';
 
 import jsonschema from 'jsonschema';
-import larpForCreateSchema from '../schemas/larpForCreate.json'
-import larpForUpdateSchema from '../schemas/larpForUpdate.json'
+import larpForCreateSchema from '../schemas/larpForCreate.json';
+import larpForUpdateSchema from '../schemas/larpForUpdate.json';
 
 /** POST /
   *  Creates and returns a new larp record
@@ -39,8 +39,8 @@ router.post(
       throw new BadRequestError(errs.join(", "));
     }
 
-    const larp = await LarpManager.createLarp(req.body)
-    return res.status(201).json({larp})
+    const larp = await LarpManager.createLarp(req.body);
+    return res.status(201).json({ larp });
   }
 );
 
@@ -60,15 +60,17 @@ router.get(
 
 /** GET /
   *  Returns a list of all larps without submodel data
-  *
+  * @query a LarpQuery object encoded in Base64
   * @returns larps: [Larp,...]
   */
 
 router.get(
   "/",
   async function (req: Request, res: Response, next: NextFunction) {
-    const query = req.body;
-    if (query) {
+    if (req.query && req.query.q) {
+      const q:string = req.query.q as string
+      const decodedQuery = atob(q);
+      const query = JSON.parse(decodedQuery);
       const larps = await LarpManager.getAllLarps(query);
       return res.json({ larps });
     } else {

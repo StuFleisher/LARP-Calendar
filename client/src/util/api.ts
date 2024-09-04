@@ -1,6 +1,6 @@
 import axios, {AxiosError} from "axios";
 import { jwtDecode } from "jwt-decode";
-import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate, OrganizationForCreate, Organization, OrganizationForUpdate, PublicUser } from "../types";
+import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate, OrganizationForCreate, Organization, OrganizationForUpdate, PublicUser, LarpQuery } from "../types";
 import { JsonToLarp } from "./typeConverters";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3001/";
@@ -151,6 +151,7 @@ class LarpAPI {
     const response = await this.request(`events/${id}`);
     return JsonToLarp(response.larp);
   }
+
 
   static async getAllLarps(query: string | null): Promise<Larp[]> {
 

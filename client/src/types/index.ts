@@ -53,6 +53,22 @@ export type LarpAsJSON = LarpForCreate & {
   organization: Organization,
 }
 
+/*************************** LARP QUERY */
+export type LarpQuery = {
+  term?: string;
+  title?: string;
+  ticketStatus?: TicketStatus;
+  tags?: string
+  startBefore?: string;
+  startAfter?:string;
+  endBefore?:string;
+  endAfter?:string;
+  city?: string;
+  country?: string;
+  language?: string;
+  org?: string;
+}
+
 /*************************** USERS */
 
 export type UserLoginData = {
