@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { base64Encode } from "../../util/utilities";
 
 
 function SearchBar() {
@@ -19,7 +20,8 @@ function SearchBar() {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement | SVGSVGElement>) {
         e.preventDefault();
-        navigate(`/events?q=${query}`);
+        const encodedQuery = base64Encode(JSON.stringify({term:query}))
+        navigate(`/events?q=${encodedQuery}`);
     }
 
     return (

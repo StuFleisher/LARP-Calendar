@@ -57,7 +57,7 @@ export type LarpAsJSON = LarpForCreate & {
 export type LarpQuery = {
   term?: string;
   title?: string;
-  ticketStatus?: TicketStatus;
+  ticketStatus?: TicketStatus | "";
   tags?: string
   startBefore?: string;
   startAfter?:string;

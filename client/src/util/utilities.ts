@@ -46,3 +46,25 @@ export function shortenString(str: string, n: number) {
     })}`;
   return `${shortStr}...`;
 }
+
+//Encode a string to base64
+export function base64Encode(input:string) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  let binary = '';
+  data.forEach(byte => {
+    binary += String.fromCharCode(byte);
+  });
+  return btoa(binary);
+}
+
+//Decode base64 to get a string
+export function base64Decode(encoded:string) {
+  const binary = atob(encoded);
+  const data = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    data[i] = binary.charCodeAt(i);
+  }
+  const decoder = new TextDecoder();
+  return decoder.decode(data);
+}

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Larp, LarpQuery } from "../types";
+import React, { useEffect, useState } from "react";
+import { Larp } from "../types";
 import LarpAPI from "../util/api";
 
 type FetchLarpsResult = {
@@ -9,8 +9,13 @@ type FetchLarpsResult = {
     error: any,
 };
 
-function useFetchLarps(queryObject: LarpQuery | null): FetchLarpsResult {
-    // function useFetchLarps():FetchLarpsResult {
+
+/**
+ * Manages fetching and stores state for a Larp[]
+ *
+ * @props query: a LarpQuery stringified and encoded to Base64
+ */
+function useFetchLarps(queryString: string | null): FetchLarpsResult {
     const [larps, setLarps] = useState<Larp[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string[]>([]);
@@ -18,8 +23,7 @@ function useFetchLarps(queryObject: LarpQuery | null): FetchLarpsResult {
     useEffect(() => {
         async function fetchLarps() {
             try {
-                const encodedQuery = queryObject && btoa(JSON.stringify(queryObject));
-                const response = await LarpAPI.getAllLarps(encodedQuery);
+                const response = await LarpAPI.getAllLarps(queryString);
                 setLarps(response);
                 setLoading(false);
             } catch (err: any) {
@@ -29,13 +33,13 @@ function useFetchLarps(queryObject: LarpQuery | null): FetchLarpsResult {
         }
 
         fetchLarps();
-    }, [setLarps, queryObject]);
+    }, [setLarps, queryString]);
 
     return {
         larps,
         setLarps,
         loading,
-        error
+        error,
     };
 }
 
