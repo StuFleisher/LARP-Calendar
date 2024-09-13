@@ -20,15 +20,23 @@ function LarpListPage() {
     function setFilters(filterFormData: LarpQuery) {
 
         //remove empty entries
-        for (const key in filterFormData) {
+        const reducedFormData:LarpQuery = {};
+
+        Object.keys(filterFormData).forEach((key)=> {
             const typedKey = key as keyof LarpQuery;
-            if (filterFormData[typedKey] === "") {
-                delete filterFormData[typedKey];
+            const value = filterFormData[typedKey]
+
+            if (value !== null && value !== "" ) {
+                if (typedKey === 'ticketStatus' && (value === "AVAILABLE" || value === "LIMITED" || value === "SOLD_OUT" || value === "")) {
+                    reducedFormData[typedKey] = value as LarpQuery[typeof typedKey];
+                } else if (typedKey !== 'ticketStatus') {
+                    reducedFormData[typedKey] = value as LarpQuery[typeof typedKey];
+                }
             }
-        }
+        })
 
         //encode values for query
-        const query = base64Encode(JSON.stringify(filterFormData));
+        const query = base64Encode(JSON.stringify(reducedFormData));
         navigate(`/events/?q=${query}`);
     }
 

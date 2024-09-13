@@ -29,6 +29,9 @@ function FormikDateTimePicker({ field, form, ...props }: FormikDateTimePickerPro
                 textField: TextField
             }}
             slotProps={{
+                actionBar: {
+                    actions: ['clear','today','cancel','accept']
+                  },
                 textField: {
                     onBlur:handleBlur,
                     error: Boolean(fieldError),

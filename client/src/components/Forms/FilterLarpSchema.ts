@@ -9,13 +9,25 @@ const FilterLarpSchema = yup.object({
     .oneOf(["AVAILABLE", "LIMITED", "SOLD_OUT"]),
   tags: yup.string(),
   startBefore: yup
-    .date(),
+    .date()
+    .nullable()
+    .notRequired()
+    .typeError('Invalid date format'),
   startAfter: yup
-    .date(),
+    .date()
+    .nullable()
+    .notRequired()
+    .typeError('Invalid date format'),
   endBefore: yup
-    .date(),
+    .date()
+    .nullable()
+    .notRequired()
+    .typeError('Invalid date format'),
   endAfter: yup
-    .date(),
+    .date()
+    .nullable()
+    .notRequired()
+    .typeError('Invalid date format'),
   allDay: yup.boolean(),
   city: yup.string(),
   country: yup.string(),
