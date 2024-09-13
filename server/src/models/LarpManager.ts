@@ -3,8 +3,7 @@ import { LarpForCreate, Larp, LarpForUpdate, LarpQuery } from '../types';
 import { BadRequestError, NotFoundError } from '../utils/expressError';
 import { Tag } from '../types';
 import ImageHandler from '../utils/imageHandler';
-import { TicketStatus } from '@prisma/client';
-import { start } from 'repl';
+import { Prisma, TicketStatus } from '@prisma/client';
 
 const LARP_INCLUDE_OBJ = {
   tags: true,
@@ -65,11 +64,14 @@ class LarpManager {
         }
       );
     } else if (query && !query.term) {   // Query contains filters but no search term
-      let prismaFilterObject = {
+      let prismaFilterObject: Prisma.LarpWhereInput = {
         AND: {
-          title: { contains: query.title },
+          title: {
+            contains: query.title,
+            mode: "insensitive",
+          },
           ticketStatus: {
-            equals: query.ticketStatus ? TicketStatus[query.ticketStatus] : undefined
+            equals: query.ticketStatus ? TicketStatus[query.ticketStatus] : undefined,
           },
           start: {
             gte: query.startAfter ? new Date(query.startAfter) : undefined,
@@ -79,15 +81,30 @@ class LarpManager {
             gte: query.endAfter ? new Date(query.endAfter) : undefined,
             lte: query.endBefore ? new Date(query.endBefore) : undefined,
           },
-          city: { contains: query.city },
-          country: { contains: query.country },
-          language: { contains: query.language },
+          city: {
+            contains: query.city,
+            mode: "insensitive",
+          },
+          country: {
+            contains: query.country,
+            mode: "insensitive",
+          },
+          language: {
+            contains: query.language,
+            mode: "insensitive",
+          },
           organization: {
-            orgName: { contains: query.org }
+            orgName: {
+              contains: query.org,
+              mode: "insensitive",
+            }
           },
           tags: {
             some: {
-              name: { contains: query.tags }
+              name: {
+                contains: query.tags,
+                mode: "insensitive",
+              }
             }
           }
         }
@@ -99,7 +116,7 @@ class LarpManager {
         orderBy: { start: 'asc' }
       });
     } else {    // Query contains search term and filters
-      let prismaFilterObject = {
+      let prismaFilterObject: Prisma.LarpWhereInput = {
         AND: {
           OR: [
             { title: { search: query.term } },
@@ -110,7 +127,10 @@ class LarpManager {
             { tags: { some: { name: { contains: query.term } } } },
             { organization: { orgName: { contains: query.term } } }
           ],
-          title: { contains: query.title },
+          title: {
+            contains: query.title,
+            mode: 'insensitive'
+          },
           ticketStatus: {
             equals: query.ticketStatus ? TicketStatus[query.ticketStatus] : undefined
           },
@@ -122,15 +142,30 @@ class LarpManager {
             gte: query.endAfter ? new Date(query.endAfter) : undefined,
             lte: query.endBefore ? new Date(query.endBefore) : undefined,
           },
-          city: { contains: query.city },
-          country: { contains: query.country },
-          language: { contains: query.language },
+          city: {
+            contains: query.city,
+            mode: 'insensitive'
+          },
+          country: {
+            contains: query.country,
+            mode: 'insensitive'
+          },
+          language: {
+            contains: query.language,
+            mode: 'insensitive'
+          },
           organization: {
-            orgName: { contains: query.org }
+            orgName: {
+              contains: query.org,
+              mode: 'insensitive'
+            }
           },
           tags: {
             some: {
-              name: { contains: query.tags }
+              name: {
+                contains: query.tags,
+                mode: 'insensitive'
+              }
             }
           }
         }
