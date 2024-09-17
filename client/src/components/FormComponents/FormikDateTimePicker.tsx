@@ -36,6 +36,7 @@ function FormikDateTimePicker({ field, form, ...props }: FormikDateTimePickerPro
                     onBlur:handleBlur,
                     error: Boolean(fieldError),
                     helperText: getNested(errors, name),
+                    size: "small"
                 } as TextFieldProps,
                 openPickerButton: {
                     onBlur:handleBlur,

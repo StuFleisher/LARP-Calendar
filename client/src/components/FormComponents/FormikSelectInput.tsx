@@ -1,4 +1,4 @@
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { MenuItem, FormControl, InputLabel, Select } from '@mui/material';
 import { FieldProps } from 'formik';
 
 type SelectInputProps = FieldProps & {
@@ -6,11 +6,19 @@ type SelectInputProps = FieldProps & {
     label: string;
 };
 
-function FormikSelectInput({ form, field, options, label }: SelectInputProps) {
+interface test extends FieldProps, Omit<SelectInputProps, 'name' | 'value' | 'onChange' | 'onBlur'> { }
+
+function FormikSelectInput({ form, field, options, label, ...props }: test) {
 
     return (
-        <FormControl>
-            <InputLabel>{label}</InputLabel>
+        <FormControl
+            {...props}
+        >
+            <InputLabel
+                sx={{
+                    minWidth: "max-content"
+                }}
+            >{label}</InputLabel>
             <Select
                 labelId={`#${field.name}-label`}
                 {...field}
@@ -19,7 +27,11 @@ function FormikSelectInput({ form, field, options, label }: SelectInputProps) {
             >
                 {
                     options.map(option => (
-                        <MenuItem value={option.value} key={option.label}>
+                        <MenuItem
+                            value={option.value}
+                            key={option.label}
+
+                        >
                             {option.label}
                         </MenuItem>
                     ))

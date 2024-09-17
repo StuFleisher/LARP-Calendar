@@ -1,13 +1,13 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import React from "react";
+import { useState, useEffect, useCallback, useContext, useMemo } from "react";
 import { userContext } from "../context/userContext";
-import { Box, Stack, Button, MenuItem, Typography, Menu, Hidden, useMediaQuery, useTheme, Divider } from "@mui/material";
+import { Box, Stack, Button, MenuItem, Typography, Menu, Hidden, useMediaQuery, useTheme, Divider, Link } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCalendar, faShapes, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import './NavBar.scss';
 import { NavLink as RouterLink } from "react-router-dom";
 import SearchBar from "./ui/SearchBar";
-
-
+import FilterLarpsFormDrawer from "./Forms/FilterLarpsFormDrawer";
 
 function NavBar() {
 
@@ -15,14 +15,16 @@ function NavBar() {
 
     const [showAccountMenu, setShowAccountMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
+    const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    function handleClickMenu(event: React.MouseEvent<HTMLElement>) {
+    const handleClickMenu = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
-    }
-    function handleCloseMenu() {
+    }, []);
+
+    const handleCloseMenu = useCallback(()=> {
         setAnchorEl(null);
-    }
+    },[]);
 
 
     //Close dropdown menus when the anchor element unmounts
@@ -45,7 +47,7 @@ function NavBar() {
     }, [handleResize]);
 
     /*********************** Menu Item Display Elements by Auth ******************************/
-    const ANON_ITEMS = (
+    const ANON_ITEMS = useMemo(() => (
         <Box>
             {!username &&
                 <>
@@ -67,9 +69,9 @@ function NavBar() {
                 </>
             }
         </Box>
-    );
+    ), [username]);
 
-    const USER_ITEMS = (
+    const USER_ITEMS = useMemo(() => (
         <Box>
             {username &&
                 <>
@@ -95,9 +97,9 @@ function NavBar() {
                 </>
             }
         </Box>
-    );
+    ), [organization, username]);
 
-    const UNAPPROVED_ORG_ITEMS = (
+    const UNAPPROVED_ORG_ITEMS = useMemo(() => (
         <Box>
             {username && organization && !organization.isApproved &&
                 <>
@@ -111,9 +113,9 @@ function NavBar() {
                 </>
             }
         </Box>
-    );
+    ), [organization, username]);
 
-    const APPROVED_ORG_ITEMS = (
+    const APPROVED_ORG_ITEMS = useMemo(() => (
         <Box>
             {organization && organization.isApproved &&
                 <>
@@ -135,9 +137,9 @@ function NavBar() {
                 </>
             }
         </Box >
-    );
+    ), [organization]);
 
-    const ADMIN_ITEMS = (
+    const ADMIN_ITEMS = useMemo(() => (
         <Box>
             {isAdmin &&
                 <>
@@ -152,10 +154,10 @@ function NavBar() {
                 </>
             }
         </Box>
-    );
+    ), [isAdmin]);
 
     /*********************** Menu Displays ******************************/
-    const ACCOUNT_MENU = (
+    const ACCOUNT_MENU = useMemo(() => (
         <Menu
             open={showAccountMenu}
             anchorEl={anchorEl}
@@ -170,9 +172,11 @@ function NavBar() {
             {APPROVED_ORG_ITEMS}
             {ADMIN_ITEMS}
         </Menu >
-    );
+    ), [ANON_ITEMS, USER_ITEMS, UNAPPROVED_ORG_ITEMS, APPROVED_ORG_ITEMS,
+        ADMIN_ITEMS, anchorEl, showAccountMenu, handleCloseMenu
+    ]);
 
-    const MOBILE_MENU = (
+    const MOBILE_MENU = useMemo(() => (
         <Menu
             elevation={1}
             open={showMobileMenu}
@@ -185,7 +189,7 @@ function NavBar() {
 
             {ANON_ITEMS}
             {USER_ITEMS}
-            <Divider/>
+            <Divider />
             <MenuItem
                 component={RouterLink}
                 to="/about"
@@ -205,7 +209,9 @@ function NavBar() {
             {APPROVED_ORG_ITEMS}
             {ADMIN_ITEMS}
         </Menu >
-    );
+    ), [ANON_ITEMS, USER_ITEMS, UNAPPROVED_ORG_ITEMS, APPROVED_ORG_ITEMS,
+        ADMIN_ITEMS, anchorEl, showMobileMenu, handleCloseMenu
+    ]);
 
     /** Main component rendering */
 
@@ -222,12 +228,28 @@ function NavBar() {
                             sx={{
                                 flexBasis: {
                                     sm: "1fr",
-                                    md: "350px"
+                                    md: "350px",
+                                    position: 'relative'
                                 }
                             }}
                         >
                             <SearchBar></SearchBar>
+                            {!showAdvancedSearch &&
+                                <Typography
+                                    component={Link}
+                                    variant="caption"
+                                    sx={{
+                                        position: "absolute",
+                                        left: "50%",
+                                        transform: "translate(-50%, 0)"
+                                    }}
+                                    onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+                                >
+                                    advanced search
+                                </Typography>
+                            }
                         </Box>
+
                     </Hidden>
 
                     <Stack
@@ -251,8 +273,7 @@ function NavBar() {
                                 onClick={(e) => {
                                     handleClickMenu(e);
                                     setShowAccountMenu(!showAccountMenu);
-                                }
-                                }
+                                }}
                             >
                                 <FontAwesomeIcon icon={faUserAlt} />
                                 ACCOUNT
@@ -271,12 +292,51 @@ function NavBar() {
                         </Hidden>
                     </Stack>
                 </Stack>
-
                 <Hidden mdUp>
-                    <Box className="SearchBar">
+                    <Box className="SearchBar" mb=".5rem">
                         <SearchBar></SearchBar>
+                        {!showAdvancedSearch &&
+                            <Typography
+                                component={Link}
+                                variant="caption"
+                                sx={{
+                                    position: "absolute",
+                                    left: "50%",
+                                    transform: "translate(-50%, 0)"
+                                }}
+                                onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+                            >
+                                advanced search
+                            </Typography>
+                        }
                     </Box>
                 </Hidden>
+                {showAdvancedSearch &&
+                    <>
+                        <FilterLarpsFormDrawer
+                            onSubmitCallback={()=>setShowAdvancedSearch(false)}
+                        />
+                        <Box
+                            sx={{
+                                minWidth: "max-content",
+                                width: "200px",
+                                margin: "auto",
+                                textAlign: "center"
+                            }}
+                        >
+                            <Typography
+                                component={Link}
+                                variant="caption"
+                                onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+                            >
+                                hide search controls
+                            </Typography>
+                        </Box>
+                    </>
+                }
+
+
+
                 {
                     showAccountMenu &&
                     ACCOUNT_MENU

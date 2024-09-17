@@ -8,6 +8,7 @@ import { LarpQuery } from "../types";
 import FilterLarpSchema from "../components/Forms/FilterLarpSchema";
 import FilterLarpsForm from "../components/Forms/FilterLarpsForm";
 import { base64Decode, base64Encode } from "../util/utilities";
+import { useState } from "react";
 
 function LarpListPage() {
 
@@ -69,14 +70,6 @@ function LarpListPage() {
                     title="Sorry, there was a problem fetching records for this page"
                     errs={error}
                 />
-                <Formik
-                    onSubmit={(values) => setFilters(values)}
-                    initialValues={initialFormValues}
-                    validationSchema={FilterLarpSchema}
-                >
-                    <FilterLarpsForm />
-                </Formik>
-
                 <LarpList larps={larps} />
             </>
 
