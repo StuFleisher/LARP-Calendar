@@ -7,7 +7,7 @@ import { faBars, faCalendar, faShapes, faUserAlt } from "@fortawesome/free-solid
 import './NavBar.scss';
 import { NavLink as RouterLink } from "react-router-dom";
 import SearchBar from "./ui/SearchBar";
-import FilterLarpsFormDrawer from "./Forms/FilterLarpsFormDrawer";
+import FilterLarpsForm from "./Forms/FilterLarpsForm";
 
 function NavBar() {
 
@@ -313,7 +313,7 @@ function NavBar() {
                 </Hidden>
                 {showAdvancedSearch &&
                     <>
-                        <FilterLarpsFormDrawer
+                        <FilterLarpsForm
                             onSubmitCallback={()=>setShowAdvancedSearch(false)}
                         />
                         <Box

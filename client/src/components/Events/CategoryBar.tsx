@@ -3,15 +3,19 @@ import LarpCard from "./LarpCard";
 import "./CategoryBar.scss";
 import { useFetchLarps } from "../../hooks/useFetchLarps";
 import LoadingSpinner from "../ui/LoadingSpinner";
+import { LarpQuery } from "../../types";
+import { base64Encode } from "../../util/utilities";
 
 type CategoryBarProps = {
     title: string;
+    filterSet: LarpQuery;
     // filterObject: any;
 };
 
-function CategoryBar({ title }: CategoryBarProps) {
+function CategoryBar({ title, filterSet }: CategoryBarProps) {
 
-    const {larps, loading, error} = useFetchLarps();
+    const query =  base64Encode(JSON.stringify(filterSet));
+    const {larps, loading, error} = useFetchLarps(query);
 
     if (error.length) {
         console.warn("Error loading larps from", title);

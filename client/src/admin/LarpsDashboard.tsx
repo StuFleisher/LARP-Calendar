@@ -12,7 +12,7 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 import ErrorMessage from "../components/ui/ErrorMessage";
 
 function LarpsDashboard() {
-    const { larps, setLarps, loading, error } = useFetchLarps();
+    const { larps, setLarps, loading, error } = useFetchLarps(null);
     const navigate = useNavigate();
 
     async function handleDelete(id: number) {
