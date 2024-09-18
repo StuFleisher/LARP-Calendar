@@ -2,9 +2,12 @@ import LarpAPI from "../util/api";
 import { useNavigate } from "react-router-dom";
 
 import TooltipButton from "../components/FormComponents/TooltipButton";
-import { faImage, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faPencil, faStar, faTrash, } from "@fortawesome/free-solid-svg-icons";
+import { Larp } from "../types";
 
-function useLarpControls(larpId: number) {
+function useLarpControls(larp: Larp) {
+
+  const larpId = larp.id
 
   const navigate = useNavigate();
 
@@ -25,6 +28,15 @@ function useLarpControls(larpId: number) {
     e.stopPropagation();
     e.preventDefault();
     navigate(`/events/${larpId}/image`);
+  }
+
+  function toggleFeatured(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
+    e.preventDefault();
+    LarpAPI.UpdateLarp({
+      ...larp,
+      isFeatured:!larp.isFeatured
+    })
   }
 
   // const DeleteLarpButton = <DeleteLarpButtonComponent handleDelete={deleteLarp} />;
@@ -50,8 +62,16 @@ function useLarpControls(larpId: number) {
       icon={faImage}
     />
   );
+  const ToggleFeaturedButton = (
+    <TooltipButton
+      handleClick={toggleFeatured}
+      title="Toggle Featured Event"
+      icon={faStar}
+    />
+  );
 
-  return { DeleteLarpButton, EditLarpButton, EditImageButton };
+
+  return { DeleteLarpButton, EditLarpButton, EditImageButton, ToggleFeaturedButton };
 
 }
 

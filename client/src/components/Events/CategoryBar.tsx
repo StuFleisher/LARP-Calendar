@@ -20,6 +20,10 @@ function CategoryBar({ title, filterSet }: CategoryBarProps) {
     if (error.length) {
         console.warn("Error loading larps from", title);
     }
+
+    //don't render empty lists
+    if (larps.length===0) return ""
+
     return (
         <Box
             className="CategoryBar"

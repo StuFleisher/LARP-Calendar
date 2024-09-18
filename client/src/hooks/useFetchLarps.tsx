@@ -9,7 +9,6 @@ type FetchLarpsResult = {
     error: any,
 };
 
-
 /**
  * Manages fetching and stores state for a Larp[]
  *

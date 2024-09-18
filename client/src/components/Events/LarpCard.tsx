@@ -22,7 +22,7 @@ type LarpCardProps = {
 export default function LarpCard({ larp }: LarpCardProps) {
     const theme = useTheme();
     const { username, isAdmin } = useContext(userContext);
-    const { EditLarpButton, DeleteLarpButton, EditImageButton } = useLarpControls(larp.id);
+    const { EditLarpButton, DeleteLarpButton, EditImageButton } = useLarpControls(larp);
 
     let ticketColor = theme.palette.success.main;
     if (larp.ticketStatus === "LIMITED") ticketColor = theme.palette.warning.main;

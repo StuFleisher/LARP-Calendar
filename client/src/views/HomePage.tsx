@@ -22,13 +22,16 @@ function HomePage() {
                             title="Sorry, there was a problem fetching records for this page"
                             errs={error}
                         />
-                        <Calendar larps={larps} />
-                        {/* <CategoryBar
+                        <CategoryBar
                             title="Featured Events"
-                            filterSet={
+                            filterSet={{
+                                startAfter:DateTime.now().toISO(),
+                                isFeatured:true,
+                            }}
+                        />
 
-                            }
-                        /> */}
+                        <Calendar larps={larps} />
+
                         <CategoryBar
                             title="Events this Month"
                             filterSet={{
@@ -43,7 +46,6 @@ function HomePage() {
                                 startAfter:DateTime.now().plus({month:1}).startOf("month").toISO(),
                                 startBefore:DateTime.now().plus({month:1}).endOf("month").toISO()
                             }}
-
                         />
                         <CategoryBar
                             title="Family friendly events"
@@ -51,7 +53,6 @@ function HomePage() {
                                 startAfter:DateTime.now().toISO(),
                                 tags:"family friendly"
                             }}
-
                         />
                     </>
             }

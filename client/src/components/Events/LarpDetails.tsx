@@ -22,7 +22,7 @@ type LarpDetailsProps = {
 
 function LarpDetails({ larp }: LarpDetailsProps) {
     const { username, isAdmin } = useContext(userContext);
-    const { EditLarpButton, DeleteLarpButton, EditImageButton } = useLarpControls(larp.id);
+    const { EditLarpButton, DeleteLarpButton, EditImageButton } = useLarpControls(larp);
 
     return (
         <Box className="LarpDetails">

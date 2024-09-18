@@ -1,6 +1,6 @@
 import { prisma } from '../prismaSingleton';
 import { LarpForCreate, Larp, LarpForUpdate, LarpQuery } from '../types';
-import { BadRequestError, NotFoundError } from '../utils/expressError';
+import { NotFoundError } from '../utils/expressError';
 import { Tag } from '../types';
 import ImageHandler from '../utils/imageHandler';
 import { Prisma, TicketStatus } from '@prisma/client';
@@ -98,6 +98,9 @@ class LarpManager {
               contains: query.org,
               mode: "insensitive",
             }
+          },
+          isFeatured: {
+            equals: query.isFeatured
           },
           tags: {
             some: {
@@ -219,11 +222,7 @@ class LarpManager {
       newLarp.tags.map(tag => tag.name)
       :
       [];
-    // const currTagNames = currentLarp.tags
-    //   ?
-    //   currentLarp.tags.map(tag => tag.name)
-    //   :
-    //   [];
+
     const tagsToRemove = currentLarp.tags
       ?
       currentLarp.tags
@@ -244,6 +243,9 @@ class LarpManager {
         country: newLarp.country || currentLarp.country,
         language: newLarp.language || currentLarp.language,
         eventUrl: newLarp.eventUrl || currentLarp.eventUrl,
+        isFeatured: newLarp.isFeatured !== undefined
+          ? newLarp.isFeatured
+          : currentLarp.isFeatured,
         tags: {
           connectOrCreate: (
             newLarp.tags ? newLarp.tags.map((tag: Tag) => (
@@ -267,7 +269,6 @@ class LarpManager {
       },
       include: LARP_INCLUDE_OBJ,
     });
-
     return larp;
   };
 

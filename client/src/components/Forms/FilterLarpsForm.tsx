@@ -7,37 +7,45 @@ import { base64Decode, base64Encode } from "../../util/utilities";
 import { useCallback, useMemo } from "react";
 
 type FilterLarpsFormProps = {
-  onSubmitCallback: ()=> void;
-}
+  onSubmitCallback: () => void;
+};
 
-function FilterLarpsForm({onSubmitCallback}:FilterLarpsFormProps) {
+function FilterLarpsForm({ onSubmitCallback }: FilterLarpsFormProps) {
   const [searchParams] = useSearchParams();
   const queryParam = searchParams.get("q") || null;
   const navigate = useNavigate();
 
-  const setFilters= useCallback((filterFormData: LarpQuery)=>{
+  const setFilters = useCallback((filterFormData: LarpQuery) => {
+
     //remove empty entries
     const reducedFormData: LarpQuery = {};
-
     Object.keys(filterFormData).forEach((key) => {
       const typedKey = key as keyof LarpQuery;
       const value = filterFormData[typedKey];
 
-      if (value !== null && value !== "") {
-        if (typedKey === 'ticketStatus' && (value === "AVAILABLE" || value === "LIMITED" || value === "SOLD_OUT" || value === "")) {
-          reducedFormData[typedKey] = value as LarpQuery[typeof typedKey];
-        } else if (typedKey !== 'ticketStatus') {
+      if (typedKey === 'isFeatured'
+      ) {
+        if (typeof value === 'boolean') reducedFormData[typedKey] = value;
+      } else if (typedKey === 'ticketStatus') {
+        if (value === "AVAILABLE" ||
+          value === "LIMITED" ||
+          value === "SOLD_OUT" ||
+          value === ""
+        ) {
           reducedFormData[typedKey] = value as LarpQuery[typeof typedKey];
         }
+      } else if (
+        value !== null && value !== undefined && value !== "") {
+        reducedFormData[typedKey] = value as LarpQuery[typeof typedKey];
       }
     });
 
     //encode values for query
     const query = base64Encode(JSON.stringify(reducedFormData));
     navigate(`/events/?q=${query}`);
-  },[navigate])
+  }, [navigate]);
 
-  const initialFormValues: LarpQuery = useMemo((()=>{
+  const initialFormValues: LarpQuery = useMemo((() => {
     const queryObj: LarpQuery = queryParam ? JSON.parse(base64Decode(queryParam)) : {};
     return {
       term: queryObj.term || "",
@@ -53,20 +61,20 @@ function FilterLarpsForm({onSubmitCallback}:FilterLarpsFormProps) {
       language: queryObj.language || "",
       org: queryObj.org || "",
     };
-  }),[queryParam]);
+  }), [queryParam]);
 
   return (
     <>
-        <Formik
-          onSubmit={(values) => {
-            onSubmitCallback();
-            setFilters(values);
-          }}
-          initialValues={initialFormValues}
-          validationSchema={FilterLarpSchema}
-        >
-          <FilterLarpsFormFields />
-        </Formik>
+      <Formik
+        onSubmit={(values) => {
+          onSubmitCallback();
+          setFilters(values);
+        }}
+        initialValues={initialFormValues}
+        validationSchema={FilterLarpSchema}
+      >
+        <FilterLarpsFormFields />
+      </Formik>
     </>
   );
 
