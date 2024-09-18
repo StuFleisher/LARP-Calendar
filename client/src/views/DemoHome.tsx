@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { Box, Button, List, ListItem, Stack, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCheck, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { Link as RouterLink } from "react-router-dom";
 import { UserLoginData } from "../types";
 
@@ -69,14 +69,14 @@ function DemoHome({login}:DemoHomeProps) {
               </Typography>
               <List dense>
                 <ListItem>
-                  <FontAwesomeIcon icon={faArrowRight} /> &nbsp; Fulltext search for events
+                  <FontAwesomeIcon icon={faCheck} /> &nbsp; Fulltext search for events
                 </ListItem>
                 <ListItem>
-                  <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
+                  <FontAwesomeIcon icon={faCheck} /> &nbsp;
                   Event List page will be filterable by date, location, tags and more
                 </ListItem>
                 <ListItem>
-                  <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
+                  <FontAwesomeIcon icon={faCheck} /> &nbsp;
                   {`Category displays (featured, this month etc) will display only the relevant events`}
                 </ListItem>
                 <ListItem>
