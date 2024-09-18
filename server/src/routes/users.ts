@@ -39,6 +39,7 @@ router.post(
   );
   if (!validator.valid) {
     const errs = validator.errors.map((e: Error) => e.stack);
+    console.log("validation failed", errs.join(", "))
     throw new BadRequestError(errs.join(", "));
   }
 

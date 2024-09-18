@@ -3,7 +3,6 @@ import request from 'supertest';
 import app from '../../app';
 
 import UserManager from '../../models/UserManager';
-import { BadRequestError, NotFoundError } from '../../utils/expressError';
 import {
   testUser,
   userToken,
@@ -64,7 +63,7 @@ describe("POST users/", function () {
     //mock create
     const mockedRegister = jest.spyOn(UserManager, "register");
     mockedRegister.mockResolvedValueOnce(testAdminUser);
-    const {id, ...createData} = testAdminUser
+    const {id, organization, ...createData} = testAdminUser
 
     const resp = await request(app)
       .post(`/users/`)

@@ -3,8 +3,7 @@ import request from 'supertest';
 import app from '../../app';
 
 import LarpManager from '../../models/LarpManager';
-import { testLarp, testTag } from '../../test/testLarpData';
-import { BadRequestError, NotFoundError } from '../../utils/expressError';
+import { testLarp, testLarpForCreate, testTag } from '../../test/testLarpData';
 import { organizerToken } from '../../test/testUserData';
 
 beforeEach(jest.clearAllMocks);
@@ -61,7 +60,7 @@ describe("POST events/:id", function () {
     //mock create
     const mockedCreateLarp = jest.spyOn(LarpManager, "createLarp");
     mockedCreateLarp.mockResolvedValueOnce(testLarp);
-    const {id, ...createData} = testLarp
+    const {...createData} = testLarpForCreate
 
     const resp = await request(app)
       .post(`/events/`)
@@ -90,11 +89,15 @@ describe("PUT events/:id", function () {
     mockedGetLarpById.mockResolvedValueOnce(testLarp);
     //mock update
     const mockedUpdateLarp = jest.spyOn(LarpManager, "updateLarp");
+    const {organization, ...testLarpForUpdate} = testLarp;
     const updateData = {
-      ...testLarp,
+      ...testLarpForUpdate,
       title: "testLarp-updated"
     };
-    mockedUpdateLarp.mockResolvedValueOnce(updateData);
+    mockedUpdateLarp.mockResolvedValueOnce({
+      ...testLarp,
+      title:"testLarp-updated"
+    });
 
     const resp = await request(app)
       .put("/events/1")
@@ -105,7 +108,8 @@ describe("PUT events/:id", function () {
     expect(mockedUpdateLarp).toHaveBeenCalledTimes(1);
     expect(resp.body).toEqual({
       larp: {
-        ...updateData,
+        ...testLarp,
+        title: "testLarp-updated",
         start: updateData.start.toISOString(),
         end: updateData.end.toISOString(),
       }

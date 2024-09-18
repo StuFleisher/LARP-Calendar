@@ -35,6 +35,7 @@ export type Larp = LarpForCreate & {
   imgUrl: ImageSet;
   imgSetId: number;
   organization?: Organization;
+  isFeatured: boolean;
 };
 
 export type LarpForUpdate = Omit<
@@ -57,6 +58,7 @@ export type LarpQuery = {
   country?: string;
   language?: string;
   org?: string;
+  isFeatured?: boolean;
 }
 
 /*************************** USERS */

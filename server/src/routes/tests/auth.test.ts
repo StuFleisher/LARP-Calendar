@@ -99,7 +99,6 @@ describe("POST /auth/register", function () {
       password: "testUser-password",
       email: "testUser@test.com",
       isAdmin: false,
-      isOrganizer: false,
     })
   });
 

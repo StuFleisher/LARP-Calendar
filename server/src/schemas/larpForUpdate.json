@@ -84,6 +84,9 @@
     },
     "orgId": {
       "type": "number"
+    },
+    "isFeatured": {
+      "type": "boolean"
     }
   },
   "additionalProperties": false,

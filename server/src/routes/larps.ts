@@ -36,6 +36,7 @@ router.post(
     );
     if (!validator.valid) {
       const errs: (string | undefined)[] = validator.errors.map((e: Error) => e.stack);
+      console.error("failed validation", errs.join(", "))
       throw new BadRequestError(errs.join(", "));
     }
 
@@ -113,6 +114,7 @@ router.put(
     );
     if (!validator.valid) {
       const errs: (string | undefined)[] = validator.errors.map((e: Error) => e.stack);
+      console.error("validation error", errs.join(", "))
       throw new BadRequestError(errs.join(", "));
     }
     const larp = await LarpManager.updateLarp(req.body);

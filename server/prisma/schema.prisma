@@ -27,7 +27,6 @@ model Larp {
   start        DateTime
   end          DateTime
   allDay       Boolean      @map("all_day")
-  // imgUrl       String       @default("") @map("img_url") @db.VarChar(500)
   city         String       @default("") @db.VarChar(100)
   country      String       @default("") @db.VarChar(100)
   language     String       @default("") @db.VarChar(100)
@@ -38,6 +37,7 @@ model Larp {
   imgSetId     Int          @unique @map("img_set_id")
   organization Organization @relation(fields: [orgId], references: [id])
   orgId        Int
+  isFeatured   Boolean      @default(false)
 
   @@map("larps")
 }

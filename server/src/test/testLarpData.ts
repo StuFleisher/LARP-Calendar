@@ -10,7 +10,7 @@ const testTag: Tag = {
 };
 
 const testLarpForCreate: LarpForCreate = {
-  orgId: 1,
+  orgId: testOrganization.id,
   title: "testLarp-title",
   ticketStatus: "AVAILABLE",
   tags: [testTag],
@@ -41,6 +41,7 @@ const testLarp: Larp = {
   orgId: testOrganization.id,
   organization: testOrganization,
   eventUrl: "https://testLarp.com",
+  isFeatured: false,
 };
 
 export { testTag, testLarpForCreate, testLarp };
