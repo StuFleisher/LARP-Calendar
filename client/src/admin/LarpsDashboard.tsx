@@ -10,6 +10,8 @@ import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import { Larp } from "../types";
+import ToggleFeaturedButton from "../components/FormComponents/ToggleFeaturedButton";
 
 function LarpsDashboard() {
     const { larps, setLarps, loading, error } = useFetchLarps(null);
@@ -22,15 +24,33 @@ function LarpsDashboard() {
         ));
     }
 
+    async function toggleFeatured(larp: Larp) {
+        const { organization, ...larpForUpdate } = larp;
+
+        const updated = await LarpAPI.UpdateLarp({
+            ...larpForUpdate,
+            isFeatured: !larpForUpdate.isFeatured
+        });
+        setLarps(() => {
+            const newLarps = larps.map((newLarp) => {
+                if (newLarp.id!==larp.id) return newLarp;
+                return {...updated, organization};
+            });
+            return newLarps
+        });
+    }
+
+
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'Id', width: 50 },
-        { field: 'title', headerName: 'Title', flex: 1,
-            renderCell: (params)=>{
+        {
+            field: 'title', headerName: 'Title', flex: 1,
+            renderCell: (params) => {
                 return (
                     <Link component={RouterLink} to={`/admin/events/${params.row.id}`}>
                         {params.row.title}
                     </Link>
-                )
+                );
             }
         },
         {
@@ -74,6 +94,7 @@ function LarpsDashboard() {
             getActions: (params) => {
                 return [
                     <DeleteButton handleDelete={() => handleDelete(params.row.id)} />,
+                    <ToggleFeaturedButton handleClick={() => toggleFeatured(params.row)} isFeatured={params.row.isFeatured} />,
                     <EditButton handleClick={() => navigate(`/admin/events/${params.row.id}/edit`)} />,
                 ];
             }
