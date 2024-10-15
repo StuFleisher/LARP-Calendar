@@ -1,6 +1,6 @@
 import axios, {AxiosError} from "axios";
 import { jwtDecode } from "jwt-decode";
-import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate, OrganizationForCreate, Organization, OrganizationForUpdate, PublicUser, LarpQuery } from "../types";
+import { UserLoginData, UserForCreate, User, Larp, LarpForCreate, LarpAsJSON, LarpForUpdate, OrganizationForCreate, Organization, OrganizationForUpdate, PublicUser } from "../types";
 import { JsonToLarp } from "./typeConverters";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3001/";

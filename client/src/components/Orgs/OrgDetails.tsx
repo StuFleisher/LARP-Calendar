@@ -6,6 +6,7 @@ import "./OrgDetails.scss";
 import useOrgControls from "../../hooks/useOrgControls";
 import { useContext } from "react";
 import { userContext } from "../../context/userContext";
+import { DateTime } from "luxon";
 
 type OrgDetailsProps = {
     org: Organization;
@@ -57,8 +58,20 @@ function OrgDetails({ org }: OrgDetailsProps) {
                     <Typography>{org.description}</Typography>
                 </section>
 
-                <CategoryBar title={`${org.orgName}'s Upcoming Events`} />
-                <CategoryBar title={`${org.orgName}'s Past Events`} />
+                <CategoryBar
+                    title={`${org.orgName}'s Upcoming Events`}
+                    filterSet={{
+                        org:org.orgName,
+                        endAfter:DateTime.now().toISO()
+                    }}
+                    />
+                <CategoryBar
+                    title={`${org.orgName}'s Past Events`}
+                    filterSet={{
+                        org:org.orgName,
+                        endBefore:DateTime.now().toISO()
+                    }}
+                />
             </Stack>
 
         </Box>
