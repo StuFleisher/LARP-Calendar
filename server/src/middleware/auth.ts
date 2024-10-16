@@ -19,6 +19,7 @@ import OrgManager from "../models/OrgManager";
  */
 
 function authenticateJWT(req: Request, res: Response, next: NextFunction) {
+  console.log(req.url)
   const authHeader = req.headers?.authorization;
   if (authHeader) {
     const token = authHeader.replace(/^[Bb]earer /, "").trim();
