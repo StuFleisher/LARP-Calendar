@@ -53,6 +53,7 @@ class LarpManager {
 
 
   static async getAllLarps(query?: LarpQuery): Promise<Larp[]> {
+    console.log('starting db query')
 
     let larps: Larp[];
 
@@ -188,6 +189,7 @@ class LarpManager {
         ]
       });
     }
+    console.log('ending db query')
 
     return larps;
   };
