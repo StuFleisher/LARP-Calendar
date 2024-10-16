@@ -28,18 +28,10 @@ class UserManager {
     password: string,
   ): Promise<PublicUser> {
 
-    let fullUserData
-    console.log('starting query')
-    try {
-
-      fullUserData = await prisma.user.findUnique({
-        where: { username: username },
-        include: USER_INCLUDE_OBJ
-      });
-      console.log('query success')
-    } catch(e){
-      console.log('db error')
-    };
+    const fullUserData = await prisma.user.findUnique({
+      where: { username: username },
+      include: USER_INCLUDE_OBJ
+    });
 
     if (fullUserData) {
       const isValid = await bcrypt.compare(password, fullUserData.password);
