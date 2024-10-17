@@ -38,6 +38,7 @@ const TestLarp1: Larp = {
   tags: [Tag1, Tag2],
   start: START,
   end: END,
+  createdTime:START,
   allDay: false,
   imgUrl: testImageSet,
   imgSetId:1,
