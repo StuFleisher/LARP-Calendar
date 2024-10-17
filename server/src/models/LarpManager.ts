@@ -122,11 +122,11 @@ class LarpManager {
       let prismaFilterObject: Prisma.LarpWhereInput = {
         AND: {
           OR: [
-            { title: { search: query.term } },
-            { description: { search: query.term } },
-            { city: { search: query.term } },
-            { country: { search: query.term } },
-            { language: { search: query.term } },
+            { title: { contains: query.term } },
+            { description: { contains: query.term } },
+            { city: { contains: query.term } },
+            { country: { contains: query.term } },
+            { language: { contains: query.term } },
             { tags: { some: { name: { contains: query.term } } } },
             { organization: { orgName: { contains: query.term } } }
           ],
@@ -177,15 +177,15 @@ class LarpManager {
       larps = await prisma.larp.findMany({
         where: prismaFilterObject,
         include: LARP_INCLUDE_OBJ,
-        orderBy: [
-          {
-            _relevance: {
-              fields: ["title", "description", "country", "city", "language"],
-              search: query.term!,
-              sort: 'asc',
-            }
-          },
-        ]
+        // orderBy: [
+        //   {
+        //     _relevance: {
+        //       fields: ["title", "description", "country", "city", "language"],
+        //       search: query.term!,
+        //       sort: 'asc',
+        //     }
+        //   },
+        // ]
       });
     }
 
