@@ -33,6 +33,14 @@ function HomePage() {
                         <Calendar larps={larps} />
 
                         <CategoryBar
+                            title="Recently Added"
+                            filterSet={{
+                                createdAfter:DateTime.now().minus({weeks:1}).toISO(),
+                                startAfter:DateTime.now().toISO(),
+                            }}
+
+                        />
+                        <CategoryBar
                             title="Events this Month"
                             filterSet={{
                                 startAfter:DateTime.now().toISO(),
