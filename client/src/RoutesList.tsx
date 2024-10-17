@@ -5,7 +5,6 @@ import { userContext } from "./context/userContext";
 import HomePage from "./views/HomePage";
 import NewLarpPage from "./views/CreateLarpPage";
 import EditLarpPage from "./views/EditLarpPage";
-import LoginForm from "./components/Forms/LoginForm";
 import { UserForCreate, UserLoginData } from "./types";
 import LarpDetailPage from "./views/LarpDetailPage";
 import LarpListPage from "./views/LarpListPage";
@@ -14,11 +13,12 @@ import OrgDetailPage from "./views/OrgDetailPage";
 import CreateOrgPage from "./views/CreateOrgPage";
 import EditOrgPage from "./views/EditOrgPage";
 import EditLarpImagePage from "./views/EditLarpImagePage";
-import UserRegistrationForm from "./components/Forms/RegisterForm";
 import LogOutPage from "./views/LogOutPage";
 import EditOrgImagePage from "./views/EditOrgImagePage";
 import DemoHome from "./views/DemoHome";
 import AboutPage from "./views/AboutPage";
+import LoginPage from "./views/LoginPage";
+import RegisterPage from "./views/RegisterPage";
 
 type RoutesListProps = {
     login: (credentials: UserLoginData) => Promise<void>,
@@ -32,8 +32,8 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
 
     const anonRoutes = (
         <>
-            <Route path='/auth/login' element={<LoginForm login={login} />} />
-            <Route path='/auth/register' element={<UserRegistrationForm register={register} />} />
+            <Route path='/auth/login' element={<LoginPage login={login} />} />
+            <Route path='/auth/register' element={<RegisterPage register={register} />} />
         </>
     );
 
