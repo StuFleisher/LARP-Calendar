@@ -1,0 +1,5 @@
+-- AlterEnum
+ALTER TYPE "TicketStatus" ADD VALUE 'SOON';
+
+-- AlterTable
+ALTER TABLE "larps" ADD COLUMN     "createdTime" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

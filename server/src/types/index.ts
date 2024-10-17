@@ -13,7 +13,7 @@ export type ImageSet = {
 
 /*************************** LARPS */
 
-export type TicketStatus = "AVAILABLE" | "LIMITED" | "SOLD_OUT";
+export type TicketStatus = "AVAILABLE" | "LIMITED" | "SOLD_OUT" | "SOON";
 
 export type LarpForCreate = {
   title: string,
@@ -36,6 +36,7 @@ export type Larp = LarpForCreate & {
   imgSetId: number;
   organization?: Organization;
   isFeatured: boolean;
+  createdTime: Date;
 };
 
 export type LarpForUpdate = Omit<
@@ -59,6 +60,8 @@ export type LarpQuery = {
   language?: string;
   org?: string;
   isFeatured?: boolean;
+  createdBefore?:string;
+  createdAfter?:string;
 }
 
 /*************************** USERS */

@@ -42,6 +42,7 @@ const testLarp: Larp = {
   organization: testOrganization,
   eventUrl: "https://testLarp.com",
   isFeatured: false,
+  createdTime: START,
 };
 
 export { testTag, testLarpForCreate, testLarp };

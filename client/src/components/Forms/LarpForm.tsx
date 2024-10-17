@@ -46,6 +46,7 @@ function EventForm() {
                                 { label: "Available", value: "AVAILABLE" },
                                 { label: "Limited", value: "LIMITED" },
                                 { label: "Sold Out", value: "SOLD_OUT" },
+                                { label: "Coming Soon", value: "SOON" },
                             ]}
                             placeholder={"AVAILABLE"}
                             name="ticketStatus"

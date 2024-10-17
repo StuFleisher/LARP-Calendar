@@ -19,6 +19,7 @@ enum TicketStatus {
   AVAILABLE
   LIMITED
   SOLD_OUT
+  SOON
 }
 
 model Larp {
@@ -39,6 +40,7 @@ model Larp {
   organization Organization @relation(fields: [orgId], references: [id])
   orgId        Int
   isFeatured   Boolean      @default(false)
+  createdTime   DateTime    @default(now())
 
   @@map("larps")
 }

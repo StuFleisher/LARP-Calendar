@@ -82,6 +82,10 @@ class LarpManager {
             gte: query.endAfter ? new Date(query.endAfter) : undefined,
             lte: query.endBefore ? new Date(query.endBefore) : undefined,
           },
+          createdTime: {
+            gte: query.createdAfter ? new Date(query.createdAfter) : undefined,
+            lte: query.createdBefore ? new Date(query.createdBefore) : undefined,
+          },
           city: {
             contains: query.city,
             mode: "insensitive",
@@ -145,6 +149,10 @@ class LarpManager {
           end: {
             gte: query.endAfter ? new Date(query.endAfter) : undefined,
             lte: query.endBefore ? new Date(query.endBefore) : undefined,
+          },
+          createdTime: {
+            gte: query.createdAfter ? new Date(query.createdAfter) : undefined,
+            lte: query.createdBefore ? new Date(query.createdBefore) : undefined,
           },
           city: {
             contains: query.city,

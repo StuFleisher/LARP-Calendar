@@ -16,7 +16,8 @@
       "enum": [
         "AVAILABLE",
         "LIMITED",
-        "SOLD_OUT"
+        "SOLD_OUT",
+        "SOON"
       ]
     },
     "tags": {
@@ -37,6 +38,10 @@
       "format": "date-time"
     },
     "end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdTime": {
       "type": "string",
       "format": "date-time"
     },

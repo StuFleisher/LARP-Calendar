@@ -68,17 +68,14 @@ router.get(
 router.get(
   "/",
   async function (req: Request, res: Response, next: NextFunction) {
-    console.log('Starting route')
     if (req.query && req.query.q) {
       const q:string = req.query.q as string
       const decodedQuery = atob(q);
       const query = JSON.parse(decodedQuery);
       const larps = await LarpManager.getAllLarps(query);
-      console.log('Ending route')
       return res.json({ larps });
     } else {
       const larps = await LarpManager.getAllLarps();
-      console.log('Ending route')
       return res.json({ larps });
     }
   }

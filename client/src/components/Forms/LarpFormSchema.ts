@@ -6,7 +6,7 @@ const LarpFormSchema = yup.object({
   title: yup.string().required("Title is required").max(200),
   ticketStatus: yup
     .mixed<TicketStatus>()
-    .oneOf(["AVAILABLE", "LIMITED", "SOLD_OUT"])
+    .oneOf(["AVAILABLE", "LIMITED", "SOLD_OUT", "SOON"])
     .required('Ticket Status is required'),
   tags: yup.string(),
   start: yup
