@@ -1,6 +1,6 @@
 import { TicketStatus } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleHalfStroke, faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCircleHalfStroke, faCircleCheck, faCircleXmark, faCircleDot } from "@fortawesome/free-solid-svg-icons";
 import { Icon, Tooltip } from "@mui/material";
 
 type RenderIcon = {
@@ -28,11 +28,17 @@ function AvailabilityIcon({ status }: AvailabilityIconProps) {
             color: 'goldenrod',
             tooltip: 'Limited'
         };
-    } else {
+    } else if (status === "SOLD_OUT") {
         renderIcon = {
             icon: <FontAwesomeIcon icon={faCircleXmark} />,
             color: 'red',
             tooltip: 'Sold Out'
+        };
+    } else {
+        renderIcon = {
+            icon: <FontAwesomeIcon icon={faCircleDot} />,
+            color: 'blue',
+            tooltip: 'Coming Soon'
         };
     }
 
