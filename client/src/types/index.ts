@@ -131,3 +131,12 @@ export type OrganizationForUpdate = Omit<
   PartialWithRequired<Organization, 'id'>,
   'larps'
 >;
+
+/*************************** AUTH */
+
+export type PasswordResetRequest = {
+  id: number;
+  username: string;
+  user: {email:string};
+  createdAt: Date;
+}

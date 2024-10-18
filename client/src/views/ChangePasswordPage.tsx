@@ -3,11 +3,11 @@ import { UserForCreate } from "../types";
 import UserRegistrationForm from "../components/Forms/RegisterForm";
 
 
-type RegisterPageProps = {
+type ChangePasswordPageProps = {
     register: (userInfo: UserForCreate) => Promise<void>;
 };
 
-function RegisterPage({ register }: RegisterPageProps) {
+function ChangePasswordPage({ register }: ChangePasswordPageProps) {
   return (
     <Stack
       justifyContent={'center'}
@@ -16,7 +16,7 @@ function RegisterPage({ register }: RegisterPageProps) {
       }}
     >
       <Typography component="h1" variant="h1">
-        Create your account
+        Create your
       </Typography>
       <Box
         sx={{
@@ -31,4 +31,4 @@ function RegisterPage({ register }: RegisterPageProps) {
   );
 }
 
-export default RegisterPage;
+export default ChangePasswordPage;

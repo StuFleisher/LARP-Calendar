@@ -86,7 +86,6 @@ class LarpAPI {
   /** Get the username from decoded token. Sets token and returns username.
    * token is a jwt with a username key.
   */
-
   static getUsernameFromToken(token: string) {
     const { username } = jwtDecode<{
       username:string,
@@ -95,6 +94,24 @@ class LarpAPI {
     }>(token);
     LarpAPI.token = token;
     return username;
+  }
+
+  /** Sends a request to create a new PasswordResetRequest record and start the
+   * password recovery email flow.
+   */
+  static async createPasswordResetRequest(data:{username:string}){
+    const response = await this.request('auth/password-reset/request', data, 'post')
+    return response;
+  }
+
+  /** Updates a users password using token from a PasswordResetRequest record */
+  static async updatePassword(data:{token:string, password:string}){
+    const response = await this.request(
+      `auth/password-reset/confirm?token=${data.token}`,
+      {password:data.password},
+      'patch'
+    )
+    return response;
   }
 
   /** GET */

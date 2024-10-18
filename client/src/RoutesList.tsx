@@ -19,6 +19,7 @@ import DemoHome from "./views/DemoHome";
 import AboutPage from "./views/AboutPage";
 import LoginPage from "./views/LoginPage";
 import RegisterPage from "./views/RegisterPage";
+import ChangePasswordForm from "./components/Forms/ChangePasswordForm";
 
 type RoutesListProps = {
     login: (credentials: UserLoginData) => Promise<void>,
@@ -34,6 +35,7 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
         <>
             <Route path='/auth/login' element={<LoginPage login={login} />} />
             <Route path='/auth/register' element={<RegisterPage register={register} />} />
+            <Route path='/auth/password-reset/confirm' element={<ChangePasswordForm/>} />
         </>
     );
 

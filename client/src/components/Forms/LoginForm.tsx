@@ -7,6 +7,8 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Modal } from "@mui/material";
+import PasswordResetRequestPage from "../../views/PasswordResetRequestModal";
 
 // import './loginForm.scss';
 
@@ -23,6 +25,7 @@ type props = {
 function LoginForm ({ login, hideRegistrationLink = false }: props) {
 
     const [formData, setFormData] = useState<UserLoginData>(DEFAULT_FORM_DATA);
+    const [showPasswordRecoveryModal, setShowPasswordRecoveryModal] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
@@ -47,6 +50,16 @@ function LoginForm ({ login, hideRegistrationLink = false }: props) {
     }
 
     return (
+        <>
+        <Modal
+            open={showPasswordRecoveryModal}
+            onClose={()=>setShowPasswordRecoveryModal(false)}
+            component={Stack}
+            alignItems="center"
+            justifyContent="center"
+        >
+            <PasswordResetRequestPage handleClose={()=>setShowPasswordRecoveryModal(false)}/>
+        </Modal>
         <Stack spacing={2} component="form">
             <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
                 <TextField
@@ -71,13 +84,25 @@ function LoginForm ({ login, hideRegistrationLink = false }: props) {
                 Log In
             </Button>
             {!hideRegistrationLink &&
-                <Link component={RouterLink} to="/register">
-                    <Typography component="p" variant="caption" align="center">
+                <>
+                <Button
+                component={RouterLink}
+                to="/register"
+                variant="outlined"
+                >
+                    <Typography component="p" variant="body1" align="center">
                         Register a new account
                     </Typography>
+                </Button>
+                <Link onClick={()=>setShowPasswordRecoveryModal(true)}>
+                    <Typography component="p" variant="caption" align="center">
+                        Forgot my password
+                    </Typography>
                 </Link>
+                </>
             }
         </Stack>
+        </>
     );
 }
 
