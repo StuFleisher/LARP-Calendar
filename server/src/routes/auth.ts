@@ -3,18 +3,23 @@ import express from 'express';
 const router = express.Router();
 
 import jsonschema from 'jsonschema';
-import userAuthSchema from "../schemas/userAuth.json"
-import userRegisterSchema from "../schemas/userRegister.json"
+import passwordResetSchema from "../schemas/passwordReset.json";
+import userAuthSchema from "../schemas/userAuth.json";
+import userRegisterSchema from "../schemas/userRegister.json";
 
-import { BadRequestError } from '../utils/expressError';
+import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError } from '../utils/expressError';
 import { createToken } from "../utils/tokens";
 
 import UserManager from '../models/UserManager';
-import { UserForCreate } from "../types";
+import { PasswordResetRequest, UserForCreate } from "../types";
+import AuthManager from "../models/AuthManager";
+import * as jwt from "jsonwebtoken";
+import { SECRET_KEY, CORS_URL } from "../config";
 
-router.post("/error", async ()=>{
+
+router.post("/error", async () => {
   throw new BadRequestError("test error");
-})
+});
 
 /** POST /auth/token:  { username, password } => { token }
  *
@@ -31,10 +36,10 @@ router.post("/token", async function (
   const validator = jsonschema.validate(
     req.body,
     userAuthSchema,
-    {required: true}
+    { required: true }
   );
   if (!validator.valid) {
-    const errs = validator.errors.map((e:Error)=> e.stack);
+    const errs = validator.errors.map((e: Error) => e.stack);
     throw new BadRequestError(errs.join(", "));
   }
 
@@ -62,19 +67,92 @@ router.post("/register", async function (
   const validator = jsonschema.validate(
     req.body,
     userRegisterSchema,
-    {required: true}
+    { required: true }
   );
   if (!validator.valid) {
-    const errs = validator.errors.map((e:Error) => e.stack);
+    const errs = validator.errors.map((e: Error) => e.stack);
     throw new BadRequestError(errs.join(", "));
   }
 
   const newUser = await UserManager.register({
-    ...req.body as Omit<UserForCreate,'isAdmin'>,
+    ...req.body as Omit<UserForCreate, 'isAdmin'>,
     isAdmin: false,
   });
   const token = createToken(newUser);
   return res.status(201).json({ token });
+});
+
+/** Generates a new PasswordResetRequest record and emails a link to the user
+ * containing a tokenized link for setting a new password
+ */
+router.post("/password-reset/request", async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { username } = req.body;
+  if (!username) throw new BadRequestError('Invalid username');
+
+  try {
+    const passwordResetRequest = await AuthManager.createPasswordResetRequest(username);
+
+    //create token
+    const token = jwt.sign(
+      passwordResetRequest,
+      SECRET_KEY,
+      { expiresIn: "10m" }
+    );
+
+    //send email with magic link
+    const link = `${CORS_URL}/auth/password-reset/confirm?token=${token}`;
+    console.log(link);
+
+    return res.status(200).set('Content-Type', 'text/html').send("Request Recieved");
+  } catch (e) {
+    if (e instanceof NotFoundError) {
+      //Fail silently. Do not verify that username doesn't exist
+      return res.status(200).set('Content-Type', 'text/html').send("Request Recieved");
+    } else {
+      throw e;
+    }
+  }
+});
+
+router.patch("/password-reset/confirm", async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+
+  //authenticate token
+  const { token } = req.query;
+  if (!token) throw new UnauthorizedError("Unauthorized");
+  jwt.verify(token as string, SECRET_KEY);
+
+  //check against database records (has this been used?)
+  const { id, username } = jwt.decode(token as string) as PasswordResetRequest;
+  try {
+    await AuthManager.getPasswordResetRequest(id);
+  } catch (e) {
+    throw new BadRequestError("This request is no longer valid");
+  }
+
+  //validate form data
+  const validator = jsonschema.validate(
+    req.body,
+    passwordResetSchema,
+    { required: true },
+  );
+  if (!validator.valid) {
+    const errs = validator.errors.map((e: Error) => e.stack);
+    throw new BadRequestError(errs.join(", "));
+  }
+
+  //process form and cleanup
+  const updatedUser = await UserManager.updateUser(username, req.body);
+  await AuthManager.clearPasswordResetRequests(username);
+
+  return res.json({ user: updatedUser });
 });
 
 export default router;

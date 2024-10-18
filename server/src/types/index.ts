@@ -116,3 +116,10 @@ export type OrganizationForUpdate = Omit<
 >;
 
 
+/*************************** AUTH */
+
+export type PasswordResetRequest = {
+  id: number;
+  username: string;
+  createdAt: Date;
+}
