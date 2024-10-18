@@ -121,5 +121,6 @@ export type OrganizationForUpdate = Omit<
 export type PasswordResetRequest = {
   id: number;
   username: string;
+  user: {email:string};
   createdAt: Date;
 }

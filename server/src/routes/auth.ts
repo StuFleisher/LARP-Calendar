@@ -107,7 +107,7 @@ router.post("/password-reset/request", async function (
 
     //send email with magic link
     const link = `${CORS_URL}/auth/password-reset/confirm?token=${token}`;
-    sendPasswordResetEmail('hello@stufleisher.com',username,link);
+    sendPasswordResetEmail(passwordResetRequest.user.email, username, link);
 
     return res.status(200).set('Content-Type', 'text/html').send("Request Recieved");
   } catch (e) {

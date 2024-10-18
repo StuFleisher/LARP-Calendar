@@ -12,6 +12,7 @@ class AuthManager {
         user: { connect: { username: username } },
         createdAt: new Date(),
       },
+      include: { user: { select: { email: true } } }
     });
 
     return passwordResetRequest;
@@ -19,7 +20,8 @@ class AuthManager {
 
   static async getPasswordResetRequest(id: number) {
     const passwordResetRequest = prisma.passwordResetRequest.findUniqueOrThrow({
-      where: { id: id }
+      where: { id: id },
+      include: { user: { select: { email: true } } }
     });
 
     return passwordResetRequest;
