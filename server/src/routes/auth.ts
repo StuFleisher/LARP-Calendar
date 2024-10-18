@@ -129,7 +129,14 @@ router.patch("/password-reset/confirm", async function (
   //authenticate token
   const { token } = req.query;
   if (!token) throw new UnauthorizedError("Unauthorized");
-  jwt.verify(token as string, SECRET_KEY);
+  
+  try {
+    jwt.verify(token as string, SECRET_KEY);
+  } catch (err) {
+    if (err.message = "jwt expired") {
+      throw new BadRequestError("Sorry - this link has expired.");
+    } else { throw err; }
+  }
 
   //check against database records (has this been used?)
   const { id, username } = jwt.decode(token as string) as PasswordResetRequest;
