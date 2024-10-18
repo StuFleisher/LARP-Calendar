@@ -15,6 +15,7 @@ import { PasswordResetRequest, UserForCreate } from "../types";
 import AuthManager from "../models/AuthManager";
 import * as jwt from "jsonwebtoken";
 import { SECRET_KEY, CORS_URL } from "../config";
+import { sendPasswordResetEmail } from "../utils/emailHandler";
 
 
 router.post("/error", async () => {
@@ -82,6 +83,7 @@ router.post("/register", async function (
   return res.status(201).json({ token });
 });
 
+
 /** Generates a new PasswordResetRequest record and emails a link to the user
  * containing a tokenized link for setting a new password
  */
@@ -105,7 +107,7 @@ router.post("/password-reset/request", async function (
 
     //send email with magic link
     const link = `${CORS_URL}/auth/password-reset/confirm?token=${token}`;
-    console.log(link);
+    sendPasswordResetEmail('hello@stufleisher.com',username,link);
 
     return res.status(200).set('Content-Type', 'text/html').send("Request Recieved");
   } catch (e) {
