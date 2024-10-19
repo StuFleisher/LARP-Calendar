@@ -86,8 +86,8 @@ export default function LarpCard({ larp }: LarpCardProps) {
                     sx={{ textDecoration: "none", color: "inherit", }}
                 >
                     <Typography
-                        variant='h3'
-                        component="h3"
+                        variant='h4'
+                        component="h4"
                         className="title"
                         sx={{
                             display: '-webkit-box',
