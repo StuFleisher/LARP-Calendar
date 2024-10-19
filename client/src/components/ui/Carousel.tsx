@@ -1,67 +1,274 @@
-import { Box, Stack, Typography, IconButton } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { Box, Stack, Typography, IconButton, Link, Button } from "@mui/material";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleChevronRight, faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCircleChevronRight, faCircleChevronLeft, faLocationDot, faComment, faGlobe, faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { useFetchLarps } from "../../hooks/useFetchLarps";
+import { LarpQuery } from "../../types";
+import { base64Encode } from "../../util/utilities";
 import './Carousel.scss';
+import { Link as RouterLink } from "react-router-dom";
+import DurationDisplay from "../Events/DurationDisplay";
 
 type CarouselProps = {
     title: string;
-    children: ReactNode[];
+    filterSet: LarpQuery;
 };
 
-function Carousel({ title, children }: CarouselProps) {
+const BREAKPOINTS = {
+    sm: 600,
+    md: 900,
+};
+
+function EventCarousel({ title, filterSet }: CarouselProps) {
+    const query = base64Encode(JSON.stringify(filterSet));
+    const { larps, loading, error } = useFetchLarps(query);
     const [displayIdx, setDisplayIdx] = useState(0);
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
+    const [itemSizes, setItemSizes] = useState({
+        itemWidth: 0,
+        featuredWidth: 0,
+        marginWidth: 0,
+    });
 
     function showNext(e: React.MouseEvent) {
         e.preventDefault();
-        setDisplayIdx((displayed) => (children.length + displayed + 1) % children.length);
+        setDisplayIdx((displayed) => (larps.length + displayed + 1) % larps.length);
     }
     function showPrev(e: React.MouseEvent) {
         e.preventDefault();
-        setDisplayIdx((displayed) => (children.length + displayed - 1) % children.length);
+        setDisplayIdx((displayed) => (larps.length + displayed - 1) % larps.length);
     }
 
+    //handle window resizing
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowSize(() => window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
 
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    //recalculate layout based on breakpoints
+    useLayoutEffect(() => {
+        if (windowSize <= BREAKPOINTS.sm) {
+            setItemSizes(() => ({
+                itemWidth: 50,
+                featuredWidth: 300,
+                marginWidth: 16,
+            }));
+        } else if (windowSize > BREAKPOINTS.sm && windowSize <= BREAKPOINTS.md) {
+            setItemSizes(() => ({
+                itemWidth: 100,
+                featuredWidth: 500,
+                marginWidth: 16,
+            }));
+        } else {
+            setItemSizes(() => ({
+                itemWidth: 150,
+                featuredWidth: 700,
+                marginWidth: 16,
+            }));
+        }
+    }, [windowSize]);
+
+    // Calculate the offset for the carousel to clamp values within the window
+    function getCarouselOffset() {
+
+        const totalCarouselWidth = (
+            (larps.length * itemSizes.marginWidth)
+            + ((larps.length - 1) * (itemSizes.itemWidth))
+            + (itemSizes.featuredWidth)
+        );
+
+        if (totalCarouselWidth < windowSize) return 0;
+
+        const indexedOffset = displayIdx * (itemSizes.itemWidth + 2*itemSizes.marginWidth);
+        //adjust to show 'previous' item when index > 0
+        const adjustment = displayIdx === 0 ? 0 : (itemSizes.itemWidth + itemSizes.marginWidth);
+
+        return (
+            Math.min(
+                indexedOffset - adjustment,
+                totalCarouselWidth - windowSize
+            ));
+    }
 
     return (
-        <Stack
-            className='Carousel'
-            direction="column"
-            alignItems="center"
+        <Box
+            className='Carousel-container'
+            component='section'
+            sx={{
+                paddingRight:{xs:'1rem', sm:"0"}
+            }}
         >
-            <Typography className="Carousel-title" variant='h2'>{title}</Typography>
+            {/* <Typography className="Carousel-title" variant='h2'>{title}</Typography> */}
             <Stack
-                className="Carousel-contents"
-                alignItems={'center'}
+                className="Carousel"
+                justifyContent='start'
                 direction="row"
             >
-                <Box className='previousButton'>
+                {larps.map((larp, idx) => (
+                    <Box
+                        key={larp.id}
+                        className={idx === displayIdx ? "Carousel-item Carousel-featured" : 'Carousel-item'}
+                        sx={{
+                            backgroundImage: `url(${larp.imgUrl.md})`,
+                            flexBasis: (
+                                () => {
+                                    if (larps.length === 1) {
+                                        return '100%';
+                                    } else {
+                                        return `${idx === displayIdx ? itemSizes.featuredWidth : itemSizes.itemWidth}px`;
+                                    }
+                                }
+                            ),
+                            marginRight: `${itemSizes.marginWidth}px`,
+                            right: getCarouselOffset(),
+                        }}
+                        onClick={() => { setDisplayIdx(idx); }}
+                    >
+                        {idx === displayIdx &&
+                            <>
+                                <Box className='Carousel-featuredDuration'>
+                                    <DurationDisplay start={larp.start} end={larp.end} />
+
+                                </Box>
+                                <Stack
+                                    className='Carousel-featuredContents'
+                                    direction='column'
+                                    spacing={1}
+                                >
+                                    <Stack direction='row' spacing={2} alignContent={'center'}>
+                                        <Link
+                                            component={RouterLink}
+                                            to={`/events/${larp.id}`}
+                                            sx={{ textDecoration: "none", color: "inherit", }}
+                                        >
+                                            <Typography
+                                                variant='h3'
+                                                sx={{
+                                                    display: '-webkit-box',
+                                                    overflow: 'hidden',
+                                                    WebkitBoxOrient: 'vertical',
+                                                    WebkitLineClamp: 2
+                                                }}
+                                            >
+                                                {larp.title}
+                                            </Typography>
+                                        </Link>
+                                    </Stack>
+
+                                    <Stack className="LarpCard-details" direction="row" spacing={3}>
+                                        <Stack
+                                            direction="row"
+                                            alignItems="center"
+                                            spacing={1}
+                                            className="icon-text"
+                                        >
+                                            <FontAwesomeIcon icon={faLocationDot} />
+                                            <Typography variant="details2">
+                                                {larp.city}, {larp.country}
+                                            </Typography>
+                                        </Stack>
+                                        <Stack
+                                            direction="row"
+                                            alignItems="center"
+                                            spacing={1}
+                                            className="icon-text"
+                                        >
+                                            <FontAwesomeIcon icon={faComment} />
+                                            <Typography variant="details2">
+                                                {larp.language}
+                                            </Typography>
+                                        </Stack>
+                                        <Stack
+                                            direction="row"
+                                            alignItems="center"
+                                            spacing={1}
+                                            className="icon-text"
+                                        >
+                                            <FontAwesomeIcon icon={faGlobe} />
+                                            <Typography variant="details2">
+                                                {larp.organization.orgName}
+                                            </Typography>
+                                        </Stack>
+                                    </Stack>
+
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            display: '-webkit-box',
+                                            overflow: 'hidden',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: { xs: 6, md: 4 },
+                                            textOverflow: 'ellipsis',
+                                        }}
+                                    >
+                                        {larp.description}
+                                    </Typography>
+
+                                    <Button
+                                        className="Carousel-featuredButton"
+                                        variant="contained"
+                                    >
+                                        More
+                                    </Button>
+
+
+                                </Stack>
+                            </>
+                        }
+
+                    </Box>
+                ))
+                }
+            </Stack >
+            <Stack
+            className='Carousel-navContainer'
+                direction='row'
+                alignItems='center'
+                justifyContent='space-between'
+                sx={{
+                    width:{xs:'100%',sm:"50%",md:'33%'}
+                }}
+            >
+
+                <Box className='Carousel-navControl previousButton'>
                     <IconButton
                         component="button"
                         onClick={showPrev}
                     >
-                        <FontAwesomeIcon icon={faCircleChevronLeft} color={'#070707'} />
+                        <FontAwesomeIcon icon={faChevronLeft} color={'#070707'} />
                     </IconButton>
                 </Box>
-
+                {
+                    larps.map((larp, idx) => (
+                        <Box
+                            className={idx === displayIdx ? "Carousel-navDot Carousel-navDot-selected" : "Carousel-navDot"}
+                            key={larp.id}
+                            onClick={() => { setDisplayIdx(idx); }}
+                        />
+                    ))
+                }
                 <Box
-                    className={`currentCard`}
+                    className='Carousel-navControl nextButton'
                 >
-                    {children[displayIdx]}
-                </Box>
-
-                <Box className='nextButton'>
                     <IconButton
                         component="button"
                         onClick={showNext}
                     >
-                        <FontAwesomeIcon icon={faCircleChevronRight} color={'#070707'} />
+                        <FontAwesomeIcon icon={faChevronRight} color={'#070707'} />
                     </IconButton>
                 </Box>
-            </Stack >
-        </Stack>
+            </Stack>
+
+
+        </Box >
     );
 
 }
 
-export default Carousel;
+export default EventCarousel;

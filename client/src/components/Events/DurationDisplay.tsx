@@ -12,7 +12,6 @@ type DurationDisplayProps = {
 function DurationDisplay({ start, end, background = "light" }: DurationDisplayProps) {
 
     const theme = useTheme();
-    console.log(start,end)
 
     return (
         <Stack

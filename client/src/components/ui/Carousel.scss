@@ -1,16 +1,124 @@
 @import "../../styles/colors";
 
-.Carousel {
-    background-color: $secondary;
-    padding: 2rem .5rem;
-    overflow: hidden;
-    position:relative;
-    width: 100%;
+$carousel-image-height: 500px;
+$carousel-content-height: 300px;
 
-    > h2 {
-        color: $dark;
-        font-size: 2rem;
+.Carousel-container {
+    padding: 1rem;
+    padding-right: 0;
+
+    .Carousel {
+        margin-bottom: 1rem;
+        position: relative;
+        height: calc($carousel-image-height + $carousel-content-height*.25);
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: visible;
+
+
+        .Carousel-item {
+            position: relative;
+            // background-position: center;
+            background-size: cover;
+            max-height: $carousel-image-height;
+            border-radius: 5px;
+            flex-shrink: 0;
+            flex-grow: 1;
+            transition: flex-basis .25s ease-in-out,
+                right .25s ease-in-out;
+            background-position: 25% 50%;
+            animation: image-drift 60s ease-in-out infinite;
+            cursor: pointer;
+
+
+
+
+            .Carousel-featuredDuration {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .Carousel-featuredContents {
+                background-color: $pale-blue;
+                height: $carousel-content-height;
+                width: 90%;
+                position: absolute;
+                bottom: 0px;
+                left: 50%;
+                transform: translate(-50%, 25%);
+                z-index: 100;
+
+                padding: .5rem 1rem;
+            }
+
+            .Carousel-featuredButton {
+                width: 50%;
+                align-self: center;
+                justify-self: end;
+                margin: auto 1rem;
+            }
+        }
+
+        .Carousel-featured {
+            cursor: default;
+        }
     }
 
+    .Carousel-navContainer {
 
+        margin:auto;
+        transform:scale(80%);
+
+        .Carousel-navControl {
+            z-index: 100;
+            border-radius: 50%;
+            background-color: $secondary-light;
+
+            svg {
+                color: white;
+                aspect-ratio: 1/1;
+                font-size: .75rem;
+            }
+        }
+
+        .Carousel-navDot {
+            background-color: $secondary-light;
+            // border: solid 1px $dark;
+            opacity: 50%;
+            height: .5rem;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .Carousel-navDot-selected {
+            background-color: $secondary;
+            height: .6rem;
+        }
+
+        .Carousel-navControl.nextButton {
+            right: calc(15% + 1rem);
+        }
+
+        .Carousel-navControl.previousButton {
+            left: 15%;
+        }
+    }
+
+}
+
+
+@keyframes image-drift {
+    0% {
+        background-position: 25% 50%;
+    }
+
+    50% {
+        background-position: 75% 50%;
+    }
+
+    100% {
+        background-position: 25% 50%;
+    }
 }
