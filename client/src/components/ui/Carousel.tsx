@@ -1,7 +1,7 @@
 import { Box, Stack, Typography, IconButton, Link, Button } from "@mui/material";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleChevronRight, faCircleChevronLeft, faLocationDot, faComment, faGlobe, faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faComment, faGlobe, faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useFetchLarps } from "../../hooks/useFetchLarps";
 import { LarpQuery } from "../../types";
 import { base64Encode } from "../../util/utilities";
@@ -10,7 +10,6 @@ import { Link as RouterLink } from "react-router-dom";
 import DurationDisplay from "../Events/DurationDisplay";
 
 type CarouselProps = {
-    title: string;
     filterSet: LarpQuery;
 };
 
@@ -19,9 +18,9 @@ const BREAKPOINTS = {
     md: 900,
 };
 
-function EventCarousel({ title, filterSet }: CarouselProps) {
+function EventCarousel({ filterSet }: CarouselProps) {
     const query = base64Encode(JSON.stringify(filterSet));
-    const { larps, loading, error } = useFetchLarps(query);
+    const { larps } = useFetchLarps(query);
     const [displayIdx, setDisplayIdx] = useState(0);
     const [windowSize, setWindowSize] = useState(window.innerWidth);
     const [itemSizes, setItemSizes] = useState({
@@ -210,6 +209,8 @@ function EventCarousel({ title, filterSet }: CarouselProps) {
                                     <Button
                                         className="Carousel-featuredButton"
                                         variant="contained"
+                                        component={RouterLink}
+                                        to={`/events/${larp.id}`}
                                     >
                                         More
                                     </Button>
