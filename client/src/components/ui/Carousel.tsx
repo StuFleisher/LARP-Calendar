@@ -85,7 +85,7 @@ function EventCarousel({ title, filterSet }: CarouselProps) {
 
         if (totalCarouselWidth < windowSize) return 0;
 
-        const indexedOffset = displayIdx * (itemSizes.itemWidth + 2*itemSizes.marginWidth);
+        const indexedOffset = displayIdx * (itemSizes.itemWidth + itemSizes.marginWidth);
         //adjust to show 'previous' item when index > 0
         const adjustment = displayIdx === 0 ? 0 : (itemSizes.itemWidth + itemSizes.marginWidth);
 
@@ -100,9 +100,6 @@ function EventCarousel({ title, filterSet }: CarouselProps) {
         <Box
             className='Carousel-container'
             component='section'
-            sx={{
-                paddingRight:{xs:'1rem', sm:"0"}
-            }}
         >
             {/* <Typography className="Carousel-title" variant='h2'>{title}</Typography> */}
             <Stack

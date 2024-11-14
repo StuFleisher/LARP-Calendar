@@ -30,13 +30,6 @@ function HomePage() {
                                 isFeatured: true,
                             }}
                         />
-                        <CategoryBar
-                            title="Featured Events"
-                            filterSet={{
-                                startAfter: DateTime.now().toISO(),
-                                isFeatured: true,
-                            }}
-                        />
 
                         <Calendar larps={larps} />
 
