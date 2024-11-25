@@ -241,7 +241,8 @@ function NavBar() {
                                     sx={{
                                         position: "absolute",
                                         left: "50%",
-                                        transform: "translate(-50%, 0)"
+                                        transform: "translate(-50%, 0)",
+                                        cursor:"pointer",
                                     }}
                                     onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
                                 >
@@ -302,7 +303,8 @@ function NavBar() {
                                 sx={{
                                     position: "absolute",
                                     left: "50%",
-                                    transform: "translate(-50%, 0)"
+                                    transform: "translate(-50%, 0)",
+                                    cursor:"pointer",
                                 }}
                                 onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
                             >
@@ -328,6 +330,9 @@ function NavBar() {
                                 component={Link}
                                 variant="caption"
                                 onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+                                sx={{
+                                    cursor:"pointer",
+                                }}
                             >
                                 hide search controls
                             </Typography>

@@ -24,7 +24,7 @@ function FilterLarpsFormFields() {
     boxSizing: "border-box",
     backgroundColor: "white",
     margin: '.5rem',
-    flex:"1 0 auto"
+    flex:"1 1 auto"
   };
 
   return (
@@ -108,7 +108,7 @@ function FilterLarpsFormFields() {
         component="fieldset"
         sx={fieldsetStyle}
       >
-        <Stack direction="row" alignItems="center">
+        <Stack direction={{xs:"column", sm:"row"}} alignItems="center">
         <Typography sx={{minWidth:"100px"}} align="right"> Start Date: </Typography>
           <FastField
             component={FormikDateTimePicker}
@@ -131,7 +131,7 @@ function FilterLarpsFormFields() {
             value={DateTime.fromISO(values.startBefore || '')}
           />
         </Stack>
-        <Stack direction="row" alignItems="center">
+        <Stack direction={{xs:"column", sm:"row"}} alignItems="center">
         <Typography sx={{minWidth:"100px"}} align="right"> End Date: </Typography>
           <FastField
             component={FormikDateTimePicker}
