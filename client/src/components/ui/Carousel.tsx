@@ -1,5 +1,5 @@
 import { Box, Stack, Typography, IconButton, Link, Button } from "@mui/material";
-import { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faComment, faGlobe, faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useFetchLarps } from "../../hooks/useFetchLarps";
@@ -18,6 +18,8 @@ const BREAKPOINTS = {
     md: 900,
 };
 
+const MAX_WIDTH = 1280;
+
 function EventCarousel({ filterSet }: CarouselProps) {
     const query = base64Encode(JSON.stringify(filterSet));
     const { larps } = useFetchLarps(query);
@@ -29,12 +31,10 @@ function EventCarousel({ filterSet }: CarouselProps) {
         marginWidth: 0,
     });
 
-    function showNext(e: React.MouseEvent) {
-        e.preventDefault();
+    function showNext() {
         setDisplayIdx((displayed) => (larps.length + displayed + 1) % larps.length);
     }
-    function showPrev(e: React.MouseEvent) {
-        e.preventDefault();
+    function showPrev() {
         setDisplayIdx((displayed) => (larps.length + displayed - 1) % larps.length);
     }
 
@@ -73,6 +73,27 @@ function EventCarousel({ filterSet }: CarouselProps) {
         }
     }, [windowSize]);
 
+    //Handle User Inputs
+    function handleNextClick(e: React.MouseEvent) {
+        e.preventDefault();
+        showNext();
+    }
+    function handlePrevClick(e: React.MouseEvent) {
+        e.preventDefault();
+        showPrev();
+    }
+
+    function handleWheelInput(e: React.WheelEvent) {
+        //Inputs for "Next"
+        if (e.deltaX && e.deltaX > 0) {
+            showNext();
+        }
+        if (e.deltaX && e.deltaX < 0) {
+            showPrev();
+        }
+    }
+
+
     // Calculate the offset for the carousel to clamp values within the window
     function getCarouselOffset() {
 
@@ -82,7 +103,8 @@ function EventCarousel({ filterSet }: CarouselProps) {
             + (itemSizes.featuredWidth)
         );
 
-        if (totalCarouselWidth < windowSize) return 0;
+        const containerSize = Math.min(windowSize, MAX_WIDTH);
+        if (totalCarouselWidth < containerSize) return 0;
 
         const indexedOffset = displayIdx * (itemSizes.itemWidth + itemSizes.marginWidth);
         //adjust to show 'previous' item when index > 0
@@ -90,8 +112,8 @@ function EventCarousel({ filterSet }: CarouselProps) {
 
         return (
             Math.min(
-                indexedOffset - adjustment,
-                totalCarouselWidth - windowSize
+                indexedOffset - adjustment - itemSizes.marginWidth,
+                totalCarouselWidth - containerSize + itemSizes.marginWidth
             ));
     }
 
@@ -99,6 +121,8 @@ function EventCarousel({ filterSet }: CarouselProps) {
         <Box
             className='Carousel-container'
             component='section'
+            onWheel={handleWheelInput}
+            tabIndex={0}
         >
             {/* <Typography className="Carousel-title" variant='h2'>{title}</Typography> */}
             <Stack
@@ -225,19 +249,19 @@ function EventCarousel({ filterSet }: CarouselProps) {
                 }
             </Stack >
             <Stack
-            className='Carousel-navContainer'
+                className='Carousel-navContainer'
                 direction='row'
                 alignItems='center'
                 justifyContent='space-between'
                 sx={{
-                    width:{xs:'100%',sm:"50%",md:'33%'}
+                    width: { xs: '100%', sm: "50%", md: '33%' }
                 }}
             >
 
                 <Box className='Carousel-navControl previousButton'>
                     <IconButton
                         component="button"
-                        onClick={showPrev}
+                        onClick={handlePrevClick}
                     >
                         <FontAwesomeIcon icon={faChevronLeft} color={'#070707'} />
                     </IconButton>
@@ -256,7 +280,7 @@ function EventCarousel({ filterSet }: CarouselProps) {
                 >
                     <IconButton
                         component="button"
-                        onClick={showNext}
+                        onClick={handleNextClick}
                     >
                         <FontAwesomeIcon icon={faChevronRight} color={'#070707'} />
                     </IconButton>

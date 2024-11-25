@@ -4,8 +4,7 @@ $carousel-image-height: 500px;
 $carousel-content-height: 300px;
 
 .Carousel-container {
-    padding: 1rem;
-    padding-right: 0;
+    padding: 1rem 0;
 
     .Carousel {
         margin-bottom: 1rem;
@@ -48,6 +47,7 @@ $carousel-content-height: 300px;
                 left: 50%;
                 transform: translate(-50%, 25%);
                 z-index: 100;
+                overflow: hidden;
 
                 padding: .5rem 1rem;
             }
