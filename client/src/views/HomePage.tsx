@@ -5,6 +5,7 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import { DateTime } from "luxon";
 import Carousel from "../components/ui/Carousel";
+import { Typography, Box, Stack } from "@mui/material";
 
 function HomePage() {
 
@@ -23,8 +24,56 @@ function HomePage() {
                             title="Sorry, there was a problem fetching records for this page"
                             errs={error}
                         />
+                        <Stack
+                            direction={{md:"row"}}
+                            justifyContent="center"
+                            alignItems={"center"}
+                            spacing={3}
+                            sx={{
+                                margin: {
+                                    xs:"1rem 10% 1rem 10%",
+                                    sm:"3rem 10% 3rem 10%",
+                                    md:"5rem 10% 5rem 10%",
+                                },
+                            }}
+                        >
+                            <Box
+                                component="img"
+                                src="/BannerIcon.svg"
+                                sx={{
+                                    aspectRatio: '1/1',
+                                    width: {
+                                        xs:'50%',
+                                        sm: '40%',
+                                        md:'35%',
+                                    },
+                                    // opacity:"80%"
+                                }}
+                            />
+                            <Stack
+                                alignItems="center"
+                                justifyContent="center"
+                            >
+                                <Typography
+                                    variant="h2"
+                                    // color="white"
+                                    sx={{
+                                        fontSize: {
+                                            xs: "2.5rem",
+                                            sm: "3rem",
+                                            md: "3.5rem",
+                                        },
+                                        color: (theme) => theme.palette.primary.light,
+                                        // lineBreak:"loose",
+                                        textAlign: {xs:"center", md:"left"},
+                                    }}
+                                >
+                                    Your Hub for <Box component="span" sx={{ color: (theme) => theme.palette.primary.main }}>Live Action Role Playing </Box> Events
+                                </Typography>
+                            </Stack>
+                        </Stack>
+
                         <Carousel
-                            title="Featured Events"
                             filterSet={{
                                 startAfter: DateTime.now().toISO(),
                                 isFeatured: true,
