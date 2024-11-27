@@ -4,8 +4,8 @@ import { useFetchLarps } from "../hooks/useFetchLarps";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import { DateTime } from "luxon";
-import Carousel from "../components/ui/Carousel";
-import { Typography, Box, Stack } from "@mui/material";
+// import Carousel from "../components/ui/Carousel";
+// import { Typography, Box, Stack } from "@mui/material";
 
 function HomePage() {
 
