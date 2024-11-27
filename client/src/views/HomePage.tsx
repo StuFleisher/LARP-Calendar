@@ -24,7 +24,7 @@ function HomePage() {
                             title="Sorry, there was a problem fetching records for this page"
                             errs={error}
                         />
-                        <Stack
+                        {/* <Stack
                             direction={{md:"row"}}
                             justifyContent="center"
                             alignItems={"center"}
@@ -77,6 +77,14 @@ function HomePage() {
                             filterSet={{
                                 startAfter: DateTime.now().toISO(),
                                 isFeatured: true,
+                            }}
+                        /> */}
+
+                        <CategoryBar
+                            title="Featured Events"
+                            filterSet={{
+                                startAfter: DateTime.now().toISO(),
+                                isFeatured:true,
                             }}
                         />
 
