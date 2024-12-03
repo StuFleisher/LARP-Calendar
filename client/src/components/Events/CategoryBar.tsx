@@ -14,6 +14,7 @@ type CategoryBarProps = {
 
 function CategoryBar({ title, filterSet }: CategoryBarProps) {
 
+    console.log(filterSet)
     const query =  base64Encode(JSON.stringify(filterSet));
     const {larps, loading, error} = useFetchLarps(query);
 
