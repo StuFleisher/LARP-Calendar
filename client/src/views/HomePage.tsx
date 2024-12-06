@@ -83,7 +83,7 @@ function HomePage() {
                         <CategoryBar
                             title="Featured Events"
                             filterSet={{
-                                // startAfter: DateTime.now().toISO(),
+                                startAfter: DateTime.now().toISO(),
                                 isFeatured:true,
                             }}
                         />
@@ -94,14 +94,14 @@ function HomePage() {
                             title="Recently Added"
                             filterSet={{
                                 createdAfter: DateTime.now().minus({ weeks: 1 }).toISO(),
-                                // startAfter: DateTime.now().toISO(),
+                                startAfter: DateTime.now().toISO(),
                             }}
 
                         />
                         <CategoryBar
                             title="Events this Month"
                             filterSet={{
-                                // startAfter: DateTime.now().toISO(),
+                                startAfter: DateTime.now().toISO(),
                                 startBefore: DateTime.now().endOf("month").toISO()
                             }}
 

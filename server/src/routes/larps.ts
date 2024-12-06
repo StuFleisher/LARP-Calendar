@@ -71,7 +71,6 @@ router.get(
     if (req.query && req.query.q) {
       const q:string = req.query.q as string
       const decodedQuery = atob(q);
-      console.log(decodedQuery)
       const query = JSON.parse(decodedQuery);
       const larps = await LarpManager.getAllLarps(query);
       return res.json({ larps });
