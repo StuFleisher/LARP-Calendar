@@ -117,7 +117,7 @@ class LarpManager {
               }
             }
           }
-          : undefined;
+          : undefined
         }
       };
 
@@ -184,7 +184,7 @@ class LarpManager {
               }
             }
           }
-          : undefined;
+          : undefined
         }
       };
 
