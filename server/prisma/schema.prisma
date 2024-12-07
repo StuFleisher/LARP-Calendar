@@ -70,7 +70,7 @@ model Organization {
   id          Int      @id @default(autoincrement())
   user        User     @relation(fields: [username], references: [username])
   username    String   @unique
-  orgName     String   @db.VarChar(100)
+  orgName     String   @db.VarChar(100) @unique
   orgUrl      String   @default("") @map("org_url") @db.VarChar(500)
   imgUrl      ImageSet @relation(fields: [imgSetId], references: [id])
   imgSetId    Int      @unique @map("img_set_id")

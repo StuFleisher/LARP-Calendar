@@ -53,7 +53,7 @@ function ensureOrganizer(req: Request, res: Response, next: NextFunction) {
     return next();
   }
 
-  throw new UnauthorizedError();
+  throw new UnauthorizedError("This account is not an approved organizer.  If you have recently been approved, you may need to log out and log back in to access organizer functionality");
 
 }
 
