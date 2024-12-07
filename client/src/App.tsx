@@ -17,6 +17,7 @@ import RoutesList from './RoutesList.tsx';
 import NavBar from './components/NavBar.tsx';
 import { CircularProgress } from '@mui/material';
 import ScrollToTop from './components/ui/ScrollToTop.ts';
+import Footer from './components/Footer.tsx';
 
 
 function App() {
@@ -120,6 +121,7 @@ function App() {
                   logout={logout}
                   register={register}
                 />
+                <Footer/>
               </BrowserRouter>
             </userContext.Provider>}
       </LocalizationProvider>

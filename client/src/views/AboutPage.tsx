@@ -1,5 +1,5 @@
 
-import { Box, Button, List, ListItem, Stack, Typography } from "@mui/material";
+import { Box, Button, Link, List, ListItem, Stack, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { Link as RouterLink } from "react-router-dom";
@@ -37,36 +37,80 @@ function AboutPage() {
           <Typography variant="h4">
             The event hub for Live Action Role Playing events in Europe and beyond!
           </Typography>
+          <Typography component="p" sx={{ marginTop: '1rem' }}>
+            This LARP Calendar is a passion project made to create a one stop place for people looking for international LARP's, there have been other attempts this calendar have been privately financed so professional people have been able to create the best possible page.
+          </Typography>
         </Box>
 
-        <Typography variant="h5">
-          This site is still under construction.  Here are some of the features you can expect to see in Phase II:
+        <Typography component="h3" variant="h3">
+          The purpose of the page is:
         </Typography>
-        <List dense>
-          <ListItem>
-            <FontAwesomeIcon icon={faArrowRight} /> &nbsp; Fulltext search for events
-          </ListItem>
-          <ListItem>
-            <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
-            Event List page will be filterable by date, location, tags and more
-          </ListItem>
-          <ListItem>
-            <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
-            Category displays (featured, this month etc) will display only the relevant events
-          </ListItem>
-          <ListItem>
-            <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
-            Connection to donation site
-          </ListItem>
-          <ListItem>
-            <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
-            Full page build for 'About'
-          </ListItem>
-          <ListItem>
-            <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
-            Ongoing bugfixes
-          </ListItem>
-        </List>
+
+
+        <Typography variant="h5" component="h5">
+          <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
+          Help for players:
+        </Typography>
+        <Typography>
+          <Box className="filled-light"
+            sx={{
+              width: '100%',
+              padding: '1rem 3rem'
+            }}
+          >
+            <List dense>
+              <ListItem>
+                Where would I find my first larp?
+              </ListItem>
+              <ListItem>
+                What kind of games are coming out this year?
+              </ListItem>
+              <ListItem>
+                Which games are registration open for right now?
+              </ListItem>
+              <ListItem>
+                What happens next spring?
+              </ListItem>
+            </List>
+          </Box>
+        </Typography>
+
+
+        <Typography variant="h5" component="h5">
+          <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
+          Help for game managers:
+        </Typography>
+        <Box className="filled-light"
+          sx={{
+            width: '100%',
+            padding: '1rem 3rem'
+          }}
+        >
+          <Typography>
+            <List dense>
+              <ListItem>
+                Is there already a big game coming up for the weekend I'm planning?
+              </ListItem>
+              <ListItem>
+                Have similar games been held recently?
+              </ListItem>
+            </List>
+          </Typography>
+        </Box>
+
+        <Box component="section" sx={{ padding: "6rem", textAlign: "center" }}>
+
+          <Typography component="h2" variant="h2">
+            Want to add a LARP?
+          </Typography>
+          <Typography >
+            <Link component={RouterLink} to="/orgs/apply">Fill out our form</Link> and get a user when you have the user you will be able to add and edit your own LARPs!
+          </Typography>
+
+          <Typography>
+            LARP Calendar reserves the right to remove any LARP and user at any time for any reason.
+          </Typography>
+        </Box>
 
         <Box className="filled-light"
           sx={{
@@ -87,17 +131,32 @@ function AboutPage() {
             Make a Donation
           </Typography>
           <Typography variant="h5">
-            Your support keeps us running
+            This page have been financed by a single individual if you want to help out with keeping the page running and getting improvements click the link below!
           </Typography>
           <Button variant="contained" component={RouterLink} to="#"
             sx={{
-              margin:"2rem"
+              margin: "2rem"
             }}
           >
             Donate Today (this button is fake)
-            </Button>
+          </Button>
         </Box>
 
+        <Box component="section" sx={{ padding: "6rem", textAlign: "center" }}>
+
+          <Typography component="h2" variant="h2">
+            Calendar Team
+          </Typography>
+          <Typography >
+          Questions, comments and feedback can be sent to the maintenance of the calendar at <a href="mailto:jacob@larpcal.com">Jacob@larpacal.com</a>
+
+          </Typography>
+
+          <Typography>
+          The calendar was funded by Jacob Møller jensen and developed by Stuart Fleisher
+
+          </Typography>
+        </Box>
 
       </Stack>
     </>
