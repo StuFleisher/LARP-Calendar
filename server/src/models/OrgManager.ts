@@ -72,7 +72,7 @@ class OrgManager {
 
 
   static async updateOrg(newOrg: OrganizationForUpdate): Promise<Organization> {
-
+    console.log(newOrg.username)
     const currentOrg: Organization = await prisma.organization.findUniqueOrThrow({
       where: { id: newOrg.id },
       include: ORG_INCLUDE_OBJ,
@@ -81,7 +81,7 @@ class OrgManager {
     const org: Organization = await prisma.organization.update({
       where: { id: newOrg.id },
       data: {
-        orgName: newOrg.username || currentOrg.username,
+        orgName: newOrg.orgName || currentOrg.orgName,
         orgUrl: newOrg.orgUrl || currentOrg.orgUrl,
         description: newOrg.description || currentOrg.description,
         email: newOrg.email || currentOrg.email,
