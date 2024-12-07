@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'test'){
   })
 } else {
   prisma = new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
+    // log: ['query', 'info', 'warn', 'error'],
   })
 }
 
