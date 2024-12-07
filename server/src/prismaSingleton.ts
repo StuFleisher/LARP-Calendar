@@ -15,7 +15,9 @@ if (process.env.NODE_ENV === 'test'){
     mockReset(prisma)
   })
 } else {
-  prisma = new PrismaClient()
+  prisma = new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+  })
 }
 
 export {prisma}
