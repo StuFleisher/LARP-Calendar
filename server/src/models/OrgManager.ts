@@ -70,6 +70,35 @@ class OrgManager {
     }
   };
 
+  static async getOrgByOrgName(orgName:string): Promise<Organization> {
+    try {
+      const org = await prisma.organization.findUniqueOrThrow({
+        where: {
+          orgName: orgName
+        },
+        include: ORG_INCLUDE_OBJ
+      });
+      return org;
+    } catch (err) {
+      //use our custom error instead
+      throw new NotFoundError("Record not found");
+    }
+  }
+
+  static async getOrgByOwner(username:string): Promise<Organization> {
+    try {
+      const org = await prisma.organization.findUniqueOrThrow({
+        where: {
+          username: username
+        },
+        include: ORG_INCLUDE_OBJ
+      });
+      return org;
+    } catch (err) {
+      //use our custom error instead
+      throw new NotFoundError("Record not found");
+    }
+  }
 
   static async updateOrg(newOrg: OrganizationForUpdate): Promise<Organization> {
     console.log(newOrg.username)
