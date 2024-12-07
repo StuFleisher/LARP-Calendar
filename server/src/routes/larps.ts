@@ -75,7 +75,6 @@ router.get(
       const larps = await LarpManager.getAllLarps(query);
       return res.json({ larps });
     } else {
-      console.log("no filter found")
       const larps = await LarpManager.getAllLarps();
       return res.json({ larps });
     }

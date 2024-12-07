@@ -65,7 +65,6 @@ class LarpManager {
         }
       );
     } else if (query && !query.term) {   // Query contains filters but no search term
-      console.log(query)
 
       let prismaFilterObject: Prisma.LarpWhereInput = {
         AND: {
@@ -199,7 +198,6 @@ class LarpManager {
         ]
       });
     }
-    console.log(larps)
     return larps;
   };
 
