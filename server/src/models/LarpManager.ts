@@ -108,14 +108,16 @@ class LarpManager {
           isFeatured: {
             equals: query.isFeatured
           },
-          tags: {
+          tags: query.tags
+          ? {
             some: {
               name: {
                 contains: query.tags,
-                mode: "insensitive",
+                mode: 'insensitive'
               }
             }
           }
+          : undefined;
         }
       };
 
@@ -173,7 +175,8 @@ class LarpManager {
               mode: 'insensitive'
             }
           },
-          tags: {
+          tags:query.tags
+          ? {
             some: {
               name: {
                 contains: query.tags,
@@ -181,6 +184,7 @@ class LarpManager {
               }
             }
           }
+          : undefined;
         }
       };
 
