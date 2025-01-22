@@ -37,6 +37,8 @@ function NewLarpPage({ initialLarp = emptyLarp }: NewLarpPageProps) {
     const [errs, setErrs] = useState<string[]>([]);
     const navigate = useNavigate();
 
+    console.log(organization)
+
     /** Sends an API request to store a larp based on the current form values
   * Navigates to the larpDetail view upon success.
   */
@@ -48,6 +50,7 @@ function NewLarpPage({ initialLarp = emptyLarp }: NewLarpPageProps) {
                 orgId: organization!.id,
             });
             if (organization?.isApproved) {
+                console.log('publishing')
                 await LarpAPI.publishLarp(savedLarp.id);
                 savedLarp.isPublished = true;
             }
