@@ -163,7 +163,6 @@ class LarpAPI {
   }
 
   static async publishLarp(id: number): Promise<Larp> {
-    console.log('publishing larp')
     const response = await this.request(`events/${id}/publish`,{},'post');
     return JsonToLarp(response.larp);
   }
