@@ -50,6 +50,7 @@ const TestLarp1: Larp = {
   orgId: testOrganization.id,
   eventUrl: 'https://test.com',
   isFeatured: false,
+  isPublished: false,
 };
 const TestLarp2 = Object.create(TestLarp1);
 TestLarp2.title = "Larp2";
