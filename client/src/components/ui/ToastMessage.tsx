@@ -1,18 +1,25 @@
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert, Typography, Slide } from "@mui/material";
 
 
-type ErrorMessageProps = {
-    errs: string[];
+type ToastMessageProps = {
+    messages: string[];
     title: string;
+    severity?: "success" | "error";
 };
 
-function ErrorMessage({ errs, title }: ErrorMessageProps) {
+function ToastMessage({ messages, title, severity="error" }: ToastMessageProps) {
+
+    const severityIcons = {
+        "success":faCheck,
+        "error":faX,
+    }
+
     return (
         <>
 
-            {errs.map(err => (
+            {messages.map(err => (
                 <Slide
                     direction="down"
                     in
@@ -27,8 +34,8 @@ function ErrorMessage({ errs, title }: ErrorMessageProps) {
                             width: '100%',
                             zIndex: '1000'
                         }}
-                        severity="error"
-                        icon={<FontAwesomeIcon icon={faX} />}
+                        severity={severity}
+                        icon={<FontAwesomeIcon icon={severityIcons[severity]} />}
                     >
                         {title}:
                         <Typography key='err' variant="details2">
@@ -41,4 +48,4 @@ function ErrorMessage({ errs, title }: ErrorMessageProps) {
     );
 }
 
-export default ErrorMessage;
+export default ToastMessage;

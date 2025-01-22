@@ -8,7 +8,7 @@ import { Link } from "@mui/material";
 import { useFetchUsers } from "../hooks/useFetchUsers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 
@@ -103,9 +103,9 @@ function UsersDashboard() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem loading your data"
-                    errs={error}
+                    messages={error}
                 />
                 <Box sx={{
                     height: '85dvh',

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import LarpDetails from "../components/Events/LarpDetails";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { useFetchLarp } from "../hooks/useFetchLarp";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 
 
 function LarpDetailPage() {
@@ -23,9 +23,9 @@ function LarpDetailPage() {
                 <LoadingSpinner />
                 :
                 <>
-                    <ErrorMessage
+                    <ToastMessage
                         title="Sorry, there was a problem fetching this record"
-                        errs={error}
+                        messages={error}
                     />
                     {
                         larp &&

@@ -10,7 +10,7 @@ import { OrgFormProvider } from "../context/OrgFormProvider";
 import { useFetchOrg } from "../hooks/useFetchOrg";
 import EditOrgSchema from "../components/Forms/EditOrgSchema";
 import OrgForm from "../components/Forms/OrgForm";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 
 function AdminEditOrg() {
     const { id } = useParams();
@@ -58,13 +58,13 @@ function AdminEditOrg() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem loading your data"
-                    errs={error}
+                    messages={error}
                 />
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem submitting the form"
-                    errs={saveErrs}
+                    messages={saveErrs}
                 />
                 {saving &&
                     <Modal open={true}>

@@ -9,7 +9,7 @@ import EditButton from "../components/FormComponents/EditButton";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 import { Larp } from "../types";
 import ToggleFeaturedButton from "../components/FormComponents/ToggleFeaturedButton";
 
@@ -115,9 +115,9 @@ function LarpsDashboard() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem loading your data"
-                    errs={error}
+                    messages={error}
                 />
                 <Box sx={{
                     height: '85dvh',

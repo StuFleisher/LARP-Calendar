@@ -11,7 +11,7 @@ import { Alert, Box, Link, Modal } from "@mui/material";
 import EditOrgSchema from "../components/Forms/EditOrgSchema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 import { Link as RouterLink } from "react-router-dom";
 
 function EditOrgPage() {
@@ -67,13 +67,13 @@ function EditOrgPage() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem loading your data"
-                    errs={error}
+                    messages={error}
                 />
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem submitting the form"
-                    errs={saveErrs}
+                    messages={saveErrs}
                 />
                 {saving &&
                     <Modal open={true}>

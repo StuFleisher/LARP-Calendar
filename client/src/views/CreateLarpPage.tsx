@@ -7,7 +7,7 @@ import { LarpForCreate } from "../types";
 
 import { LarpFormProvider } from "../context/LarpFormProvider";
 import { userContext } from "../context/userContext";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 import { Box, Modal } from "@mui/material";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 
@@ -47,6 +47,10 @@ function NewLarpPage({ initialLarp = emptyLarp }: NewLarpPageProps) {
                 ...formData,
                 orgId: organization!.id,
             });
+            if (organization?.isApproved) {
+                await LarpAPI.publishLarp(savedLarp.id);
+                savedLarp.isPublished = true;
+            }
             navigate(`/events/${savedLarp.id}/image?new=true`);
         } catch (e: any) {
             setErrs(e);
@@ -56,9 +60,9 @@ function NewLarpPage({ initialLarp = emptyLarp }: NewLarpPageProps) {
 
     return (
         <>
-            <ErrorMessage
+            <ToastMessage
                 title="Sorry, there was a problem submitting the form"
-                errs={errs}
+                messages={errs}
             />
             {saving &&
                 <Modal open={true}>

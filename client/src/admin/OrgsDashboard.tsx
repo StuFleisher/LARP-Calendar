@@ -10,7 +10,7 @@ import { useFetchOrgs } from "../hooks/useFetchOrgs";
 import ApproveButton from "../components/FormComponents/ApproveButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 function OrgsDashboard() {
@@ -116,9 +116,9 @@ function OrgsDashboard() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem loading your data"
-                    errs={error}
+                    messages={error}
                 />
                 <Box sx={{
                     height: '85dvh',

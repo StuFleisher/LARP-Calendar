@@ -10,7 +10,7 @@ import { LarpForUpdate } from "../types";
 import { LarpFormProvider } from "../context/LarpFormProvider";
 import { userContext } from "../context/userContext";
 import { useFetchLarp } from "../hooks/useFetchLarp";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 
 function AdminEditLarp() {
     const { id } = useParams();
@@ -61,13 +61,13 @@ function AdminEditLarp() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem loading your data"
-                    errs={error}
+                    messages={error}
                 />
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem submitting the form"
-                    errs={saveErrs}
+                    messages={saveErrs}
                 />
                 {saving &&
                     <Modal open={true}>

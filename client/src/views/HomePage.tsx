@@ -2,7 +2,7 @@ import Calendar from "../components/Calendar/Calendar";
 import CategoryBar from "../components/Events/CategoryBar";
 import { useFetchLarps } from "../hooks/useFetchLarps";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 import { DateTime } from "luxon";
 // import Carousel from "../components/ui/Carousel";
 // import { Typography, Box, Stack } from "@mui/material";
@@ -20,9 +20,9 @@ function HomePage() {
                     :
 
                     <>
-                        <ErrorMessage
+                        <ToastMessage
                             title="Sorry, there was a problem fetching records for this page"
-                            errs={error}
+                            messages={error}
                         />
                         {/* <Stack
                             direction={{md:"row"}}

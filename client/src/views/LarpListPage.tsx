@@ -1,5 +1,5 @@
 import LarpList from "../components/Events/LarpList";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { useFetchLarps } from "../hooks/useFetchLarps";
 import { useSearchParams } from "react-router-dom";
@@ -19,9 +19,9 @@ function LarpListPage() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem fetching records for this page"
-                    errs={error}
+                    messages={error}
                 />
                 <LarpList larps={larps} />
             </>

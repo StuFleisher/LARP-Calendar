@@ -5,7 +5,7 @@ import LarpAPI from "../util/api";
 import { Box, Modal, Stack, Typography } from "@mui/material";
 import { useFetchLarp } from "../hooks/useFetchLarp";
 import ImageForm from "../components/Forms/EditImageForm";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 
@@ -45,13 +45,13 @@ function EditLarpImagePage() {
 
     return (
         <>
-            <ErrorMessage
+            <ToastMessage
                 title="Sorry, there was a problem fetching this record"
-                errs={errs}
+                messages={errs}
             />
-            <ErrorMessage
+            <ToastMessage
                 title="Sorry, there was a problem submitting the form"
-                errs={fetchError}
+                messages={fetchError}
             />
             {saving &&
                 <Modal open={true}>

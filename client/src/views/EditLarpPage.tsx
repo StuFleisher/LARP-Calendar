@@ -8,14 +8,14 @@ import LarpAPI from "../util/api";
 import { LarpForUpdate } from "../types";
 import { LarpFormProvider } from "../context/LarpFormProvider";
 import { useFetchLarp } from "../hooks/useFetchLarp";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 
 const DEFAULT_IMG_URL = "https://sf-larpcal.s3.amazonaws.com/larpImage/default-sm";
 
 
 function EditLarpPage() {
 
-    const { username, isAdmin } = useContext(userContext);
+    const { username, isAdmin, organization } = useContext(userContext);
     const { id } = useParams();
     if (!id) {
         throw new Error("Id is required to edit a larp");
@@ -34,14 +34,14 @@ function EditLarpPage() {
     }
 
     /** Type conversion. Schema prevents a simple cast from working. */
-    function larpToLarpForUpdate():LarpForUpdate | null{
-        if (larp){
-            const {orgId:_orgId, organization:_organization, ...larpForUpdate} = larp;
-            return larpForUpdate
+    function larpToLarpForUpdate(): LarpForUpdate | null {
+        if (larp) {
+            const { orgId: _orgId, organization: _organization, ...larpForUpdate } = larp;
+            return larpForUpdate;
         }
         return null;
     }
-    const larpForUpdate=larpToLarpForUpdate();
+    const larpForUpdate = larpToLarpForUpdate();
 
     /** Sends an API request to store a larp based on the current form values
   * Navigates to the larpDetail view upon success.
@@ -52,6 +52,11 @@ function EditLarpPage() {
             const savedLarp = await LarpAPI.UpdateLarp({
                 ...formData,
             });
+            if (organization?.isApproved) {
+                await LarpAPI.publishLarp(savedLarp.id);
+                savedLarp.isPublished = true;
+            }
+
             navigate(
                 savedLarp.imgUrl.sm === DEFAULT_IMG_URL
                     ?
@@ -59,6 +64,7 @@ function EditLarpPage() {
                     :
                     `/events/${savedLarp.id}`
             );
+
         } catch (e: any) {
             setSaving(false);
             console.error(e);
@@ -72,13 +78,13 @@ function EditLarpPage() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem loading your data"
-                    errs={error}
+                    messages={error}
                 />
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem submitting the form"
-                    errs={saveErrs}
+                    messages={saveErrs}
                 />
                 {saving &&
                     <Modal open={true}>

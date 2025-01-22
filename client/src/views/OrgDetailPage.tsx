@@ -7,7 +7,7 @@ import { Alert } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "@mui/material";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 
 
 
@@ -27,9 +27,9 @@ function OrgDetailPage() {
             <LoadingSpinner />
             :
             <>
-                <ErrorMessage
+                <ToastMessage
                     title="Sorry, there was a problem fetching this record"
-                    errs={error}
+                    messages={error}
                 />
                 {!org.isApproved &&
                     <Alert severity="success" icon={<FontAwesomeIcon icon={faCheck} />}>

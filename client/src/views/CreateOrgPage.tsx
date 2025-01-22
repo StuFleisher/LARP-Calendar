@@ -8,7 +8,7 @@ import { Modal, Box, Typography } from "@mui/material";
 import { userContext } from "../context/userContext";
 import OrgForm from "../components/Forms/OrgForm";
 import CreateOrgSchema from "../components/Forms/CreateOrgSchema";
-import ErrorMessage from "../components/ui/ErrorMessage";
+import ToastMessage from "../components/ui/ToastMessage";
 
 
 function CreateOrgPage() {
@@ -44,9 +44,9 @@ function CreateOrgPage() {
 
     return (
         <>
-            <ErrorMessage
+            <ToastMessage
                 title="Sorry, there was a problem submitting the form"
-                errs={errs}
+                messages={errs}
             />
             {saving &&
                 <Modal open={true}>
