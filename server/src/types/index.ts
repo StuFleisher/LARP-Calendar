@@ -36,6 +36,7 @@ export type Larp = LarpForCreate & {
   imgSetId: number;
   organization?: Organization;
   isFeatured: boolean;
+  isPublished: boolean,
   createdTime: Date;
 };
 
@@ -59,9 +60,11 @@ export type LarpQuery = {
   country?: string;
   language?: string;
   org?: string;
+  published?:boolean;
   isFeatured?: boolean;
   createdBefore?:string;
   createdAfter?:string;
+  isPublished?: boolean,
 }
 
 /*************************** USERS */

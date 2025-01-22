@@ -2,6 +2,7 @@ import { prisma } from '../prismaSingleton';
 import { OrganizationForCreate, Organization, OrganizationForUpdate } from '../types';
 import { NotFoundError } from '../utils/expressError';
 import ImageHandler from '../utils/imageHandler';
+import { Larp } from '../types';
 
 
 const ORG_INCLUDE_OBJ = {
@@ -134,12 +135,21 @@ class OrgManager {
   static async setApproved(id: number, isApproved: boolean): Promise<Organization> {
     const org: Organization = await prisma.organization.update({
       where: { id },
-      data: { isApproved },
+      data: {
+        isApproved,
+        larps: { //automatically publish/unpublish events for this user
+          updateMany: {
+            where: {},
+            data: {isPublished: isApproved}
+          }
+        }
+      },
       include: ORG_INCLUDE_OBJ,
     });
-
     return org;
   }
+
+
   static async deleteOrgById(id: number): Promise<Organization> {
     // try { await this.deleteRecipeImage(id); }
     //   catch(err) {

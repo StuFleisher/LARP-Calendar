@@ -162,6 +162,10 @@ class LarpAPI {
     return JsonToLarp(response.larp);
   }
 
+  static async publishLarp(id: number): Promise<Larp> {
+    const response = await this.request(`events/${id}/publish`,{},'post');
+    return JsonToLarp(response.larp);
+  }
 
   /**  READ  */
   static async getLarpById(id: number): Promise<Larp> {

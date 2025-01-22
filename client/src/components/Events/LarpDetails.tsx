@@ -13,6 +13,7 @@ import { userContext } from "../../context/userContext";
 import useLarpControls from "../../hooks/useLarpControls";
 
 import { Link as RouterLink } from "react-router-dom";
+import ToastMessage from "../ui/ToastMessage";
 
 
 
@@ -26,6 +27,11 @@ function LarpDetails({ larp }: LarpDetailsProps) {
 
     return (
         <Box className="LarpDetails">
+            {
+                !larp.isPublished &&
+                <ToastMessage messages={["Your event has been saved, but your account is still pending approval.  Your event will be automatically published once your organizer account has been reviewed by an admin."]}
+                    title="Saved (but not published)" severity="success" />
+            }
             <Box
                 className="banner"
                 sx={{
@@ -37,9 +43,9 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                     (larp.organization.username === username) || isAdmin === true
                         ?
                         <Stack
-                        direction="row"
-                        className="larpControls"
-                        justifyContent="space-around"
+                            direction="row"
+                            className="larpControls"
+                            justifyContent="space-around"
                         >
                             {EditLarpButton}
                             {EditImageButton}
@@ -169,7 +175,7 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                     <Box
                         className="filled-light"
                         sx={{
-                            padding:'1rem 2rem',
+                            padding: '1rem 2rem',
                             width: "100%"
                         }}
                     >
@@ -187,20 +193,20 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                                     backgroundRepeat: "no-repeat",
                                     borderRadius: '5px',
                                     overflow: 'auto',
-                                    width: {xs:"100%", sm:'200px'},
+                                    width: { xs: "100%", sm: '200px' },
                                     height: '200px',
 
                                 }}
                             />
                             <Box sx={{
-                                padding:{
+                                padding: {
                                     xs: '1rem 0',
-                                    sm:'2rem'
+                                    sm: '2rem'
                                 }
                             }}>
                                 <Typography variant="h4" component="h6"
                                     sx={{
-                                        marginBottom:'.5rem'
+                                        marginBottom: '.5rem'
                                     }}
                                 >{larp.organization.orgName}</Typography>
                                 <Typography>

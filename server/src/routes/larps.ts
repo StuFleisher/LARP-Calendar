@@ -3,7 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import {
   ensureLoggedIn,
   ensureOrganizer,
-  ensureOwnerOrAdmin
+  ensureOwnerOrAdmin,
+  protectUnpublished
 } from '../middleware/auth';
 import readMultipart from '../middleware/multer';
 const router = express.Router();
@@ -45,6 +46,24 @@ router.post(
   }
 );
 
+/** POST /{id}/publish
+  *  Creates and returns a new larp record
+  *
+  * @returns larps: [Larp,...]
+  * @auth organizer
+  */
+router.post(
+  "/:id/publish",
+  ensureLoggedIn,
+  ensureOwnerOrAdmin,
+  // readMultipart("image"),
+
+  async function (req: Request, res: Response, next: NextFunction) {
+    const larp = await LarpManager.publishLarp(+req.params.id);
+    return res.status(200).json({ larp });
+  }
+);
+
 /** GET /id
   *  Returns a the larp with the given id
   *
@@ -53,6 +72,8 @@ router.post(
   */
 router.get(
   "/:id",
+  protectUnpublished,
+  
   async function (req: Request, res: Response, next: NextFunction) {
     const larp = await LarpManager.getLarpById(+req.params.id);
     return res.json({ larp });

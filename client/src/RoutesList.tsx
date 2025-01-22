@@ -29,7 +29,6 @@ type RoutesListProps = {
 
 function RoutesList({ login, register, logout }: RoutesListProps) {
     const { username, isAdmin, organization } = useContext(userContext);
-    const isOrganizer = organization?.isApproved;
 
     const anonRoutes = (
         <>
@@ -48,7 +47,7 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
         </>
     );
 
-    const approvedOrganizerRoutes = (
+    const organizerRoutes = (
         <>
             <Route path='/events/:id/edit' element={<EditLarpPage />} />
             <Route path='/events/:id/image' element={<EditLarpImagePage />} />
@@ -69,7 +68,7 @@ function RoutesList({ login, register, logout }: RoutesListProps) {
             <Routes>
                 <Route path='/' element={<HomePage />} />
                 {username ? loginRoutes : anonRoutes}
-                {isOrganizer ? approvedOrganizerRoutes : ""}
+                {organization ? organizerRoutes : ""}
                 {isAdmin ? adminRoutes : ""}
                 {/* <Route path='/events/create' element={<NewEventPage />} /> */}
                 <Route path='/orgs/:id' element={<OrgDetailPage />} />

@@ -103,6 +103,14 @@ function NavBar() {
         <Box>
             {username && organization && !organization.isApproved &&
                 <>
+                <Divider />
+                    <MenuItem
+                        component={RouterLink}
+                        to={`/events/create`}
+                        onClick={() => setShowAccountMenu(false)}
+                    >
+                        Create an Event
+                    </MenuItem>
                     <MenuItem
                         component={RouterLink}
                         to={`/orgs/${organization.id}`}

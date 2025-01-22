@@ -4,7 +4,7 @@ export {};
 import { Request, Response, NextFunction } from "express";
 import { SECRET_KEY } from "../config";
 import jwt from "jsonwebtoken";
-import { UnauthorizedError } from "../utils/expressError";
+import { NotFoundError, UnauthorizedError } from "../utils/expressError";
 import LarpManager from "../models/LarpManager";
 import OrgManager from "../models/OrgManager";
 
@@ -109,6 +109,27 @@ async function ensureOwnerOrAdmin(
 }
 
 
+/** Middleware to use when a record may or may not be protected based on its
+ * publication status.
+ *
+ *  If unpublished and user is not an owner or admin, returns 404.
+ */
+async function protectUnpublished(
+  req: Request, res: Response, next: NextFunction
+){
+  const user = res.locals.user;
+  const username = res.locals.user?.username;
+  const larp=await LarpManager.getLarpById(+req.params.id)
+  if (larp.isPublished===true) return next();
+  if (username && (username === larp.organization?.username || user.isAdmin === true)) {
+    return next();
+  }
+
+  console.log("unauth")
+  throw new NotFoundError();
+}
+
+
 /** Middleware to use when they must provide a valid token & username must
  * match the username on the Organizer record being accessed
  *
@@ -134,6 +155,7 @@ export {
   ensureLoggedIn,
   ensureAdmin,
   ensureOrganizer,
+  protectUnpublished,
   ensureCorrectUserOrAdmin,
   ensureOwnerOrAdmin,
   ensureMatchingOrganizerOrAdmin,

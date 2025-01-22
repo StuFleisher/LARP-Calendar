@@ -43,6 +43,7 @@ const testLarp: Larp = {
   eventUrl: "https://testLarp.com",
   isFeatured: false,
   createdTime: START,
+  isPublished:true,
 };
 
 export { testTag, testLarpForCreate, testLarp };

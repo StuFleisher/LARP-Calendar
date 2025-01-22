@@ -51,15 +51,33 @@ class LarpManager {
     return larp;
   }
 
+  static async publishLarp(
+    id:number,
+  ): Promise<Larp> {
+
+    const larp: Larp = await prisma.larp.update({
+      where: { id },
+      data: {isPublished:true},
+      include: LARP_INCLUDE_OBJ,
+    }
+    );
+
+    return larp;
+  }
+
 
   static async getAllLarps(query?: LarpQuery): Promise<Larp[]> {
 
     let larps: Larp[];
+    let isPublished = (query?.isPublished !== undefined) ? query.isPublished : true;
 
     if (!query) {  //No query provided
       larps = await prisma.larp.findMany(
         {
-          where: { start:{gte:new Date()}},
+          where: {
+            start:{gte:new Date()},
+            isPublished,
+          },
           orderBy: { start: 'asc' },
           include: LARP_INCLUDE_OBJ
         }
@@ -103,10 +121,13 @@ class LarpManager {
             orgName: {
               contains: query.org,
               mode: "insensitive",
-            }
+            },
           },
           isFeatured: {
             equals: query.isFeatured
+          },
+          isPublished: {
+            equals: isPublished
           },
           tags: query.tags
           ? {
@@ -174,6 +195,12 @@ class LarpManager {
               contains: query.org,
               mode: 'insensitive'
             }
+          },
+          isFeatured: {
+            equals: query.isFeatured
+          },
+          isPublished: {
+            equals: isPublished
           },
           tags:query.tags
           ? {

@@ -39,6 +39,7 @@ export type Larp = LarpForCreate & {
   organization: Organization,
   isFeatured: boolean,
   createdTime: Date,
+  isPublished: boolean,
 }
 
 export type LarpForUpdate = Omit<

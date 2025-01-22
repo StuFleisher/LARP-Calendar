@@ -92,6 +92,9 @@
     },
     "isFeatured": {
       "type": "boolean"
+    },
+    "isPublished": {
+      "type": "boolean"
     }
   },
   "additionalProperties": false,

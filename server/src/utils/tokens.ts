@@ -13,7 +13,8 @@ function createToken(user:PublicUser) {
 
   let payload = {
     username: user.username,
-    isOrganizer: user.organization?.isApproved || false,
+    isOrganizer: user.organization ? true : false,
+    isApprovedOrganizer: user.organization?.isApproved,
     isAdmin: user.isAdmin || false,
   };
 
