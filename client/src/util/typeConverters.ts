@@ -9,7 +9,7 @@ function JsonToLarp(data:LarpAsJSON):Larp{
     id: data.id!,
     start: new Date(data.start),
     end: new Date(data.end),
-    createdTime: new Date(data.createdTime)
+    createdTime: new Date(data.createdTime),
   }
 }
 

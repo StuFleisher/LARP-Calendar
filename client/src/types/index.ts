@@ -56,6 +56,7 @@ export type LarpAsJSON = LarpForCreate & {
   organization: Organization,
   isFeatured: boolean,
   createdTime: string,
+  isPublished: boolean,
 }
 
 /*************************** LARP QUERY */
