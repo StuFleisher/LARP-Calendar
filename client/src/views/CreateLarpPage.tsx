@@ -44,15 +44,21 @@ function NewLarpPage({ initialLarp = emptyLarp }: NewLarpPageProps) {
   */
     async function saveLarp(formData: LarpForCreate) {
         try {
+            console.log('saving')
+
             setSaving(true);
             const savedLarp = await LarpAPI.createLarp({
                 ...formData,
                 orgId: organization!.id,
             });
+            console.log('larp saved')
+
             if (organization?.isApproved) {
                 console.log('publishing')
                 await LarpAPI.publishLarp(savedLarp.id);
                 savedLarp.isPublished = true;
+                console.log('is published')
+
             }
             navigate(`/events/${savedLarp.id}/image?new=true`);
         } catch (e: any) {
