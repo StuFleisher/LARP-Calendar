@@ -74,10 +74,6 @@ class LarpManager {
     if (!query) {  //No query provided
       larps = await prisma.larp.findMany(
         {
-          where: {
-            start:{gte:new Date()},
-            isPublished,
-          },
           orderBy: { start: 'asc' },
           include: LARP_INCLUDE_OBJ
         }
