@@ -85,6 +85,7 @@ function HomePage() {
                             filterSet={{
                                 endAfter: DateTime.now().toISO(),
                                 isFeatured:true,
+                                isPublished: true,
                             }}
                         />
 
@@ -95,6 +96,7 @@ function HomePage() {
                             filterSet={{
                                 createdAfter: DateTime.now().minus({ weeks: 1 }).toISO(),
                                 endAfter: DateTime.now().toISO(),
+                                isPublished: true,
                             }}
 
                         />
@@ -102,7 +104,8 @@ function HomePage() {
                             title="Events this Month"
                             filterSet={{
                                 endAfter: DateTime.now().toISO(),
-                                startBefore: DateTime.now().endOf("month").toISO()
+                                startBefore: DateTime.now().endOf("month").toISO(),
+                                isPublished: true,
                             }}
 
                         />
@@ -110,14 +113,16 @@ function HomePage() {
                             title="Events next Month"
                             filterSet={{
                                 startAfter: DateTime.now().plus({ month: 1 }).startOf("month").toISO(),
-                                startBefore: DateTime.now().plus({ month: 1 }).endOf("month").toISO()
+                                startBefore: DateTime.now().plus({ month: 1 }).endOf("month").toISO(),
+                                isPublished: true,
                             }}
                         />
                         <CategoryBar
                             title="Family friendly events"
                             filterSet={{
                                 endAfter: DateTime.now().toISO(),
-                                tags: "family friendly"
+                                tags: "family friendly",
+                                isPublished: true,
                             }}
                         />
                     </>
