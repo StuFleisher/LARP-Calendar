@@ -23,7 +23,8 @@ function FilterLarpsForm({ onSubmitCallback }: FilterLarpsFormProps) {
       const typedKey = key as keyof LarpQuery;
       const value = filterFormData[typedKey];
 
-      if (typedKey === 'isFeatured'
+      if (typedKey === 'isFeatured' ||
+        typedKey === 'isPublished'
       ) {
         if (typeof value === 'boolean') reducedFormData[typedKey] = value;
       } else if (typedKey === 'ticketStatus') {
