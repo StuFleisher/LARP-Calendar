@@ -29,6 +29,7 @@ const FilterLarpSchema = yup.object({
     .notRequired()
     .typeError('Invalid date format'),
   allDay: yup.boolean(),
+  isPublished: yup.boolean(),
   city: yup.string(),
   country: yup.string(),
   language: yup.string(),

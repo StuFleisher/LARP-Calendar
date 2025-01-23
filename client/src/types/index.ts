@@ -76,6 +76,7 @@ export type LarpQuery = {
   isFeatured?: boolean;
   createdBefore?:string;
   createdAfter?:string;
+  isPublished?:boolean;
 }
 
 /*************************** USERS */
