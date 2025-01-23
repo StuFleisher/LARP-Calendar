@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Larp } from "../types";
+import { Larp, LarpQuery } from "../types";
 import LarpAPI from "../util/api";
+import { base64Decode, base64Encode } from "../util/utilities";
+import { DateTime } from "luxon";
 
 type FetchLarpsResult = {
     larps: Larp[],
@@ -14,10 +16,26 @@ type FetchLarpsResult = {
  *
  * @props query: a LarpQuery stringified and encoded to Base64
  */
-function useFetchLarps(queryString: string | null): FetchLarpsResult {
+function useFetchLarps(queryString: string | null, active:boolean=false): FetchLarpsResult {
     const [larps, setLarps] = useState<Larp[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string[]>([]);
+
+    // Flag to query only "Active" records (published events that haven't ended)
+    if (active){
+        let queryObject:LarpQuery;
+        if (queryString){
+            queryObject = JSON.parse(base64Decode(queryString));
+            queryObject.isPublished = true;
+            queryObject.endAfter = queryObject.endAfter || DateTime.now().toISO();
+        } else {
+            queryObject = {
+                isPublished: true,
+                endAfter: DateTime.now().toISO(),
+            }
+        }
+        queryString = base64Encode(JSON.stringify(queryObject))
+    }
 
     useEffect(() => {
         async function fetchLarps() {

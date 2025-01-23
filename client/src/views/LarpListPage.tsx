@@ -10,7 +10,7 @@ function LarpListPage() {
     const [searchParams] = useSearchParams();
     const queryParam = searchParams.get("q") || null;
 
-    const { larps, loading, error } = useFetchLarps(queryParam);
+    const { larps, loading, error } = useFetchLarps(queryParam, true);
 
 
     return (
