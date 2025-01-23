@@ -4,12 +4,13 @@ import { useFetchLarps } from "../hooks/useFetchLarps";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import ToastMessage from "../components/ui/ToastMessage";
 import { DateTime } from "luxon";
+import { publishedLarpQuery } from "../util/filterPresets";
 // import Carousel from "../components/ui/Carousel";
 // import { Typography, Box, Stack } from "@mui/material";
 
 function HomePage() {
 
-    const { larps, loading, error } = useFetchLarps(null);
+    const { larps, loading, error } = useFetchLarps(publishedLarpQuery);
 
     return (
         <>
