@@ -12,7 +12,9 @@ import CalendarEvent from './CalendarEvent';
 
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
-const localizer = luxonLocalizer(DateTime); // or globalizeLocalizer
+const localizer = luxonLocalizer(DateTime,{
+  firstDayOfWeek:1 //Start calendar on Monday
+}); // or globalizeLocalizer
 
 
 type CalendarProps = {
