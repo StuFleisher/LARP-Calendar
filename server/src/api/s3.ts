@@ -83,6 +83,8 @@ async function uploadMultiple(images: { buffer: Buffer, path: string; }[]) {
  */
 async function deleteFile(path: string) {
 
+  console.log(path)
+
   const params = {
     Bucket: BUCKET_NAME,
     Key: path,
@@ -103,9 +105,10 @@ async function deleteMultiple(paths: string[]) {
     deleteFile(path)
   ));
   let deleteResponses = await Promise.all(deletePromises);
+  console.log(deleteResponses);
   return deleteResponses;
 }
 
 
 
-export { uploadFile, deleteFile, uploadMultiple };
+export { uploadFile, deleteFile, uploadMultiple, deleteMultiple };

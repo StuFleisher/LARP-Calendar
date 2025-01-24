@@ -1,9 +1,10 @@
 import { prisma } from '../prismaSingleton';
 import { LarpForCreate, Larp, LarpForUpdate, LarpQuery } from '../types';
-import { NotFoundError } from '../utils/expressError';
+import { BadRequestError, NotFoundError } from '../utils/expressError';
 import { Tag } from '../types';
 import ImageHandler from '../utils/imageHandler';
 import { Prisma, TicketStatus } from '@prisma/client';
+import { deleteMultiple } from '../api/s3';
 
 const LARP_INCLUDE_OBJ = {
   tags: true,
@@ -52,12 +53,12 @@ class LarpManager {
   }
 
   static async publishLarp(
-    id:number,
+    id: number,
   ): Promise<Larp> {
 
     const larp: Larp = await prisma.larp.update({
       where: { id },
-      data: {isPublished:true},
+      data: { isPublished: true },
       include: LARP_INCLUDE_OBJ,
     }
     );
@@ -126,15 +127,15 @@ class LarpManager {
             equals: isPublished
           },
           tags: query.tags
-          ? {
-            some: {
-              name: {
-                contains: query.tags,
-                mode: 'insensitive'
+            ? {
+              some: {
+                name: {
+                  contains: query.tags,
+                  mode: 'insensitive'
+                }
               }
             }
-          }
-          : undefined
+            : undefined
         }
       };
 
@@ -198,16 +199,16 @@ class LarpManager {
           isPublished: {
             equals: isPublished
           },
-          tags:query.tags
-          ? {
-            some: {
-              name: {
-                contains: query.tags,
-                mode: 'insensitive'
+          tags: query.tags
+            ? {
+              some: {
+                name: {
+                  contains: query.tags,
+                  mode: 'insensitive'
+                }
               }
             }
-          }
-          : undefined
+            : undefined
         }
       };
 
@@ -342,23 +343,30 @@ class LarpManager {
    */
   static async updateLarpImage(file: Express.Multer.File, id: number) {
 
-    console.log("updateLarpImage");
-
-    const s3Path = `larpImage/larp-${id}`;
-    await ImageHandler.uploadAllSizes(file.buffer, s3Path);
-
-    const basePath = `https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`;
     const larp = await LarpManager.getLarpById(+id);
+    const s3Path = `larpImage/larp-${id}`;
+    const basePath = `https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`;
+    const timestamp = (new Date()).toISOString();
 
-    if (larp.imgUrl.sm !== `${basePath}-sm`) {
-      larp.imgUrl = {
-        sm: `${basePath}-sm`,
-        md: `${basePath}-md`,
-        lg: `${basePath}-lg`,
-      };
-      return await LarpManager.updateLarp(larp);
+    try {
+      await ImageHandler.uploadAllSizes(file.buffer, s3Path, timestamp);
+      if (larp.imgUrl.sm !== `https://${BUCKET_NAME}.s3.amazonaws.com/larpImage/default-sm`){
+        await deleteMultiple([
+          larp.imgUrl.sm,
+          larp.imgUrl.md,
+          larp.imgUrl.lg,
+        ]);
+      }
+    } catch (e) {
+      throw new BadRequestError(`There was a problem updating this image: ${e}`);
     }
-    return larp;
+
+    larp.imgUrl = {
+      sm: `${basePath}-sm-${timestamp}`,
+      md: `${basePath}-md-${timestamp}`,
+      lg: `${basePath}-lg-${timestamp}`,
+    };
+    return await LarpManager.updateLarp(larp);
   }
 
   /**Deletes the image associated with the recipeId from s3 and updates the

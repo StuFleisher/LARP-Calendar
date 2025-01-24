@@ -17,13 +17,13 @@ class ImageHandler {
    * Uploads multiple sizes of that image to S3 at the
    * given path (basePath-sm, basePath-md, basePath-lg)
   */
-  static async uploadAllSizes(image: Buffer, basePath: string) {
+  static async uploadAllSizes(image: Buffer, basePath: string, timestamp:string) {
     const resizedImages: ResizedImages = await this.getResized(image);
     const uploadParams = Object.keys(resizedImages)
       .map((key: "sm" | "md" | "lg") => (
         {
           buffer: resizedImages[key],
-          path: `${basePath}-${key}`
+          path: `${basePath}-${key}-${timestamp}`
         }
       ));
     await uploadMultiple(uploadParams);

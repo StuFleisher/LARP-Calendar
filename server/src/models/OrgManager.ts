@@ -1,8 +1,9 @@
 import { prisma } from '../prismaSingleton';
 import { OrganizationForCreate, Organization, OrganizationForUpdate } from '../types';
-import { NotFoundError } from '../utils/expressError';
+import { BadRequestError, NotFoundError } from '../utils/expressError';
 import ImageHandler from '../utils/imageHandler';
 import { Larp } from '../types';
+import { deleteMultiple } from '../api/s3';
 
 
 const ORG_INCLUDE_OBJ = {
@@ -71,7 +72,7 @@ class OrgManager {
     }
   };
 
-  static async getOrgByOrgName(orgName:string): Promise<Organization> {
+  static async getOrgByOrgName(orgName: string): Promise<Organization> {
     try {
       const org = await prisma.organization.findUniqueOrThrow({
         where: {
@@ -86,7 +87,7 @@ class OrgManager {
     }
   }
 
-  static async getOrgByOwner(username:string): Promise<Organization> {
+  static async getOrgByOwner(username: string): Promise<Organization> {
     try {
       const org = await prisma.organization.findUniqueOrThrow({
         where: {
@@ -102,7 +103,7 @@ class OrgManager {
   }
 
   static async updateOrg(newOrg: OrganizationForUpdate): Promise<Organization> {
-    console.log(newOrg.username)
+    console.log(newOrg.username);
     const currentOrg: Organization = await prisma.organization.findUniqueOrThrow({
       where: { id: newOrg.id },
       include: ORG_INCLUDE_OBJ,
@@ -140,7 +141,7 @@ class OrgManager {
         larps: { //automatically publish/unpublish events for this user
           updateMany: {
             where: {},
-            data: {isPublished: isApproved}
+            data: { isPublished: isApproved }
           }
         }
       },
@@ -182,21 +183,31 @@ class OrgManager {
      */
   static async updateOrgImage(file: Express.Multer.File, id: number) {
 
-    const s3Path = `orgImage/org-${id}`;
-    await ImageHandler.uploadAllSizes(file.buffer, s3Path);
-
-    const basePath = `https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`;
     const org = await OrgManager.getOrgById(+id);
+    const s3Path = `orgImage/org-${id}`;
+    const basePath = `https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`;
+    const timestamp = (new Date()).toISOString();
 
-    if (org.imgUrl.sm !== `${basePath}-sm`) {
-      org.imgUrl = {
-        sm: `${basePath}-sm`,
-        md: `${basePath}-md`,
-        lg: `${basePath}-lg`,
-      };
-      return await OrgManager.updateOrg(org);
+    try {
+      await ImageHandler.uploadAllSizes(file.buffer, s3Path, timestamp);
+      if (org.imgUrl.sm !== `https://${BUCKET_NAME}.s3.amazonaws.com/orgImage/default-sm`) {
+        await deleteMultiple([
+          org.imgUrl.sm,
+          org.imgUrl.md,
+          org.imgUrl.lg,
+        ]);
+      }
+    } catch (e) {
+      throw new BadRequestError(`There was a problem updating this image: ${e}`);
     }
-    return org;
+
+    org.imgUrl = {
+      sm: `${basePath}-sm`,
+      md: `${basePath}-md`,
+      lg: `${basePath}-lg`,
+    };
+    return await OrgManager.updateOrg(org);
+
   }
 
 
