@@ -85,7 +85,7 @@ router.get(
 
 router.delete(
   "/:id",
-  ensureOwnerOrAdmin,
+  ensureMatchingOrganizerOrAdmin,
   async function (req: Request, res: Response, next: NextFunction) {
     const deleted = await OrgManager.deleteOrgById(+req.params.id);
     return res.json({ deleted });
