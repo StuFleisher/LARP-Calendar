@@ -346,15 +346,15 @@ class LarpManager {
     const larp = await LarpManager.getLarpById(+id);
     const s3Path = `larpImage/larp-${id}`;
     const basePath = `https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`;
-    const timestamp = (new Date()).toISOString();
+    const uuid = crypto.randomUUID();
 
     try {
-      await ImageHandler.uploadAllSizes(file.buffer, s3Path, timestamp);
+      await ImageHandler.uploadAllSizes(file.buffer, s3Path, uuid);
       if (larp.imgUrl.sm !== `https://${BUCKET_NAME}.s3.amazonaws.com/larpImage/default-sm`){
         await deleteMultiple([
-          larp.imgUrl.sm,
-          larp.imgUrl.md,
-          larp.imgUrl.lg,
+          larp.imgUrl.sm.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
+          larp.imgUrl.md.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
+          larp.imgUrl.lg.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
         ]);
       }
     } catch (e) {
@@ -362,9 +362,9 @@ class LarpManager {
     }
 
     larp.imgUrl = {
-      sm: `${basePath}-sm-${timestamp}`,
-      md: `${basePath}-md-${timestamp}`,
-      lg: `${basePath}-lg-${timestamp}`,
+      sm: `${basePath}-sm-${uuid}`,
+      md: `${basePath}-md-${uuid}`,
+      lg: `${basePath}-lg-${uuid}`,
     };
     return await LarpManager.updateLarp(larp);
   }

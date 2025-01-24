@@ -186,15 +186,15 @@ class OrgManager {
     const org = await OrgManager.getOrgById(+id);
     const s3Path = `orgImage/org-${id}`;
     const basePath = `https://${BUCKET_NAME}.s3.amazonaws.com/${s3Path}`;
-    const timestamp = (new Date()).toISOString();
+    const uuid = crypto.randomUUID();
 
     try {
-      await ImageHandler.uploadAllSizes(file.buffer, s3Path, timestamp);
+      await ImageHandler.uploadAllSizes(file.buffer, s3Path, uuid);
       if (org.imgUrl.sm !== `https://${BUCKET_NAME}.s3.amazonaws.com/orgImage/default-sm`) {
         await deleteMultiple([
-          org.imgUrl.sm,
-          org.imgUrl.md,
-          org.imgUrl.lg,
+          org.imgUrl.sm.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
+          org.imgUrl.md.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
+          org.imgUrl.lg.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
         ]);
       }
     } catch (e) {
@@ -202,9 +202,9 @@ class OrgManager {
     }
 
     org.imgUrl = {
-      sm: `${basePath}-sm`,
-      md: `${basePath}-md`,
-      lg: `${basePath}-lg`,
+      sm: `${basePath}-sm-${uuid}`,
+      md: `${basePath}-md-${uuid}`,
+      lg: `${basePath}-lg-${uuid}`,
     };
     return await OrgManager.updateOrg(org);
 
