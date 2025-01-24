@@ -13,7 +13,8 @@ type OrgDetailsProps = {
 };
 
 function OrgDetails({ org }: OrgDetailsProps) {
-    const { username, isAdmin } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { username, isAdmin } = user;
     const { EditOrgButton, EditImageButton } = useOrgControls(org.id);
 
     return (

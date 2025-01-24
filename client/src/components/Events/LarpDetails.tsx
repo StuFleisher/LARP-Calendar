@@ -22,7 +22,8 @@ type LarpDetailsProps = {
 };
 
 function LarpDetails({ larp }: LarpDetailsProps) {
-    const { username, isAdmin } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { username, isAdmin } = user;
     const { EditLarpButton, DeleteLarpButton, EditImageButton } = useLarpControls(larp);
 
     return (

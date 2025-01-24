@@ -21,18 +21,19 @@ function AdminEditLarp() {
     const [saving, setSaving] = useState(false);
     const [saveErrs, setSaveErrs] = useState<string[]>([]);
     const navigate = useNavigate();
-    const { organization } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { organization } = user;
     const { larp, setLarp, loading, error } = useFetchLarp(parseInt(id));
 
     /** Type conversion. Schema prevents a simple cast from working. */
-    function larpToLarpForUpdate():LarpForUpdate | null{
-        if (larp){
-            const {orgId:_orgId, organization:_organization, ...larpForUpdate} = larp;
-            return larpForUpdate
+    function larpToLarpForUpdate(): LarpForUpdate | null {
+        if (larp) {
+            const { orgId: _orgId, organization: _organization, ...larpForUpdate } = larp;
+            return larpForUpdate;
         }
         return null;
     }
-    const larpForUpdate=larpToLarpForUpdate();
+    const larpForUpdate = larpToLarpForUpdate();
 
     /** Sends an API request to store a larp based on the current form values
   * Navigates to the larpDetail view upon success.

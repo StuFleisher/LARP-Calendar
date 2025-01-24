@@ -15,7 +15,8 @@ const DEFAULT_IMG_URL = "https://sf-larpcal.s3.amazonaws.com/larpImage/default-s
 
 function EditLarpPage() {
 
-    const { username, isAdmin, organization } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { username, isAdmin, organization } = user;
     const { id } = useParams();
     if (!id) {
         throw new Error("Id is required to edit a larp");

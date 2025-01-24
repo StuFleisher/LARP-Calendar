@@ -11,7 +11,8 @@ import FilterLarpsForm from "./Forms/FilterLarpsForm";
 
 function NavBar() {
 
-    const { username, organization, isAdmin } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { username, organization, isAdmin } = user;
 
     const [showAccountMenu, setShowAccountMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);

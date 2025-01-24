@@ -32,7 +32,8 @@ const emptyLarp: LarpForCreate = {
 
 function NewLarpPage({ initialLarp = emptyLarp }: NewLarpPageProps) {
 
-    const { organization } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { organization } = user;
     const [saving, setSaving] = useState(false);
     const [errs, setErrs] = useState<string[]>([]);
     const navigate = useNavigate();

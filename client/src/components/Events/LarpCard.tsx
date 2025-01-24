@@ -21,7 +21,8 @@ type LarpCardProps = {
 
 export default function LarpCard({ larp }: LarpCardProps) {
     const theme = useTheme();
-    const { username, isAdmin } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { username, isAdmin } = user;
     const { EditLarpButton, DeleteLarpButton, EditImageButton } = useLarpControls(larp);
 
     let ticketColor = theme.palette.success.main;

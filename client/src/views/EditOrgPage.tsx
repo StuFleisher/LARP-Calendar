@@ -16,7 +16,8 @@ import { Link as RouterLink } from "react-router-dom";
 
 function EditOrgPage() {
 
-    const { username, isAdmin } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { username, isAdmin } = user;
     const { id } = useParams();
     if (!id) {
         throw new Error("Id is required to view details page for an organization");
@@ -37,7 +38,7 @@ function EditOrgPage() {
     /** Convert data to maintain type safety */
     function orgToOrgForUpdate(): OrganizationForUpdate | null {
         if (org) {
-            const { larps:_larps, isApproved:_isApproved, ...orgForUpdate } = org;
+            const { larps: _larps, isApproved: _isApproved, ...orgForUpdate } = org;
             return orgForUpdate;
         }
         return null;
@@ -84,7 +85,7 @@ function EditOrgPage() {
                 }
                 {!org?.isApproved &&
                     <Alert severity="success" icon={<FontAwesomeIcon icon={faCheck} />}>
-                        Your application is currently being reviewed by our admin team. Once your application has been approved you will be able to publish events. Send questions to <Link  component={RouterLink} to="mailto:info@larpcalendar.com">info@larpcalendar.com</Link>
+                        Your application is currently being reviewed by our admin team. Once your application has been approved you will be able to publish events. Send questions to <Link component={RouterLink} to="mailto:info@larpcalendar.com">info@larpcalendar.com</Link>
                     </Alert>
                 }
                 <OrgFormProvider<OrganizationForUpdate>

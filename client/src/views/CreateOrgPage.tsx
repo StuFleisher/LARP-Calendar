@@ -13,7 +13,7 @@ import ToastMessage from "../components/ui/ToastMessage";
 
 function CreateOrgPage() {
 
-    const user = useContext(userContext);
+    const { user, setUser } = useContext(userContext);
     const [saving, setSaving] = useState(false);
     const [errs, setErrs] = useState<string[]>([]);
     const navigate = useNavigate();
@@ -34,6 +34,10 @@ function CreateOrgPage() {
             setSaving(true);
             const savedOrg = await LarpAPI.CreateOrganization({
                 ...formData,
+            });
+            setUser({
+                ...user,
+                organization: savedOrg,
             });
             navigate(`/orgs/${savedOrg.id}/image`);
         } catch (e: any) {

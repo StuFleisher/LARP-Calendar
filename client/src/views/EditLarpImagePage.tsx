@@ -11,7 +11,8 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 function EditLarpImagePage() {
 
-    const { username, isAdmin } = useContext(userContext);
+    const { user } = useContext(userContext);
+    const { username, isAdmin } = user;
     const [saving, setSaving] = useState(false);
     const [errs, setErrs] = useState<string[]>([]);
 
