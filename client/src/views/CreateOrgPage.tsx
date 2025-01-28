@@ -13,7 +13,7 @@ import ToastMessage from "../components/ui/ToastMessage";
 
 function CreateOrgPage() {
 
-    const { user, setUser, login } = useContext(userContext);
+    const { user, setUser } = useContext(userContext);
     const [saving, setSaving] = useState(false);
     const [errs, setErrs] = useState<string[]>([]);
     const navigate = useNavigate();
