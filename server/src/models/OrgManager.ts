@@ -158,6 +158,10 @@ class OrgManager {
     // }
 
     try {
+      const deletedLarps = await prisma.larp.deleteMany({
+        where: { orgId: id }
+      });
+
       const org = await prisma.organization.delete({
         where: {
           id: id
@@ -168,6 +172,7 @@ class OrgManager {
       return org;
     } catch (err) {
       //use our custom error instead
+      console.log(err);
       throw new NotFoundError("Record not found");
     }
   };
@@ -192,9 +197,9 @@ class OrgManager {
       await ImageHandler.uploadAllSizes(file.buffer, s3Path, uuid);
       if (org.imgUrl.sm !== `https://${BUCKET_NAME}.s3.amazonaws.com/orgImage/default-sm`) {
         await deleteMultiple([
-          org.imgUrl.sm.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
-          org.imgUrl.md.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
-          org.imgUrl.lg.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`,""),
+          org.imgUrl.sm.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`, ""),
+          org.imgUrl.md.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`, ""),
+          org.imgUrl.lg.replace(`https://${BUCKET_NAME}.s3.amazonaws.com/`, ""),
         ]);
       }
     } catch (e) {
