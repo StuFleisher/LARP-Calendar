@@ -71,6 +71,13 @@ class LarpAPI {
     return response.token;
   }
 
+  /** Refresh a user token (when permissions change mid session) */
+  static async refreshToken(){
+    const response = await this.request('auth/token/refresh', {}, 'post');
+    LarpAPI.token = response.token;
+    return response.token;
+  }
+
   /** Log in a user*/
   static async userLogin(data: UserLoginData) {
     const response = await this.request('auth/token', data, 'post');

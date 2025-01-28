@@ -16,6 +16,7 @@ import AuthManager from "../models/AuthManager";
 import * as jwt from "jsonwebtoken";
 import { SECRET_KEY, CORS_URL } from "../config";
 import { sendPasswordResetEmail } from "../utils/emailHandler";
+import { ensureCorrectUserOrAdmin, ensureLoggedIn } from "../middleware/auth";
 
 
 router.post("/error", async () => {
@@ -50,6 +51,25 @@ router.post("/token", async function (
   return res.json({ token });
 });
 
+/** POST /auth/token/refresh => { token }
+ *
+ * Regenerates JWT token which can be used to authenticate further requests.
+ *
+ * Authorization required: Logged in
+ */
+
+router.post("/token/refresh",
+  ensureLoggedIn,
+  async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { username } = res.locals.user;
+  const user = await UserManager.getUser(username);
+  const token = createToken(user);
+  return res.json({ token });
+});
 
 /** POST /auth/register:   { user } => { token }
  *
@@ -60,7 +80,8 @@ router.post("/token", async function (
  * Authorization required: none
  */
 
-router.post("/register", async function (
+router.post("/register",
+  async function (
   req: Request,
   res: Response,
   next: NextFunction
@@ -129,7 +150,7 @@ router.patch("/password-reset/confirm", async function (
   //authenticate token
   const { token } = req.query;
   if (!token) throw new UnauthorizedError("Unauthorized");
-  
+
   try {
     jwt.verify(token as string, SECRET_KEY);
   } catch (err) {
