@@ -37,7 +37,7 @@ model Larp {
   tags         Tag[]
   imgUrl       ImageSet     @relation(fields: [imgSetId], references: [id])
   imgSetId     Int          @unique @map("img_set_id")
-  organization Organization @relation(fields: [orgId], references: [id])
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
   orgId        Int
   isFeatured   Boolean      @default(false)
   isPublished  Boolean      @default(false)
@@ -69,7 +69,7 @@ model User {
 
 model Organization {
   id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [username], references: [username])
+  user        User     @relation(fields: [username], references: [username], onDelete: Cascade)
   username    String   @unique
   orgName     String   @unique @db.VarChar(100)
   orgUrl      String   @default("") @map("org_url") @db.VarChar(500)
