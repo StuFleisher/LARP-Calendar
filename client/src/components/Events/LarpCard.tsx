@@ -106,7 +106,7 @@ export default function LarpCard({ larp }: LarpCardProps) {
                     variant={'details1'}
                 >
                     {`${JSDateToLuxon(larp.start).toLocaleString({ weekday: 'short', month: 'short', day: 'numeric' })}
-                         - ${JSDateToLuxon(larp.end).toLocaleString({ weekday: 'short', month: 'short', day: 'numeric' })}`}
+                         - ${JSDateToLuxon(larp.end).toLocaleString({ weekday: 'short', month: 'short', day: 'numeric', year:'numeric' })}`}
                 </Typography>
 
                 <Box className="LarpCard-details">
