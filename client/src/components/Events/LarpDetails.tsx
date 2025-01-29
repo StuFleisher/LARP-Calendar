@@ -70,12 +70,14 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                             weekday: 'short',
                             month: 'long',
                             day: 'numeric',
+                            year: 'numeric',
                         })
                     } - {
                         JSDateToLuxon(larp.end).toLocaleString({
                             weekday: 'short',
                             month: 'long',
                             day: 'numeric',
+                            year: 'numeric',
                         })
                     }
                 </Typography>
@@ -153,16 +155,18 @@ function LarpDetails({ larp }: LarpDetailsProps) {
                             weekday: 'short',
                             month: 'long',
                             day: 'numeric',
+                            year: 'numeric',
                             hour: 'numeric',
                             minute: 'numeric',
                         })}
                     </Typography>
                     <Typography>
                         <Box component='span' sx={{ fontWeight: 900 }}>Ends: </Box>
-                        {JSDateToLuxon(larp.start).toLocaleString({
+                        {JSDateToLuxon(larp.end).toLocaleString({
                             weekday: 'short',
                             month: 'long',
                             day: 'numeric',
+                            year: 'numeric',
                             hour: 'numeric',
                             minute: 'numeric',
                         })}
