@@ -96,7 +96,7 @@ function EventForm() {
                         <Field
                             component={FormikDateTimePicker}
                             disablePast
-                            placeholder={DateTime.now()}
+                            placeholder={DateTime.now().plus({hours:1})}
                             name="end"
                             id="larp-end"
                             label="End Date"

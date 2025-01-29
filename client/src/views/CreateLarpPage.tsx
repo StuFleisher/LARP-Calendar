@@ -20,7 +20,7 @@ const emptyLarp: LarpForCreate = {
     ticketStatus: "AVAILABLE",
     tags: [],
     start: new Date(),
-    end: new Date(),
+    end: new Date(Date.now() + 60 * 60 * 1000),
     allDay: false,
     city: "",
     country: "",
