@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react"
+import React, {useState, useEffect, useCallback, useMemo} from "react"
 import { UserLoginData, UserForCreate } from "../types";
 import { NullableUser, ANON_USER, userContext } from "../context/userContext";
 import LarpAPI from "../util/api";
@@ -78,18 +78,20 @@ export default function UserProvider({children}:UserProviderProps){
     setToken(token);
   }, [])
 
+  const contextValue = useMemo(()=>({
+    user,
+    setUser,
+    token,
+    setToken,
+    login,
+    logout,
+    register,
+    loading,
+    error,
+  }),[user, token, login, logout, register, loading, error])
+
   return (
-    <userContext.Provider value={{
-      user,
-      setUser,
-      token,
-      setToken,
-      login,
-      logout,
-      register,
-      loading,
-      error,
-    }}>
+    <userContext.Provider value={contextValue}>
       {children}
     </userContext.Provider>
   )
