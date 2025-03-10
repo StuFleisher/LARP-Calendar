@@ -14,7 +14,7 @@ import EditOrgPage from "./views/EditOrgPage";
 import EditLarpImagePage from "./views/EditLarpImagePage";
 import LogOutPage from "./views/LogOutPage";
 import EditOrgImagePage from "./views/EditOrgImagePage";
-// import DemoHome from "./views/DemoHome";
+import DemoHome from "./views/DemoHome";
 import AboutPage from "./views/AboutPage";
 import LoginPage from "./views/LoginPage";
 import RegisterPage from "./views/RegisterPage";
@@ -78,7 +78,7 @@ function RoutesList() {
                 <Route path='/orgs/:id' element={<OrgDetailPage />} />
                 <Route path='/events' element={<LarpListPage />} />
                 <Route path='/events/:id' element={<LarpDetailPage />} />
-                {/* <Route path='/demo' element={<DemoHome login={login} />} /> */}
+                <Route path='/demo' element={<DemoHome login={login} />} />
                 <Route path='/about' element={<AboutPage />} />
                 <Route path='*' element={<HomePage />} />
             </Routes>

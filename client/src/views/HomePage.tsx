@@ -5,8 +5,8 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 import ToastMessage from "../components/ui/ToastMessage";
 import { DateTime } from "luxon";
 import { publishedLarpQuery } from "../util/filterPresets";
-// import Carousel from "../components/ui/Carousel";
-// import { Typography, Box, Stack } from "@mui/material";
+import Carousel from "../components/ui/Carousel";
+import { Typography, Box, Stack } from "@mui/material";
 
 function HomePage() {
 
@@ -25,7 +25,7 @@ function HomePage() {
                             title="Sorry, there was a problem fetching records for this page"
                             messages={error}
                         />
-                        {/* <Stack
+                        <Stack
                             direction={{md:"row"}}
                             justifyContent="center"
                             alignItems={"center"}
@@ -79,7 +79,7 @@ function HomePage() {
                                 startAfter: DateTime.now().toISO(),
                                 isFeatured: true,
                             }}
-                        /> */}
+                        />
 
                         <CategoryBar
                             title="Featured Events"

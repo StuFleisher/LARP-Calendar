@@ -65,7 +65,7 @@ function DemoHome({login}:DemoHomeProps) {
               </Box>
 
               <Typography variant="h5">
-                This site is still under construction.  Here are some of the features you can expect to see in Phase II:
+                Phase II of development is complete.  Here are some of the features you can expect to see:
               </Typography>
               <List dense>
                 <ListItem>
@@ -73,18 +73,22 @@ function DemoHome({login}:DemoHomeProps) {
                 </ListItem>
                 <ListItem>
                   <FontAwesomeIcon icon={faCheck} /> &nbsp;
-                  Event List page will be filterable by date, location, tags and more
+                  Event List page is filterable by date, location, tags and more
                 </ListItem>
                 <ListItem>
                   <FontAwesomeIcon icon={faCheck} /> &nbsp;
                   {`Category displays (featured, this month etc) will display only the relevant events`}
                 </ListItem>
                 <ListItem>
-                  <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
-                  Connection to donation site
+                  <FontAwesomeIcon icon={faCheck} /> &nbsp;
+                  Password reset functionality
                 </ListItem>
                 <ListItem>
-                  <FontAwesomeIcon icon={faArrowRight} /> &nbsp;
+                  <FontAwesomeIcon icon={faCheck} /> &nbsp;
+                  Organizers can now create (but not publish) events prior to being approved by admin
+                </ListItem>
+                <ListItem>
+                  <FontAwesomeIcon icon={faCheck} /> &nbsp;
                   Full page build for 'About'
                 </ListItem>
                 <ListItem>
