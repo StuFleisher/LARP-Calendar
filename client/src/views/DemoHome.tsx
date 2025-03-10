@@ -21,7 +21,7 @@ function DemoHome({login}:DemoHomeProps) {
       setLoading(false);
     }
     loginDemoUser();
-  }, []);
+  }, [login]);
 
   return (
     <>
