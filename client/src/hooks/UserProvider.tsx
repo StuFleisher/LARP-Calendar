@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useCallback} from "react"
 import { UserLoginData, UserForCreate } from "../types";
 import { NullableUser, ANON_USER, userContext } from "../context/userContext";
 import LarpAPI from "../util/api";
@@ -51,32 +51,32 @@ export default function UserProvider({children}:UserProviderProps){
   * credentials: {username, password}
   */
 
-  async function login(credentials: UserLoginData) {
+  const login= useCallback(async function(credentials: UserLoginData) {
     const token = await LarpAPI.userLogin(credentials);
     localStorage.setItem("token", token);
     setToken(token);
-  }
+  },[])
 
   /** Logs the user out
   *  Clears token from localstorage and resets state for the app */
-  function logout() {
+  const logout = useCallback(() => {
     setUser(ANON_USER);
     localStorage.removeItem("token");
     LarpAPI.userLogout();
     setToken(null);
-  }
+  },[])
 
   /** Calls the api with user data and tries to create a new account.
    * If successful, updates the token and user states.
    *
    * userInfo:{username, password, firstName, lastName, email}
    */
-  async function register(userInfo: UserForCreate) {
+  const register = useCallback(async function(userInfo: UserForCreate) {
     console.log("calling register");
     const token = await LarpAPI.userSignup(userInfo);
     localStorage.setItem("token", token);
     setToken(token);
-  }
+  }, [])
 
   return (
     <userContext.Provider value={{
